@@ -61,7 +61,6 @@ const MonitorTasks = () => {
     xpath: '',
     interval: 300,
     is_active: true,
-    is_public: false,
     description: '',
     email_config_id: '',
   });
@@ -108,8 +107,6 @@ const MonitorTasks = () => {
     addEmailConfigHint: '请先在“邮件通知配置”页面添加邮箱配置',
     taskDescription: '任务描述',
     taskDescriptionHelper: '可选的任务描述，公开任务时其他用户可以看到此描述',
-    publicTask: '公开任务',
-    publicTaskHelper: '公开后其他用户可以订阅此任务并收到变更通知',
     enableMonitoring: '启用监控',
     enableMonitoringHelper: '立即开始监控指定网页',
     cancel: '取消',
@@ -167,8 +164,6 @@ const MonitorTasks = () => {
     addEmailConfigHint: 'Please add an email config in the email configuration page first.',
     taskDescription: 'Task description',
     taskDescriptionHelper: 'Optional description visible to other users when the task is public',
-    publicTask: 'Public task',
-    publicTaskHelper: 'Other users can subscribe to this task and receive change notifications',
     enableMonitoring: 'Enable monitoring',
     enableMonitoringHelper: 'Start monitoring this page immediately',
     cancel: 'Cancel',
@@ -313,7 +308,6 @@ const MonitorTasks = () => {
         xpath: task.xpath,
         interval: task.interval,
         is_active: task.is_active,
-        is_public: task.is_public || false,
         description: task.description || '',
         email_config_id: task.email_config_id || '',
       });
@@ -325,8 +319,7 @@ const MonitorTasks = () => {
         xpath: '',
         interval: 300,
         is_active: true,
-        is_public: false,
-        description: '',
+            description: '',
         email_config_id: emailConfigs.length === 1 ? emailConfigs[0].id : '',
       });
     }
@@ -994,30 +987,7 @@ const MonitorTasks = () => {
                   }}
                 />
               </Grid>
-              <Grid item xs={12}>
-                <Box sx={{ display: 'flex', alignItems: 'center', p: 2, borderRadius: 2, backgroundColor: 'rgba(59, 130, 246, 0.05)' }}>
-                  <Switch
-                    checked={formData.is_public}
-                    onChange={(e) => setFormData({ ...formData, is_public: e.target.checked })}
-                    sx={{
-                      '& .MuiSwitch-thumb': {
-                        backgroundColor: formData.is_public ? '#3b82f6' : 'default',
-                      },
-                      '& .MuiSwitch-track': {
-                        backgroundColor: formData.is_public ? 'rgba(59, 130, 246, 0.5)' : 'default',
-                      },
-                    }}
-                  />
-                  <Box sx={{ ml: 2 }}>
-                    <Typography variant="body2" sx={{ fontWeight: 600 }}>
-                      {content.publicTask}
-                    </Typography>
-                    <Typography variant="caption" color="text.secondary">
-                      {content.publicTaskHelper}
-                    </Typography>
-                  </Box>
-                </Box>
-              </Grid>
+
               <Grid item xs={12}>
                 <Box sx={{ display: 'flex', alignItems: 'center', p: 2, borderRadius: 2, backgroundColor: 'rgba(16, 185, 129, 0.05)' }}>
                   <Switch

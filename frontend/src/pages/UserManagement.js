@@ -57,7 +57,6 @@ const UserManagement = () => {
     password: '',
     is_active: true,
     is_admin: false,
-    max_subscriptions: 10,
   });
   const { t, i18n } = useTranslation();
   const isChinese = isChineseLanguage(i18n.language);
@@ -79,13 +78,11 @@ const UserManagement = () => {
     userInfo: '用户信息',
     emailAddress: '邮箱地址',
     rolePermission: '角色权限',
-    subscriptionLimit: '订阅限制',
     accountStatus: '账户状态',
     actions: '操作',
     fullNameNotSet: '未设置全名',
     admin: '管理员',
     regularUser: '普通用户',
-    subscriptionUnit: '个',
     enabled: '启用',
     disabled: '禁用',
     editUser: '编辑用户',
@@ -101,8 +98,6 @@ const UserManagement = () => {
     password: '密码',
     passwordHelperEdit: '留空则不修改密码',
     passwordHelperCreate: '请设置安全密码',
-    maxSubscriptions: '最大订阅数量',
-    maxSubscriptionsHelper: '该用户最多可以订阅的公开任务数量',
     adminPermission: '管理员权限',
     adminPermissionHelper: '拥有系统管理权限',
     activeAccount: '启用账户',
@@ -128,13 +123,11 @@ const UserManagement = () => {
     userInfo: 'User info',
     emailAddress: 'Email address',
     rolePermission: 'Role',
-    subscriptionLimit: 'Subscription limit',
     accountStatus: 'Account status',
     actions: 'Actions',
     fullNameNotSet: 'Full name not set',
     admin: 'Admin',
     regularUser: 'Regular user',
-    subscriptionUnit: '',
     enabled: 'Enabled',
     disabled: 'Disabled',
     editUser: 'Edit user',
@@ -150,8 +143,6 @@ const UserManagement = () => {
     password: 'Password',
     passwordHelperEdit: 'Leave blank to keep the current password',
     passwordHelperCreate: 'Set a secure password',
-    maxSubscriptions: 'Max subscriptions',
-    maxSubscriptionsHelper: 'Maximum number of public tasks this user can subscribe to',
     adminPermission: 'Admin permission',
     adminPermissionHelper: 'Gives access to system management features',
     activeAccount: 'Active account',
@@ -230,7 +221,6 @@ const UserManagement = () => {
         password: '',
         is_active: user.is_active,
         is_admin: user.is_admin,
-        max_subscriptions: user.max_subscriptions || 10,
       });
     } else {
       setEditingUser(null);
@@ -241,8 +231,7 @@ const UserManagement = () => {
         password: '',
         is_active: true,
         is_admin: false,
-        max_subscriptions: 10,
-      });
+          });
     }
     setOpen(true);
   };
@@ -543,7 +532,6 @@ const UserManagement = () => {
                   <TableCell sx={{ fontWeight: 600 }}>{content.userInfo}</TableCell>
                   <TableCell sx={{ fontWeight: 600 }}>{content.emailAddress}</TableCell>
                   <TableCell sx={{ fontWeight: 600 }}>{content.rolePermission}</TableCell>
-                  <TableCell sx={{ fontWeight: 600 }}>{content.subscriptionLimit}</TableCell>
                   <TableCell sx={{ fontWeight: 600 }}>{content.accountStatus}</TableCell>
                   <TableCell sx={{ fontWeight: 600 }}>{content.actions}</TableCell>
                 </TableRow>
@@ -598,14 +586,7 @@ const UserManagement = () => {
                         color={user.is_admin ? 'warning' : 'primary'}
                       />
                     </TableCell>
-                    <TableCell>
-                      <Chip
-                        size="small"
-                        label={isChinese ? `${user.max_subscriptions || 10} ${content.subscriptionUnit}` : `${user.max_subscriptions || 10}`}
-                        color="info"
-                        variant="outlined"
-                      />
-                    </TableCell>
+
                     <TableCell>
                       <Chip
                         size="small"
@@ -828,8 +809,6 @@ const UserManagement = () => {
                   label={content.maxSubscriptions}
                   type="number"
                   fullWidth
-                  value={formData.max_subscriptions}
-                  onChange={(event) => setFormData({ ...formData, max_subscriptions: parseInt(event.target.value, 10) || 10 })}
                   inputProps={{ min: 1, max: 100 }}
                   helperText={content.maxSubscriptionsHelper}
                   sx={{

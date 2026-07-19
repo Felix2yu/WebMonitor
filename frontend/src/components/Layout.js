@@ -32,8 +32,6 @@ import {
   NotificationsActive as NotificationsIcon,
   Notifications as NotifyIcon,
   Security as SecurityIcon,
-  Public as PublicIcon,
-  BookmarkBorder as SubscriptionsIcon,
   Settings as SettingsIcon,
 } from '@mui/icons-material';
 import { useTranslation } from 'react-i18next';
@@ -67,18 +65,7 @@ function Layout({ children }) {
       path: '/tasks',
       description: isChinese ? '管理任务' : 'Manage tasks',
     },
-    {
-      text: isChinese ? '公开任务' : 'Public tasks',
-      icon: <PublicIcon />,
-      path: '/public-tasks',
-      description: isChinese ? '任务市场' : 'Task marketplace',
-    },
-    {
-      text: isChinese ? '我的订阅' : 'My subscriptions',
-      icon: <SubscriptionsIcon />,
-      path: '/my-subscriptions',
-      description: isChinese ? '订阅管理' : 'Manage subscriptions',
-    },
+
     {
       text: isChinese ? '监控日志' : 'Monitor logs',
       icon: <LogIcon />,

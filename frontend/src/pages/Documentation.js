@@ -21,7 +21,6 @@ import {
   RocketLaunch as RocketIcon,
   Assignment as TaskIcon,
   Email as EmailIcon,
-  Public as PublicIcon,
   Dashboard as DashboardIcon,
   Help as HelpIcon,
   ContentCopy as CopyIcon,
@@ -41,7 +40,6 @@ const iconMap = {
   'quick-start': <RocketIcon />,
   'monitor-tasks': <TaskIcon />,
   'notification-config': <EmailIcon />,
-  'public-tasks': <PublicIcon />,
   dashboard: <DashboardIcon />,
   faq: <HelpIcon />,
 };

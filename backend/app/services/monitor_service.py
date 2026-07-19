@@ -128,8 +128,6 @@ class MonitorService:
                 except Exception as e:
                     logger.error(f"发送任务所有者通知失败: {e}")
 
-                if task.is_public:
-                    await self._notify_subscribers(task, title, current_content, old_content, check_time)
 
             update_monitor_task_content(db, task_id, current_content, check_time)
             create_monitor_log(db=db, task_id=task_id, old_content=old_content,
@@ -175,30 +173,5 @@ class MonitorService:
             logger.error(error_msg)
             return {"success": False, "error": error_msg}
 
-        finally:
-            db.close()
-
-    async def _notify_subscribers(self, task, title: str, new_content: str, old_content: str, check_time: datetime):
-        db = SessionLocal()
-        try:
-            from ..db.crud import get_task_subscriptions
-
-            subscriptions = get_task_subscriptions(db=db, task_id=task.id)
-            logger.info(f"任务 {task.name} 有 {len(subscriptions)} 个订阅者需要通知")
-
-            for subscription in subscriptions:
-                try:
-                    self.email_service.send_change_notification(
-                        task_name=f"[订阅] {task.name}", url=task.url, title=title or "未知标题",
-                        old_content=old_content or "无历史内容", new_content=new_content,
-                        check_time=check_time, email_config_id=subscription.email_config_id,
-                        user_id=subscription.user_id,
-                    )
-                    logger.info(f"已向订阅者 {subscription.user_id} 发送通知")
-                except Exception as e:
-                    logger.error(f"向订阅者 {subscription.user_id} 发送通知失败: {e}")
-
-        except Exception as e:
-            logger.error(f"获取订阅者列表失败: {e}")
         finally:
             db.close()

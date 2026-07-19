@@ -16,8 +16,6 @@ import MonitorLogs from './pages/MonitorLogs';
 import NotificationConfig from './pages/EmailConfig';
 import UserManagement from './pages/UserManagement';
 import BlacklistManagement from './pages/BlacklistManagement';
-import PublicTasks from './pages/PublicTasks';
-import MySubscriptions from './pages/MySubscriptions';
 import Documentation from './pages/Documentation';
 import Settings from './pages/Settings';
 
@@ -92,20 +90,6 @@ function App() {
               <Route path="/notification-config" element={
                 <ProtectedRoute>
                   <Layout><NotificationConfig /></Layout>
-                </ProtectedRoute>
-              } />
-
-              {/* 公开任务市场 */}
-              <Route path="/public-tasks" element={
-                <ProtectedRoute>
-                  <Layout><PublicTasks /></Layout>
-                </ProtectedRoute>
-              } />
-
-              {/* 我的订阅 */}
-              <Route path="/my-subscriptions" element={
-                <ProtectedRoute>
-                  <Layout><MySubscriptions /></Layout>
                 </ProtectedRoute>
               } />
 
