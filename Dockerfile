@@ -20,7 +20,9 @@ RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
     gnupg \
     gpg \
     unzip \
-    curl
+    curl \
+    libxml2-dev \
+    libxslt-dev
 
 # Install Chromium and driver
 RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
