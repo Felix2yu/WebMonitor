@@ -219,7 +219,7 @@ const NotificationConfig = () => {
         <TableContainer component={Paper} sx={{ border: '1px solid', borderColor: 'divider', borderRadius: 3 }}>
           <Table>
             <TableHead>
-              <TableRow sx={{ backgroundColor: '#f8fafc' }}>
+              <TableRow sx={{ backgroundColor: 'action.hover' }}>
                 <TableCell sx={{ fontWeight: 600 }}>{content.name}</TableCell>
                 <TableCell sx={{ fontWeight: 600 }}>{content.urls}</TableCell>
                 <TableCell sx={{ fontWeight: 600 }}>{content.actions}</TableCell>

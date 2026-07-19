@@ -367,7 +367,7 @@ const Documentation = () => {
           left: 0,
           right: 0,
           zIndex: 1100,
-          backgroundColor: 'rgba(255, 255, 255, 0.95)',
+          backgroundColor: 'background.paper',
           backdropFilter: 'blur(20px)',
           borderBottom: '1px solid rgba(0, 0, 0, 0.06)',
         }}
@@ -495,7 +495,7 @@ const Documentation = () => {
           width: sidebarWidth,
           height: 'calc(100vh - 72px)',
           borderRight: '1px solid rgba(0, 0, 0, 0.06)',
-          backgroundColor: 'rgba(255, 255, 255, 0.9)',
+          backgroundColor: 'background.paper',
           backdropFilter: 'blur(10px)',
           overflowY: 'auto',
           zIndex: 1000,

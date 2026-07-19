@@ -28,15 +28,15 @@ const StatCard = ({ title, value, icon, color, subtitle, trend }) => {
     <Card
       sx={{
         height: '100%',
-        background: 'linear-gradient(135deg, #ffffff 0%, #f8fafc 100%)',
-        border: '1px solid rgba(0, 0, 0, 0.06)',
+        background: 'background.paper',
+        border: '1px solid', borderColor: 'divider',
         borderRadius: 3,
         transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
         position: 'relative',
         overflow: 'hidden',
         '&:hover': {
           transform: 'translateY(-4px) scale(1.02)',
-          boxShadow: '0 12px 40px rgba(0, 0, 0, 0.15)',
+          boxShadow: (theme) => theme.palette.mode === 'dark' ? '0 12px 40px rgba(0, 0, 0, 0.4)' : '0 12px 40px rgba(0, 0, 0, 0.15)',
           '& .stat-icon': {
             transform: 'scale(1.1)',
           },

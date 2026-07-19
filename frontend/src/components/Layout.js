@@ -149,9 +149,6 @@ function Layout({ children }) {
                 fontWeight: 700,
                 fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif',
                 color: 'text.primary',
-                backgroundClip: 'text',
-                WebkitBackgroundClip: 'text',
-                WebkitTextFillColor: 'transparent',
               }}
             >
               WebMonitor

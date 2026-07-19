@@ -216,7 +216,7 @@ const HomePage = () => {
           left: 0,
           right: 0,
           zIndex: 1000,
-          backgroundColor: 'rgba(255, 255, 255, 0.9)',
+          backgroundColor: 'background.paper',
           backdropFilter: 'blur(20px)',
           borderBottom: '1px solid rgba(0, 0, 0, 0.06)',
         }}

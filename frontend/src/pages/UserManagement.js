@@ -662,7 +662,7 @@ const UserManagement = () => {
                 width: 40,
                 height: 40,
                 mr: 2,
-                background: 'rgba(255, 255, 255, 0.2)',
+                background: 'action.hover',
                 color: 'white',
               }}
             >
