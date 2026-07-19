@@ -226,7 +226,7 @@ const Dashboard = () => {
             </Box>
 
             <Grid container spacing={3}>
-              <Grid xs={6} md={3} sx={{ width: '100%' }}>
+              <Grid xs={6} md={3}>
                 <Box sx={{ textAlign: 'center' }}>
                   <Typography variant="h4" sx={{ color: '#10b981', fontWeight: 'bold' }}>
                     {totalTasks}
@@ -236,7 +236,7 @@ const Dashboard = () => {
                   </Typography>
                 </Box>
               </Grid>
-              <Grid xs={6} md={3} sx={{ width: '100%' }}>
+              <Grid xs={6} md={3}>
                 <Box sx={{ textAlign: 'center' }}>
                   <Typography variant="h4" sx={{ color: '#22d3ee', fontWeight: 'bold' }}>
                     {activeTasks}
@@ -246,7 +246,7 @@ const Dashboard = () => {
                   </Typography>
                 </Box>
               </Grid>
-              <Grid xs={6} md={3} sx={{ width: '100%' }}>
+              <Grid xs={6} md={3}>
                 <Box sx={{ textAlign: 'center' }}>
                   <Typography variant="h4" sx={{ color: '#a78bfa', fontWeight: 'bold' }}>
                     {recentChanges}
@@ -256,7 +256,7 @@ const Dashboard = () => {
                   </Typography>
                 </Box>
               </Grid>
-              <Grid xs={6} md={3} sx={{ width: '100%' }}>
+              <Grid xs={6} md={3}>
                 <Box sx={{ textAlign: 'center' }}>
                   <Typography variant="h4" sx={{ color: '#34d399', fontWeight: 'bold' }}>
                     {successRate}%
@@ -271,7 +271,7 @@ const Dashboard = () => {
         </Box>
 
         <Grid container spacing={3} sx={{ mb: 4 }}>
-          <Grid xs={12} sm={6} md={3} sx={{ width: '100%' }}>
+          <Grid xs={12} sm={6} md={3}>
             <StatCard
               title={content.totalTasks}
               value={totalTasks}
@@ -281,7 +281,7 @@ const Dashboard = () => {
               trend={totalTasks > 0 ? 12 : 0}
             />
           </Grid>
-          <Grid xs={12} sm={6} md={3} sx={{ width: '100%' }}>
+          <Grid xs={12} sm={6} md={3}>
             <StatCard
               title={content.activeTasks}
               value={activeTasks}
@@ -291,7 +291,7 @@ const Dashboard = () => {
               trend={activeTasks > 0 ? 8 : 0}
             />
           </Grid>
-          <Grid xs={12} sm={6} md={3} sx={{ width: '100%' }}>
+          <Grid xs={12} sm={6} md={3}>
             <StatCard
               title={content.recentChanges}
               value={recentChanges}
@@ -301,7 +301,7 @@ const Dashboard = () => {
               trend={recentChanges > 0 ? 15 : 0}
             />
           </Grid>
-          <Grid xs={12} sm={6} md={3} sx={{ width: '100%' }}>
+          <Grid xs={12} sm={6} md={3}>
             <StatCard
               title={content.successRate}
               value={`${successRate}%`}
@@ -471,7 +471,7 @@ const Dashboard = () => {
 
           <Grid item xs={12} lg={4}>
             <Grid container spacing={3}>
-              <Grid xs={12} sx={{ width: '100%' }}>
+              <Grid xs={12}>
                 <Paper
                   sx={{
                     p: 3,
@@ -546,7 +546,7 @@ const Dashboard = () => {
                 </Paper>
               </Grid>
 
-              <Grid xs={12} sx={{ width: '100%' }}>
+              <Grid xs={12}>
                 <Paper
                   sx={{
                     p: 3,

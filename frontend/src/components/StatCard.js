@@ -27,7 +27,7 @@ const StatCard = ({ title, value, icon, color, subtitle, trend }) => {
   return (
     <Card
       sx={{
-        height: '100%', minHeight: 180,
+        height: '100%', 
         background: 'background.paper',
         border: '1px solid', borderColor: 'divider',
         borderRadius: 3,

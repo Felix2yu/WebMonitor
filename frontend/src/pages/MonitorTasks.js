@@ -441,7 +441,7 @@ const MonitorTasks = () => {
       )}
 
       <Grid container spacing={3} sx={{ mb: 4 }}>
-        <Grid xs={12} sm={6} md={3} sx={{ width: '100%' }}>
+        <Grid xs={12} sm={6} md={3}>
           <Card
             sx={{
               height: '100%',
@@ -487,7 +487,7 @@ const MonitorTasks = () => {
             </CardContent>
           </Card>
         </Grid>
-        <Grid xs={12} sm={6} md={3} sx={{ width: '100%' }}>
+        <Grid xs={12} sm={6} md={3}>
           <Card
             sx={{
               height: '100%',
@@ -534,7 +534,7 @@ const MonitorTasks = () => {
             </CardContent>
           </Card>
         </Grid>
-        <Grid xs={12} sm={6} md={3} sx={{ width: '100%' }}>
+        <Grid xs={12} sm={6} md={3}>
           <Card
             sx={{
               height: '100%',
@@ -581,7 +581,7 @@ const MonitorTasks = () => {
             </CardContent>
           </Card>
         </Grid>
-        <Grid xs={12} sm={6} md={3} sx={{ width: '100%' }}>
+        <Grid xs={12} sm={6} md={3}>
           <Card
             sx={{
               height: '100%',
@@ -837,7 +837,7 @@ const MonitorTasks = () => {
         <form onSubmit={handleSubmit}>
           <DialogContent sx={{ pt: 3 }}>
             <Grid container spacing={3}>
-              <Grid xs={12} sx={{ width: '100%' }}>
+              <Grid xs={12}>
                 <TextField
                   label={content.taskName}
                   fullWidth
@@ -857,7 +857,7 @@ const MonitorTasks = () => {
                   }}
                 />
               </Grid>
-              <Grid xs={12} sx={{ width: '100%' }}>
+              <Grid xs={12}>
                 <TextField
                   label={content.monitorUrl}
                   fullWidth
@@ -877,7 +877,7 @@ const MonitorTasks = () => {
                   }}
                 />
               </Grid>
-              <Grid xs={12} sx={{ width: '100%' }}>
+              <Grid xs={12}>
                 <TextField
                   label={content.xpathSelector}
                   fullWidth
@@ -899,7 +899,7 @@ const MonitorTasks = () => {
                   }}
                 />
               </Grid>
-              <Grid xs={12} sm={6} sx={{ width: '100%' }}>
+              <Grid xs={12} sm={6}>
                 <TextField
                   label={content.intervalSeconds}
                   type="number"
@@ -925,7 +925,7 @@ const MonitorTasks = () => {
                   }}
                 />
               </Grid>
-              <Grid xs={12} sm={6} sx={{ width: '100%' }}>
+              <Grid xs={12} sm={6}>
                 <FormControl fullWidth required>
                   <InputLabel id="email-config-label">{content.emailConfigRequired}</InputLabel>
                   <Select
@@ -965,7 +965,7 @@ const MonitorTasks = () => {
                   )}
                 </FormControl>
               </Grid>
-              <Grid xs={12} sx={{ width: '100%' }}>
+              <Grid xs={12}>
                 <TextField
                   label={content.taskDescription}
                   fullWidth
@@ -988,7 +988,7 @@ const MonitorTasks = () => {
                 />
               </Grid>
 
-              <Grid xs={12} sx={{ width: '100%' }}>
+              <Grid xs={12}>
                 <Box sx={{ display: 'flex', alignItems: 'center', p: 2, borderRadius: 2, backgroundColor: 'rgba(16, 185, 129, 0.05)' }}>
                   <Switch
                     checked={formData.is_active}

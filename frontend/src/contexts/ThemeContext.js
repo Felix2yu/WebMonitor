@@ -71,13 +71,7 @@ export function ThemeProvider({ children }) {
             },
           },
         },
-        MuiCardContent: {
-          styleOverrides: {
-            root: {
-              '&:last-child': { paddingBottom: 24 },
-            },
-          },
-        },
+
         MuiAppBar: {
           styleOverrides: {
             root: {
