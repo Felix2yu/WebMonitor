@@ -9,6 +9,8 @@ from app.db.database import get_db
 from app.db.crud import create_monitor_task, get_monitor_tasks, get_monitor_task, update_monitor_task, delete_monitor_task, get_monitor_logs, get_latest_monitor_logs, create_email_config, get_email_configs, get_email_config, update_email_config, delete_email_config, get_user_monitor_tasks, get_user_email_configs, get_user_active_email_config, validate_email_config_ownership, create_blacklist_domain, get_blacklist_domains, get_blacklist_domain, update_blacklist_domain, delete_blacklist_domain, is_url_allowed_for_user, is_url_in_blacklist
 from app.schemas.schemas import MonitorTaskCreate, MonitorTaskUpdate, MonitorTaskResponse, MonitorLogResponse, EmailConfigCreate, EmailConfigResponse, EmailConfigUpdate, EmailConfigSimpleResponse, BlacklistDomainCreate, BlacklistDomainUpdate, BlacklistDomainResponse
 from app.services import EmailService
+import logging
+logger = logging.getLogger(__name__)
 from app.services.monitor_service import MonitorService
 from app.services.auth_service import get_current_active_user
 from app.db.models import User
@@ -102,8 +104,25 @@ async def test_monitor_task(task_id: int, db: Session = Depends(get_db)):
     if not result.get("success"):
         raise HTTPException(status_code=500, detail=result.get("error", "测试失败"))
 
+    # 测试成功后发送一条测试通知，验证通知链路
+    from datetime import datetime
+    email_service = EmailService()
+    try:
+        email_service.send_change_notification(
+            task_name=task.name,
+            url=task.url,
+            title=result.get("title") or "测试",
+            old_content="测试前内容",
+            new_content=result.get("content") or "无内容",
+            check_time=datetime.now(),
+            email_config_id=task.email_config_id,
+            user_id=task.owner_id,
+        )
+    except Exception as e:
+        logger.error(f"测试通知发送失败: {e}")
+
     return {
-        "message": "监控任务测试完成",
+        "message": "监控任务测试完成，测试通知已发送",
         "status": "success",
         "content": result.get("content"),
         "title": result.get("title"),
