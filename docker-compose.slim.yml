@@ -6,7 +6,7 @@ services:
     restart: unless-stopped
     environment:
       DATABASE_URL: sqlite:///./data/webmonitor.db
-      SECRET_KEY: ${SECRET_KEY:-your_very_secure_secret_key_change_in_production}
+      SECRET_KEY: ${SECRET_KEY:-your-very-secure-secret-key-change-in-production}
       ALGORITHM: HS256
       ACCESS_TOKEN_EXPIRE_MINUTES: 30
       DEFAULT_CHECK_INTERVAL: 300
@@ -17,7 +17,7 @@ services:
       BROWSERLESS_URL: http://browserless:3000
       DEBUG: ${DEBUG:-false}
       LOG_LEVEL: ${LOG_LEVEL:-INFO}
-      BACKEND_CORS_ORIGINS: http://localhost:8000,https://webmonitor.qfpqhyl.top
+      BACKEND_CORS_ORIGINS: ${BACKEND_CORS_ORIGINS:-http://localhost:8000}
       ADMIN_USERNAME: ${ADMIN_USERNAME:-admin}
       ADMIN_PASSWORD: ${ADMIN_PASSWORD:-admin123}
       ADMIN_EMAIL: ${ADMIN_EMAIL:-admin@webmonitor.com}

@@ -148,7 +148,7 @@ npm start
 backend/           FastAPI API、数据库模型、业务服务、调度器
 frontend/          React 应用、页面组件、国际化资源
 Dockerfile         完整版镜像（含 Chromium）
-Dockerfile.lite    精简版镜像（需配合外部 browserless）
+Dockerfile.slim    精简版镜像（需配合外部 browserless）
 image/             文档使用的截图与素材
 ```
 
