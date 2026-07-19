@@ -3,6 +3,12 @@ const en = {
   settings: {
     title: 'Settings',
     language: 'Language',
+    appearance: 'Appearance',
+    appearanceDesc: 'Choose your color theme',
+    themeLabel: 'Theme',
+    themeLight: 'Light',
+    themeDark: 'Dark',
+    themeSystem: 'System',
   },
     docs: 'Documentation',
     login: 'Log in',

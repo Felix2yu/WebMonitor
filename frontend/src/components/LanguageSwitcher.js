@@ -41,11 +41,11 @@ const LanguageSwitcher = ({ sx = {} }) => {
                 fontSize: '0.8125rem',
                 fontWeight: 700,
                 lineHeight: 1,
-                color: isActive ? '#ffffff' : '#64748b',
-                background: isActive ? 'linear-gradient(135deg, #10b981 0%, #059669 100%)' : 'transparent',
+                color: isActive ? '#ffffff' : 'text.secondary',
+                background: isActive ? 'primary.main' : 'transparent',
                 boxShadow: isActive ? '0 6px 18px rgba(16, 185, 129, 0.28)' : 'none',
                 '&:hover': {
-                  background: isActive ? 'linear-gradient(135deg, #10b981 0%, #059669 100%)' : 'rgba(15, 23, 42, 0.04)',
+                  background: isActive ? 'primary.main' : 'action.hover',
                 },
               }}
             >
