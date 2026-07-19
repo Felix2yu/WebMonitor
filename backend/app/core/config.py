@@ -20,7 +20,7 @@ class Settings(BaseSettings):
     DATABASE_URL: str = "sqlite:///./webmonitor.db"
 
     # CORS设置
-    BACKEND_CORS_ORIGINS: Union[List[str], str] = ["http://localhost:3000", "http://127.0.0.1:3000"]
+    BACKEND_CORS_ORIGINS: Union[List[str], str] = ["http://localhost:8000", "http://127.0.0.1:8000"]
 
     # 邮件设置
     SMTP_SERVER: Optional[str] = None

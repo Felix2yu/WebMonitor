@@ -16,14 +16,14 @@ cd backend && python main.py
 # Frontend (Terminal 2)
 cd frontend && npm start
 
-# Access: Frontend http://localhost:3000, Backend API http://localhost:8000, API Docs http://localhost:8000/docs
+# Access: Frontend http://localhost:8000, Backend API http://localhost:8000, API Docs http://localhost:8000/docs
 ```
 
 ### Docker Deployment
 ```bash
-docker-compose up -d              # Start all services
-docker-compose logs -f            # View logs
-docker-compose up -d --build      # Rebuild after changes
+docker compose up -d              # Start all services
+docker compose logs -f            # View logs
+docker compose up -d --build      # Rebuild after changes
 ```
 
 ### Frontend Testing
@@ -101,7 +101,7 @@ Default admin credentials: `admin` / `admin123`
 
 **Docker Issues**:
 ```bash
-docker-compose ps                                    # Check status
-docker-compose logs -f backend                       # View backend logs
-docker-compose exec backend curl http://localhost:8000/health  # Health check
+docker compose ps                                    # Check status
+docker compose logs -f                       # View backend logs
+docker compose exec webmonitor curl http://localhost:8000/health  # Health check
 ```
