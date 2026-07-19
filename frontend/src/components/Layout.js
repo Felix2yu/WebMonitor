@@ -160,6 +160,7 @@ function Layout({ children }) {
               variant="h6"
               sx={{
                 fontWeight: 700,
+                fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif',
                 background: 'linear-gradient(45deg, #1a1a1a, #10b981)',
                 backgroundClip: 'text',
                 WebkitBackgroundClip: 'text',
@@ -231,6 +232,7 @@ function Layout({ children }) {
                     primaryTypographyProps={{
                       fontSize: '0.9rem',
                       fontWeight: isActive ? 600 : 500,
+                      fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif',
                     }}
                     secondaryTypographyProps={{
                       fontSize: '0.75rem',
@@ -324,7 +326,7 @@ function Layout({ children }) {
                 }}
               />
               <Box>
-                <Typography variant="h6" sx={{ fontWeight: 700, color: '#1a1a1a', lineHeight: 1.2 }}>
+                <Typography variant="h6" sx={{ fontWeight: 700, color: '#1a1a1a', lineHeight: 1.2, fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif' }}>
                   {currentMenuItem?.text || 'WebMonitor'}
                 </Typography>
                 <Typography variant="caption" sx={{ color: 'text.secondary' }}>
@@ -403,7 +405,7 @@ function Layout({ children }) {
               >
                 <AccountIcon sx={{ mr: 2, color: '#2563eb' }} />
                 <Box>
-                  <Typography variant="body2" sx={{ fontWeight: 600 }}>
+                  <Typography variant="body2" sx={{ fontWeight: 600, fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif' }}>
                     {user?.username || t('common.user')}
                   </Typography>
                   <Typography variant="caption" color="text.secondary">

@@ -32,6 +32,32 @@ try:
                 _cursor.execute("ALTER TABLE email_configs ADD COLUMN apprise_urls TEXT")
                 _conn.commit()
                 print("✅ 数据库迁移: 添加 apprise_urls 字段")
+            # 允许 SMTP 字段为 NULL（apprise 模式不需要）
+            for _col in ["smtp_server", "smtp_user", "smtp_password", "receiver_email"]:
+                _cursor.execute(f"PRAGMA table_info(email_configs)")
+                _col_info = [r for r in _cursor.fetchall() if r[1] == _col]
+                if _col_info and _col_info[0][3]:  # notnull = 1 means NOT NULL
+                    _cursor.execute(f"CREATE TABLE email_configs_new AS SELECT * FROM email_configs")
+                    _cursor.execute("DROP TABLE email_configs")
+                    _cursor.execute("""CREATE TABLE email_configs (
+                        id INTEGER PRIMARY KEY AUTOINCREMENT,
+                        name VARCHAR(100) NOT NULL,
+                        smtp_server VARCHAR(200),
+                        smtp_port INTEGER DEFAULT 465,
+                        smtp_user VARCHAR(200),
+                        smtp_password VARCHAR(200),
+                        receiver_email VARCHAR(200),
+                        is_ssl BOOLEAN DEFAULT 1,
+                        apprise_urls TEXT,
+                        user_id INTEGER NOT NULL REFERENCES users(id),
+                        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                        updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+                    )""")
+                    _cursor.execute("INSERT INTO email_configs SELECT * FROM email_configs_new")
+                    _cursor.execute("DROP TABLE email_configs_new")
+                    _conn.commit()
+                    print("✅ 数据库迁移: SMTP 字段改为可空")
+                    break
             _conn.close()
 except Exception as _e:
     print(f"⚠️ 数据库迁移跳过: {_e}")
