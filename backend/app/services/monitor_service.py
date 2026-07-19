@@ -18,8 +18,8 @@ def _fetch_via_browserless(url: str, xpath: str) -> Tuple[Optional[str], Optiona
     browserless_url = settings.BROWSERLESS_URL.rstrip('/')
 
     resp = requests.post(
-        f"{browserless_url}/content",
-        json={"url": url, "waitFor": {"selector": {"selector": xpath, "timeout": 20000}}},
+        f"{browserless_url}/v1/content",
+        json={"url": url, "waitFor": 5000},
         timeout=30,
     )
     resp.raise_for_status()
