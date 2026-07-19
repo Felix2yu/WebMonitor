@@ -1,15 +1,5 @@
 const en = {
   common: {
-  settings: {
-    title: 'Settings',
-    language: 'Language',
-    appearance: 'Appearance',
-    appearanceDesc: 'Choose your color theme',
-    themeLabel: 'Theme',
-    themeLight: 'Light',
-    themeDark: 'Dark',
-    themeSystem: 'System',
-  },
     docs: 'Documentation',
     login: 'Log in',
     register: 'Sign up free',
@@ -28,6 +18,16 @@ const en = {
     vsLastWeek: 'vs last week',
     footerCta: 'This project is open source and contributions are welcome',
     visitGithub: 'Visit GitHub repository',
+  },
+  settings: {
+    title: 'Settings',
+    language: 'Language',
+    appearance: 'Appearance',
+    appearanceDesc: 'Choose your color theme',
+    themeLabel: 'Theme',
+    themeLight: 'Light',
+    themeDark: 'Dark',
+    themeSystem: 'System',
   },
   language: {
     label: 'Language',
