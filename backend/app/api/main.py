@@ -39,9 +39,9 @@ import os
 if os.path.exists("static"):
     app.mount("/static", StaticFiles(directory="static"), name="static")
 
-@app.post("/api/test-email")
+@app.post("/api/test-notify")
 async def test_notify_connection():
-    """测试邮件连接"""
+    """测试通知连接"""
     notify_service = NotifyService()
     result = notify_service.test_notify_connection()
     return result

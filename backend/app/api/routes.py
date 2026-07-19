@@ -131,7 +131,7 @@ async def test_monitor_task(task_id: int, db: Session = Depends(get_db)):
 
 @router.post("/test-notify")
 async def test_notify_connection():
-    """测试邮件连接"""
+    """测试通知连接"""
     notify_service = NotifyService()
     result = notify_service.test_notify_connection()
     return result
@@ -206,7 +206,7 @@ async def delete_notify_config_route(config_id: int, db: Session = Depends(get_d
     return {"message": "邮件配置删除成功"}
 
 @router.post("/notify-configs/{config_id}/test")
-async def test_email_config(config_id: int, db: Session = Depends(get_db), current_user: User = Depends(get_current_active_user)):
+async def test_notify_config(config_id: int, db: Session = Depends(get_db), current_user: User = Depends(get_current_active_user)):
     """测试通知配置"""
     config = get_notify_config(db=db, config_id=config_id)
     if config is None:

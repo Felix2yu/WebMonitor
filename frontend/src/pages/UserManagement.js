@@ -195,7 +195,6 @@ const UserManagement = () => {
         handleClose();
       },
       onError: (mutationError) => {
-        console.error('Update user error:', mutationError.response?.data || mutationError.message);
       },
     }
   );
@@ -260,7 +259,6 @@ const UserManagement = () => {
       }
     });
 
-    console.log('Submitting user update:', cleanFormData);
 
     if (editingUser) {
       updateMutation.mutate({ id: editingUser.id, userData: cleanFormData });

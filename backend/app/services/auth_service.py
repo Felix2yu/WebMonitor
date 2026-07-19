@@ -1,3 +1,6 @@
+import logging
+logger = logging.getLogger(__name__)
+
 from datetime import datetime, timedelta
 from typing import Optional
 from jose import JWTError, jwt
@@ -26,7 +29,7 @@ def verify_password(plain_password, hashed_password):
     try:
         return bcrypt.checkpw(plain_password.encode('utf-8'), hashed_password.encode('utf-8'))
     except Exception as e:
-        print(f"密码验证错误: {e}")
+        logger.error(f"密码验证错误: {e}")
         return False
 
 def get_password_hash(password):
@@ -41,7 +44,7 @@ def get_password_hash(password):
         hashed = bcrypt.hashpw(password.encode('utf-8'), salt)
         return hashed.decode('utf-8')
     except Exception as e:
-        print(f"密码哈希生成错误: {e}")
+        logger.error(f"密码哈希生成错误: {e}")
         raise
 
 def authenticate_user(db: Session, username: str, password: str):
