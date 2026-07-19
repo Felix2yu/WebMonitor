@@ -39,7 +39,6 @@ import {
   Visibility as VisibilityIcon,
   VisibilityOff as VisibilityOffIcon,
   Email as EmailIcon,
-  Code as CodeIcon,
 } from '@mui/icons-material';
 import { useQuery, useMutation, useQueryClient } from 'react-query';
 import { useTranslation } from 'react-i18next';
@@ -884,14 +883,6 @@ const UserManagement = () => {
                       },
                     }}
                   />
-                  <Box sx={{ ml: 2 }}>
-                    <Typography variant="body2" sx={{ fontWeight: 600 }}>
-                      {content.activeAccount}
-                    </Typography>
-                    <Typography variant="caption" color="text.secondary">
-                      {content.activeAccountHelper}
-                    </Typography>
-                  </Box>
                 </Box>
               </Grid>
             </Grid>
@@ -930,38 +921,6 @@ const UserManagement = () => {
         </form>
       </Dialog>
 
-      <Box
-        sx={{
-          mt: 4,
-          p: 3,
-          textAlign: 'center',
-          borderTop: '1px solid rgba(0, 0, 0, 0.06)',
-        }}
-      >
-        <Typography variant="body2" color="text.secondary" sx={{ mb: 1 }}>
-          {t('common.footerCta')}
-        </Typography>
-        <Button
-          variant="outlined"
-          size="small"
-          startIcon={<CodeIcon />}
-          href="https://github.com/qfpqhyl"
-          target="_blank"
-          rel="noopener noreferrer"
-          sx={{
-            borderColor: 'rgba(167, 139, 250, 0.5)',
-            color: '#a78bfa',
-            textTransform: 'none',
-            borderRadius: 2,
-            '&:hover': {
-              borderColor: '#a78bfa',
-              backgroundColor: 'rgba(167, 139, 250, 0.1)',
-            },
-          }}
-        >
-          {t('common.visitGithub')}
-        </Button>
-      </Box>
     </Box>
   );
 };

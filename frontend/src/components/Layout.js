@@ -34,11 +34,11 @@ import {
   Security as SecurityIcon,
   Public as PublicIcon,
   BookmarkBorder as SubscriptionsIcon,
+  Settings as SettingsIcon,
 } from '@mui/icons-material';
 import { useTranslation } from 'react-i18next';
 
 import { useAuth } from '../contexts/AuthContext';
-import LanguageSwitcher from './LanguageSwitcher';
 import { isChineseLanguage } from '../utils/i18n';
 
 const drawerWidth = 280;
@@ -173,10 +173,6 @@ function Layout({ children }) {
             </Typography>
           </Box>
         </Box>
-      </Box>
-
-      <Box sx={{ px: 2, pt: 2, display: 'flex', justifyContent: 'center' }}>
-        <LanguageSwitcher sx={{ width: 'fit-content' }} />
       </Box>
 
       <Box sx={{ flexGrow: 1, py: 2 }}>
@@ -339,10 +335,6 @@ function Layout({ children }) {
           </Box>
 
           <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-            <Box sx={{ display: { xs: 'none', md: 'block' } }}>
-              <LanguageSwitcher sx={{ mr: 0.5 }} />
-            </Box>
-
             <Tooltip title={t('common.notifications')}>
               <IconButton
                 sx={{
@@ -420,6 +412,13 @@ function Layout({ children }) {
                 </Box>
               </MenuItem>
               <Divider />
+              <MenuItem
+                onClick={() => { handleUserMenuClose(); navigate('/settings'); }}
+                sx={{ py: 1.5, '&:hover': { backgroundColor: 'rgba(16, 185, 129, 0.1)' } }}
+              >
+                <SettingsIcon sx={{ mr: 2, color: '#64748b' }} />
+                {t('settings.title') || '设置'}
+              </MenuItem>
               <MenuItem
                 onClick={() => { handleUserMenuClose(); navigate('/user-management'); }}
                 sx={{ display: isAdmin() ? 'flex' : 'none', py: 1.5, '&:hover': { backgroundColor: 'rgba(16, 185, 129, 0.1)' } }}

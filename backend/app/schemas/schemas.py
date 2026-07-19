@@ -118,21 +118,22 @@ class MonitorTaskWithLogs(MonitorTaskResponse):
     logs: List[MonitorLogResponse] = []
 
 class EmailConfigBase(BaseModel):
-    """邮件配置基础模型"""
+    """通知配置基础模型"""
     name: str = Field(..., description="配置名称", min_length=1, max_length=100)
-    smtp_server: str = Field(..., description="SMTP服务器地址", min_length=1, max_length=200)
+    smtp_server: Optional[str] = Field(None, description="SMTP服务器地址")
     smtp_port: int = Field(default=465, description="SMTP端口", ge=1, le=65535)
-    smtp_user: str = Field(..., description="发送者邮箱", min_length=1, max_length=200)
-    smtp_password: str = Field(..., description="SMTP密码", min_length=1, max_length=200)
-    receiver_email: str = Field(..., description="接收者邮箱", min_length=1, max_length=200)
+    smtp_user: Optional[str] = Field(None, description="发送者邮箱")
+    smtp_password: Optional[str] = Field(None, description="SMTP密码")
+    receiver_email: Optional[str] = Field(None, description="接收者邮箱")
     is_ssl: bool = Field(default=True, description="是否使用SSL")
+    apprise_urls: Optional[str] = Field(None, description="Apprise通知URL，每行一个")
 
 class EmailConfigCreate(EmailConfigBase):
     """创建邮件配置"""
     pass
 
 class EmailConfigUpdate(EmailConfigBase):
-    """更新邮件配置"""
+    """更新通知配置"""
     name: Optional[str] = None
     smtp_server: Optional[str] = None
     smtp_port: Optional[int] = None
@@ -140,19 +141,21 @@ class EmailConfigUpdate(EmailConfigBase):
     smtp_password: Optional[str] = None
     receiver_email: Optional[str] = None
     is_ssl: Optional[bool] = None
+    apprise_urls: Optional[str] = None
 
 class EmailConfigSimpleResponse(BaseModel):
-    """邮件配置简单响应（用于选择器）"""
+    """通知配置简单响应（用于选择器）"""
     id: int
     name: str
-    smtp_user: str
-    receiver_email: str
+    smtp_user: Optional[str] = None
+    receiver_email: Optional[str] = None
+    apprise_urls: Optional[str] = None
 
     class Config:
         from_attributes = True
 
 class EmailConfigResponse(EmailConfigBase):
-    """邮件配置响应"""
+    """通知配置响应"""
     id: int
     user_id: int
     created_at: datetime

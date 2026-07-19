@@ -206,7 +206,7 @@ async def test_email_config(config_id: int, db: Session = Depends(get_db), curre
     # 如果连接成功，发送测试邮件
         try:
             from datetime import datetime
-            success = email_service.send_test_email(config)
+            success = email_service.send_test_notification(config)
             if success:
                 return {"success": True, "message": "邮件连接测试成功，测试邮件已发送"}
             else:

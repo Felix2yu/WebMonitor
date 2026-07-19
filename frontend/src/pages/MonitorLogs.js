@@ -23,7 +23,6 @@ import {
   Avatar,
 } from '@mui/material';
 import {
-  Code as CodeIcon,
   ListAlt as ListAltIcon,
   CheckCircle as CheckCircleIcon,
   Error as ErrorIcon,
@@ -529,34 +528,6 @@ const MonitorLogs = () => {
                   <Typography variant="body2" color="text.secondary">
                     {getPaginationSummary()}
                   </Typography>
-                  <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
-                    <Typography variant="body2" color="text.secondary">
-                      {content.rowsPerPage}:
-                    </Typography>
-                    <Select
-                      size="small"
-                      value={rowsPerPage}
-                      onChange={handleChangeRowsPerPage}
-                      sx={{ minWidth: 80 }}
-                    >
-                      <MenuItem value={10}>10</MenuItem>
-                      <MenuItem value={20}>20</MenuItem>
-                      <MenuItem value={50}>50</MenuItem>
-                      <MenuItem value={100}>100</MenuItem>
-                    </Select>
-                    <Pagination
-                      count={Math.ceil(totalCount / rowsPerPage)}
-                      page={page}
-                      onChange={handleChangePage}
-                      color="primary"
-                      showFirstButton
-                      showLastButton
-                      shape="rounded"
-                      size="medium"
-                      siblingCount={2}
-                      boundaryCount={1}
-                    />
-                  </Box>
                 </Box>
               </Box>
             )}
@@ -592,38 +563,6 @@ const MonitorLogs = () => {
         </Paper>
       )}
 
-      <Box
-        sx={{
-          mt: 4,
-          p: 3,
-          textAlign: 'center',
-          borderTop: '1px solid rgba(0, 0, 0, 0.06)',
-        }}
-      >
-        <Typography variant="body2" color="text.secondary" sx={{ mb: 1 }}>
-          {t('common.footerCta')}
-        </Typography>
-        <Button
-          variant="outlined"
-          size="small"
-          startIcon={<CodeIcon />}
-          href="https://github.com/qfpqhyl"
-          target="_blank"
-          rel="noopener noreferrer"
-          sx={{
-            borderColor: 'rgba(25, 118, 210, 0.5)',
-            color: '#1976d2',
-            textTransform: 'none',
-            borderRadius: 2,
-            '&:hover': {
-              borderColor: '#1976d2',
-              backgroundColor: 'rgba(25, 118, 210, 0.1)',
-            },
-          }}
-        >
-          {t('common.visitGithub')}
-        </Button>
-      </Box>
     </Box>
   );
 };

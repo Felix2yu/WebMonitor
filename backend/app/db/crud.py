@@ -134,6 +134,7 @@ def create_email_config(db: Session, config: EmailConfigCreate, user_id: int) ->
         smtp_password=config.smtp_password,
         receiver_email=config.receiver_email,
         is_ssl=config.is_ssl,
+        apprise_urls=config.apprise_urls,
         user_id=user_id
     )
     db.add(db_config)

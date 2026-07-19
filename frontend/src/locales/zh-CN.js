@@ -1,5 +1,9 @@
 const zhCN = {
   common: {
+  settings: {
+    title: '设置',
+    language: '语言设置',
+  },
     docs: '文档',
     login: '登录',
     register: '免费注册',

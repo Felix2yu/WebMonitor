@@ -78,6 +78,7 @@ class EmailConfig(Base):
     smtp_password = Column(String(200), nullable=False, comment="SMTP密码")
     receiver_email = Column(String(200), nullable=False, comment="接收者邮箱")
     is_ssl = Column(Boolean, default=True, comment="是否使用SSL")
+    apprise_urls = Column(Text, nullable=True, comment="Apprise通知URL，每行一个")
     user_id = Column(Integer, ForeignKey("users.id"), nullable=False, comment="用户ID")
     created_at = Column(DateTime(timezone=True), server_default=func.now(), comment="创建时间")
     updated_at = Column(DateTime(timezone=True), server_default=func.now(), onupdate=func.now(), comment="更新时间")

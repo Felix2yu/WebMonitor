@@ -1,5 +1,9 @@
 const en = {
   common: {
+  settings: {
+    title: 'Settings',
+    language: 'Language',
+  },
     docs: 'Documentation',
     login: 'Log in',
     register: 'Sign up free',

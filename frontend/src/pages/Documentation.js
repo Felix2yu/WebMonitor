@@ -486,9 +486,6 @@ const Documentation = () => {
         }}
       >
         <Box sx={{ pt: 8 }}>
-          <Box sx={{ px: 2, display: 'flex', justifyContent: 'center' }}>
-            <LanguageSwitcher sx={{ width: 'fit-content' }} />
-          </Box>
           <SidebarContent />
         </Box>
       </Drawer>
@@ -519,38 +516,6 @@ const Documentation = () => {
         }}
       >
         <Container maxWidth="md" sx={{ py: 6, px: { xs: 3, md: 4 } }}>
-          <Box
-            component={motion.div}
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-            sx={{ mb: 8, textAlign: 'center' }}
-          >
-            <Typography
-              variant="h2"
-              component="h1"
-              sx={{
-                fontWeight: 800,
-                color: '#334155',
-                mb: 2,
-                fontSize: { xs: '2rem', md: '2.75rem' },
-                letterSpacing: '-0.02em',
-              }}
-            >
-              {content.title}
-            </Typography>
-            <Typography
-              variant="h6"
-              sx={{
-                color: '#64748b',
-                fontWeight: 400,
-                maxWidth: 500,
-                mx: 'auto',
-              }}
-            >
-              {content.subtitle}
-            </Typography>
-          </Box>
 
           {sections.map((section) => (
             <DocSection key={section.id} id={section.id} title={section.title} icon={section.icon}>
@@ -558,72 +523,7 @@ const Documentation = () => {
             </DocSection>
           ))}
 
-          <Paper
-            component={motion.div}
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            elevation={0}
-            sx={{
-              p: { xs: 4, md: 6 },
-              mt: 8,
-              borderRadius: 4,
-              backgroundColor: '#f8fafc',
-              border: '1px solid rgba(0, 0, 0, 0.06)',
-              textAlign: 'center',
-            }}
-          >
-            <Typography variant="h5" sx={{ fontWeight: 700, color: '#334155', mb: 2 }}>
-              {content.footerCta.title}
-            </Typography>
-            <Typography sx={{ color: '#64748b', mb: 4 }}>
-              {content.footerCta.subtitle}
-            </Typography>
-            <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2} justifyContent="center">
-              <Button
-                variant="contained"
-                size="large"
-                onClick={() => navigate('/register')}
-                sx={{
-                  background: 'linear-gradient(135deg, #10b981 0%, #059669 100%)',
-                  color: '#ffffff',
-                  px: 4,
-                  py: 1.5,
-                  fontWeight: 600,
-                  boxShadow: '0 4px 14px rgba(16, 185, 129, 0.25)',
-                }}
-              >
-                {content.footerCta.primary}
-              </Button>
-              <Button
-                variant="outlined"
-                size="large"
-                onClick={() => navigate('/login')}
-                sx={{
-                  borderColor: '#e2e8f0',
-                  color: '#475569',
-                  px: 4,
-                  py: 1.5,
-                  fontWeight: 600,
-                  '&:hover': {
-                    borderColor: '#10b981',
-                    color: '#10b981',
-                  },
-                }}
-              >
-                {content.footerCta.secondary}
-              </Button>
-            </Stack>
-          </Paper>
 
-          <Box sx={{ mt: 8, pt: 4, borderTop: '1px solid rgba(0, 0, 0, 0.06)', textAlign: 'center' }}>
-            <Typography variant="body2" sx={{ color: '#94a3b8' }}>
-              © 2024 WebMonitor. All rights reserved.
-            </Typography>
-            <Typography variant="caption" sx={{ color: '#cbd5e1' }}>
-              {t('common.footerCta')}
-            </Typography>
-          </Box>
         </Container>
       </Box>
     </Box>

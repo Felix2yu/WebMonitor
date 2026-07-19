@@ -1012,13 +1012,7 @@ const HomePage = () => {
             © 2024 WebMonitor. All rights reserved.
           </Typography>
           <Typography variant="caption" sx={{ color: '#cbd5e1' }}>
-            {content.footerTagline}
           </Typography>
-          <Box sx={{ mt: 2 }}>
-            <Typography variant="caption" sx={{ color: '#94a3b8' }}>
-              {t('common.footerCta')}
-            </Typography>
-          </Box>
         </Container>
       </Box>
     </Box>

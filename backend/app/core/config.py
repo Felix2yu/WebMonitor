@@ -29,6 +29,9 @@ class Settings(BaseSettings):
     SMTP_PASSWORD: Optional[str] = None
     RECEIVER_EMAIL: Optional[str] = None
 
+    # Apprise多渠道通知URL，逗号分隔
+    APPRISE_URLS: Optional[str] = None
+
     # 监控设置
     DEFAULT_CHECK_INTERVAL: int = 300  # 5分钟
     MAX_CHECK_INTERVAL: int = 86400  # 24小时

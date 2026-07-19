@@ -19,6 +19,7 @@ import BlacklistManagement from './pages/BlacklistManagement';
 import PublicTasks from './pages/PublicTasks';
 import MySubscriptions from './pages/MySubscriptions';
 import Documentation from './pages/Documentation';
+import Settings from './pages/Settings';
 
 // 创建React Query客户端
 const queryClient = new QueryClient({
@@ -42,151 +43,7 @@ const theme = createTheme({
     },
   },
   typography: {
-    fontFamily: [
-      '"Source Serif Pro"',
-      '"Noto Serif SC"',
-      'Georgia',
-      '"Times New Roman"',
-      '"SimSun"', // 宋体
-      'serif',
-    ].join(','),
-    h1: {
-      fontFamily: [
-        '"Source Serif Pro"',
-        '"Noto Serif SC"',
-        'Georgia',
-        '"Times New Roman"',
-        '"SimSun"',
-        'serif',
-      ].join(','),
-      fontWeight: 700,
-    },
-    h2: {
-      fontFamily: [
-        '"Source Serif Pro"',
-        '"Noto Serif SC"',
-        'Georgia',
-        '"Times New Roman"',
-        '"SimSun"',
-        'serif',
-      ].join(','),
-      fontWeight: 600,
-    },
-    h3: {
-      fontFamily: [
-        '"Source Serif Pro"',
-        '"Noto Serif SC"',
-        'Georgia',
-        '"Times New Roman"',
-        '"SimSun"',
-        'serif',
-      ].join(','),
-      fontWeight: 600,
-    },
-    h4: {
-      fontFamily: [
-        '"Source Serif Pro"',
-        '"Noto Serif SC"',
-        'Georgia',
-        '"Times New Roman"',
-        '"SimSun"',
-        'serif',
-      ].join(','),
-      fontWeight: 600,
-    },
-    h5: {
-      fontFamily: [
-        '"Source Serif Pro"',
-        '"Noto Serif SC"',
-        'Georgia',
-        '"Times New Roman"',
-        '"SimSun"',
-        'serif',
-      ].join(','),
-      fontWeight: 600,
-    },
-    h6: {
-      fontFamily: [
-        '"Source Serif Pro"',
-        '"Noto Serif SC"',
-        'Georgia',
-        '"Times New Roman"',
-        '"SimSun"',
-        'serif',
-      ].join(','),
-      fontWeight: 600,
-    },
-    body1: {
-      fontFamily: [
-        '"Source Serif Pro"',
-        '"Noto Serif SC"',
-        'Georgia',
-        '"Times New Roman"',
-        '"SimSun"',
-        'serif',
-      ].join(','),
-    },
-    body2: {
-      fontFamily: [
-        '"Source Serif Pro"',
-        '"Noto Serif SC"',
-        'Georgia',
-        '"Times New Roman"',
-        '"SimSun"',
-        'serif',
-      ].join(','),
-    },
-    subtitle1: {
-      fontFamily: [
-        '"Source Serif Pro"',
-        '"Noto Serif SC"',
-        'Georgia',
-        '"Times New Roman"',
-        '"SimSun"',
-        'serif',
-      ].join(','),
-    },
-    subtitle2: {
-      fontFamily: [
-        '"Source Serif Pro"',
-        '"Noto Serif SC"',
-        'Georgia',
-        '"Times New Roman"',
-        '"SimSun"',
-        'serif',
-      ].join(','),
-    },
-    caption: {
-      fontFamily: [
-        '"Source Serif Pro"',
-        '"Noto Serif SC"',
-        'Georgia',
-        '"Times New Roman"',
-        '"SimSun"',
-        'serif',
-      ].join(','),
-    },
-    overline: {
-      fontFamily: [
-        '"Source Serif Pro"',
-        '"Noto Serif SC"',
-        'Georgia',
-        '"Times New Roman"',
-        '"SimSun"',
-        'serif',
-      ].join(','),
-    },
-    button: {
-      fontFamily: [
-        '"Source Serif Pro"',
-        '"Noto Serif SC"',
-        'Georgia',
-        '"Times New Roman"',
-        '"SimSun"',
-        'serif',
-      ].join(','),
-      fontWeight: 500,
-    },
+    fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", "PingFang SC", "Microsoft YaHei", sans-serif',
   },
 });
 
@@ -263,6 +120,12 @@ function App() {
               <Route path="/user-management" element={
                 <ProtectedRoute adminOnly>
                   <Layout><UserManagement /></Layout>
+                </ProtectedRoute>
+              } />
+              {/* 设置 */}
+              <Route path="/settings" element={
+                <ProtectedRoute>
+                  <Layout><Settings /></Layout>
                 </ProtectedRoute>
               } />
             </Routes>

@@ -16,6 +16,25 @@ from app.api.auth import router as auth_router
 from app.services.scheduler import monitor_scheduler
 from app.services.auth_service import get_password_hash
 
+# 数据库迁移
+try:
+    import sqlite3 as _sqlite3
+    _db_url = str(engine.url)
+    if _db_url.startswith("sqlite:///"):
+        _db_file = _db_url.replace("sqlite:///", "")
+        if os.path.exists(_db_file):
+            _conn = _sqlite3.connect(_db_file)
+            _cursor = _conn.cursor()
+            _cursor.execute("PRAGMA table_info(email_configs)")
+            _cols = [r[1] for r in _cursor.fetchall()]
+            if "apprise_urls" not in _cols:
+                _cursor.execute("ALTER TABLE email_configs ADD COLUMN apprise_urls TEXT")
+                _conn.commit()
+                print("✅ 数据库迁移: 添加 apprise_urls 字段")
+            _conn.close()
+except Exception as _e:
+    print(f"⚠️ 数据库迁移跳过: {_e}")
+
 # 创建数据库表
 Base.metadata.create_all(bind=engine)
 

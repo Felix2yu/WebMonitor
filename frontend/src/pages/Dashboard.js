@@ -27,7 +27,6 @@ import {
   NotificationsActive as NotificationsIcon,
   Speed as SpeedIcon,
   Security as SecurityIcon,
-  Code as CodeIcon,
 } from '@mui/icons-material';
 import { useQuery } from 'react-query';
 import { useTranslation } from 'react-i18next';
@@ -621,27 +620,6 @@ const Dashboard = () => {
                     </Box>
 
                     <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-                      <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                        <Avatar
-                          sx={{
-                            width: 32,
-                            height: 32,
-                            mr: 2,
-                            backgroundColor: 'rgba(167, 139, 250, 0.1)',
-                            color: '#a78bfa',
-                          }}
-                        >
-                          <SpeedIcon sx={{ fontSize: 18 }} />
-                        </Avatar>
-                        <Box>
-                          <Typography variant="body2" sx={{ fontWeight: 500 }}>
-                            {content.responseTime}
-                          </Typography>
-                          <Typography variant="caption" color="text.secondary">
-                            {content.average} {averageResponseTime}s
-                          </Typography>
-                        </Box>
-                      </Box>
                       <Chip
                         size="small"
                         label={content.excellent}
@@ -657,39 +635,6 @@ const Dashboard = () => {
         </Grid>
       </Container>
 
-      <Box
-        sx={{
-          py: 3,
-          px: 3,
-          textAlign: 'center',
-          borderTop: '1px solid rgba(0, 0, 0, 0.06)',
-          backgroundColor: '#ffffff',
-        }}
-      >
-        <Typography variant="body2" color="text.secondary" sx={{ mb: 1 }}>
-          {t('common.footerCta')}
-        </Typography>
-        <Button
-          variant="outlined"
-          size="small"
-          startIcon={<CodeIcon />}
-          href="https://github.com/qfpqhyl"
-          target="_blank"
-          rel="noopener noreferrer"
-          sx={{
-            borderColor: 'rgba(16, 185, 129, 0.5)',
-            color: '#10b981',
-            textTransform: 'none',
-            borderRadius: 2,
-            '&:hover': {
-              borderColor: '#10b981',
-              backgroundColor: 'rgba(16, 185, 129, 0.1)',
-            },
-          }}
-        >
-          {t('common.visitGithub')}
-        </Button>
-      </Box>
     </Box>
   );
 };
