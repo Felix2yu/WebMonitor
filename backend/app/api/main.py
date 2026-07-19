@@ -12,7 +12,7 @@ from ..db.models import MonitorTask, MonitorLog
 from ..schemas import MonitorTaskCreate, MonitorTaskResponse, MonitorLogResponse
 from ..db.crud import create_monitor_task, get_monitor_tasks, get_monitor_task, update_monitor_task, delete_monitor_task, get_monitor_logs
 from ..services.scheduler import monitor_scheduler
-from ..services.email_service import EmailService
+from ..services.notify_service import NotifyService
 
 
 # 创建数据库表
@@ -40,10 +40,10 @@ if os.path.exists("static"):
     app.mount("/static", StaticFiles(directory="static"), name="static")
 
 @app.post("/api/test-email")
-async def test_email_connection():
+async def test_notify_connection():
     """测试邮件连接"""
-    email_service = EmailService()
-    result = email_service.test_email_connection()
+    notify_service = NotifyService()
+    result = notify_service.test_notify_connection()
     return result
 
 @app.get("/")

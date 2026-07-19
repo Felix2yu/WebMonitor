@@ -39,7 +39,7 @@ class MonitorTask(Base):
 
     logs = relationship("MonitorLog", back_populates="task", cascade="all, delete-orphan")
     owner = relationship("User", back_populates="tasks")
-    email_config = relationship("EmailConfig")
+    notify_config = relationship("EmailConfig")
 
 class MonitorLog(Base):
     """监控日志模型"""

@@ -106,27 +106,27 @@ const NotificationConfig = () => {
   const queryClient = useQueryClient();
 
   const { data: configs = [] } = useQuery('emailConfigs', async () => {
-    const res = await axios.get('/api/notification-configs');
+    const res = await axios.get('/api/notify-configs');
     return res.data;
   });
 
   const createMutation = useMutation(
-    async (data) => axios.post('/api/notification-configs', data),
+    async (data) => axios.post('/api/notify-configs', data),
     { onSuccess: () => { queryClient.invalidateQueries('emailConfigs'); setOpenDialog(false); resetForm(); } }
   );
 
   const updateMutation = useMutation(
-    async ({ id, ...data }) => axios.put(`/api/notification-configs/${id}`, data),
+    async ({ id, ...data }) => axios.put(`/api/notify-configs/${id}`, data),
     { onSuccess: () => { queryClient.invalidateQueries('emailConfigs'); setOpenDialog(false); resetForm(); } }
   );
 
   const deleteMutation = useMutation(
-    async (id) => axios.delete(`/api/notification-configs/${id}`),
+    async (id) => axios.delete(`/api/notify-configs/${id}`),
     { onSuccess: () => queryClient.invalidateQueries('emailConfigs') }
   );
 
   const testMutation = useMutation(
-    async (id) => axios.post(`/api/notification-configs/${id}/test`),
+    async (id) => axios.post(`/api/notify-configs/${id}/test`),
     {
       onSuccess: (res) => setTestResult({ ok: res.data.success, msg: res.data.message || res.data.error }),
       onError: () => setTestResult({ ok: false, msg: content.testFailed }),

@@ -7,7 +7,7 @@ from lxml import html
 from ..db.database import SessionLocal
 from ..core.config import settings
 from ..db.crud import create_monitor_log, update_monitor_task_content
-from .email_service import EmailService
+from .notify_service import NotifyService
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
@@ -88,7 +88,7 @@ class MonitorService:
     """监控服务"""
 
     def __init__(self):
-        self.email_service = EmailService()
+        self.notify_service = NotifyService()
 
     async def check_single_task(self, task_id: int) -> bool:
         db = SessionLocal()
@@ -121,7 +121,7 @@ class MonitorService:
                 logger.info(f"任务 {task.name} 检测到内容变化，准备发送通知")
                 logger.info(f"  email_config_id={task.email_config_id}, owner_id={task.owner_id}")
                 try:
-                    result = self.email_service.send_change_notification(
+                    result = self.notify_service.send_change_notification(
                         task_name=task.name, url=task.url, title=title or "未知标题",
                         old_content=old_content or "无历史内容", new_content=current_content,
                         check_time=check_time, email_config_id=task.email_config_id, user_id=task.owner_id,

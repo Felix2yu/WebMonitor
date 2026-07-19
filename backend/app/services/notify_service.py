@@ -11,13 +11,13 @@ from ..db.models import EmailConfig
 logger = logging.getLogger(__name__)
 
 
-class EmailService:
+class NotifyService:
     """通知服务（基于 apprise，支持多渠道）"""
 
     def __init__(self):
         self._config: Optional[EmailConfig] = None
 
-    def get_email_config_by_id(self, config_id: int) -> Optional[EmailConfig]:
+    def get_notify_config_by_id(self, config_id: int) -> Optional[EmailConfig]:
         """根据ID获取通知配置"""
         db = SessionLocal()
         try:
@@ -25,13 +25,13 @@ class EmailService:
         finally:
             db.close()
 
-    def get_email_config(self, user_id: Optional[int] = None) -> Optional[EmailConfig]:
+    def get_notify_config(self, user_id: Optional[int] = None) -> Optional[EmailConfig]:
         """获取通知配置"""
         db = SessionLocal()
         try:
             if user_id:
-                from ..db.crud import get_user_active_email_config
-                user_config = get_user_active_email_config(db, user_id)
+                from ..db.crud import get_user_active_notify_config
+                user_config = get_user_active_notify_config(db, user_id)
                 if user_config:
                     return user_config
             self._config = db.query(EmailConfig).first()
@@ -106,10 +106,10 @@ class EmailService:
         """发送内容变化通知"""
         logger.info(f"[通知] task={task_name}, email_config_id={email_config_id}, user_id={user_id}")
         if email_config_id:
-            config = self.get_email_config_by_id(email_config_id)
+            config = self.get_notify_config_by_id(email_config_id)
             logger.info(f"[通知] 按 config_id={email_config_id} 查找: {config}")
         else:
-            config = self.get_email_config(user_id)
+            config = self.get_notify_config(user_id)
             logger.info(f"[通知] 按 user_id={user_id} 查找: {config}")
 
         urls = self._get_urls_from_config(config) or self._get_urls_from_env()
@@ -130,9 +130,9 @@ class EmailService:
         )
         return self._send_via_apprise(urls, subject, body)
 
-    def test_email_connection(self) -> dict:
+    def test_notify_connection(self) -> dict:
         """测试通知连接"""
-        config = self.get_email_config()
+        config = self.get_notify_config()
         if not config:
             return {"success": False, "error": "未找到通知配置"}
         urls = self._get_urls_from_config(config)
@@ -145,7 +145,7 @@ class EmailService:
             return {"success": False, "error": "无有效通知 URL"}
         return {"success": True, "message": f"已加载 {len(urls)} 个通知渠道"}
 
-    def test_email_connection_with_config(self, config: EmailConfig) -> dict:
+    def test_notify_connection_with_config(self, config: EmailConfig) -> dict:
         """使用指定配置测试连接"""
         urls = self._get_urls_from_config(config)
         if not urls:

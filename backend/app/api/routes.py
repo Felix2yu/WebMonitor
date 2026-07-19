@@ -6,9 +6,9 @@ from sqlalchemy.orm import Session
 from typing import List
 
 from app.db.database import get_db
-from app.db.crud import create_monitor_task, get_monitor_tasks, get_monitor_task, update_monitor_task, delete_monitor_task, get_monitor_logs, get_latest_monitor_logs, create_email_config, get_email_configs, get_email_config, update_email_config, delete_email_config, get_user_monitor_tasks, get_user_email_configs, get_user_active_email_config, validate_email_config_ownership, create_blacklist_domain, get_blacklist_domains, get_blacklist_domain, update_blacklist_domain, delete_blacklist_domain, is_url_allowed_for_user, is_url_in_blacklist
-from app.schemas.schemas import MonitorTaskCreate, MonitorTaskUpdate, MonitorTaskResponse, MonitorLogResponse, EmailConfigCreate, EmailConfigResponse, EmailConfigUpdate, EmailConfigSimpleResponse, BlacklistDomainCreate, BlacklistDomainUpdate, BlacklistDomainResponse
-from app.services import EmailService
+from app.db.crud import create_monitor_task, get_monitor_tasks, get_monitor_task, update_monitor_task, delete_monitor_task, get_monitor_logs, get_latest_monitor_logs, create_notify_config, get_notify_configs, get_notify_config, update_notify_config, delete_notify_config, get_user_monitor_tasks, get_user_notify_configs, get_user_active_notify_config, validate_notify_config_ownership, create_blacklist_domain, get_blacklist_domains, get_blacklist_domain, update_blacklist_domain, delete_blacklist_domain, is_url_allowed_for_user, is_url_in_blacklist
+from app.schemas.schemas import MonitorTaskCreate, MonitorTaskUpdate, MonitorTaskResponse, MonitorLogResponse, NotifyConfigCreate, NotifyConfigResponse, NotifyConfigUpdate, NotifyConfigSimpleResponse, BlacklistDomainCreate, BlacklistDomainUpdate, BlacklistDomainResponse
+from app.services import NotifyService
 import logging
 logger = logging.getLogger(__name__)
 from app.services.monitor_service import MonitorService
@@ -25,7 +25,7 @@ async def create_task(task: MonitorTaskCreate, db: Session = Depends(get_db), cu
         raise HTTPException(status_code=403, detail="该域名在黑名单中，普通用户无法监控此网站")
 
     # 验证邮箱配置是否属于当前用户
-    if not validate_email_config_ownership(db, task.email_config_id, current_user.id):
+    if not validate_notify_config_ownership(db, task.email_config_id, current_user.id):
         raise HTTPException(status_code=400, detail="邮箱配置不存在或不属于当前用户")
 
     return create_monitor_task(db=db, task=task, owner_id=current_user.id)
@@ -61,7 +61,7 @@ async def update_task(task_id: int, task: MonitorTaskUpdate, db: Session = Depen
             raise HTTPException(status_code=403, detail="该域名在黑名单中，普通用户无法监控此网站")
 
     # 验证邮箱配置是否属于当前用户
-    if task.email_config_id is not None and not validate_email_config_ownership(db, task.email_config_id, current_user.id):
+    if task.email_config_id is not None and not validate_notify_config_ownership(db, task.email_config_id, current_user.id):
         raise HTTPException(status_code=400, detail="邮箱配置不存在或不属于当前用户")
 
     updated_task = update_monitor_task(db=db, task_id=task_id, task=task)
@@ -106,9 +106,9 @@ async def test_monitor_task(task_id: int, db: Session = Depends(get_db)):
 
     # 测试成功后发送一条测试通知，验证通知链路
     from datetime import datetime
-    email_service = EmailService()
+    notify_service = NotifyService()
     try:
-        email_service.send_change_notification(
+        notify_service.send_change_notification(
             task_name=task.name,
             url=task.url,
             title=result.get("title") or "测试",
@@ -129,36 +129,36 @@ async def test_monitor_task(task_id: int, db: Session = Depends(get_db)):
         "url": result.get("url")
     }
 
-@router.post("/test-email")
-async def test_email_connection():
+@router.post("/test-notify")
+async def test_notify_connection():
     """测试邮件连接"""
-    email_service = EmailService()
-    result = email_service.test_email_connection()
+    notify_service = NotifyService()
+    result = notify_service.test_notify_connection()
     return result
 
 # 邮件配置相关API
-@router.post("/notification-configs", response_model=EmailConfigResponse)
-async def create_email_config_route(config: EmailConfigCreate, db: Session = Depends(get_db), current_user: User = Depends(get_current_active_user)):
+@router.post("/notify-configs", response_model=NotifyConfigResponse)
+async def create_notify_config_route(config: NotifyConfigCreate, db: Session = Depends(get_db), current_user: User = Depends(get_current_active_user)):
     """创建邮件配置"""
-    return create_email_config(db=db, config=config, user_id=current_user.id)
+    return create_notify_config(db=db, config=config, user_id=current_user.id)
 
-@router.get("/notification-configs", response_model=List[EmailConfigResponse])
-async def read_email_configs(skip: int = 0, limit: int = 100, db: Session = Depends(get_db), current_user: User = Depends(get_current_active_user)):
+@router.get("/notify-configs", response_model=List[NotifyConfigResponse])
+async def read_notify_configs(skip: int = 0, limit: int = 100, db: Session = Depends(get_db), current_user: User = Depends(get_current_active_user)):
     """获取当前用户的邮件配置列表"""
-    return get_user_email_configs(db=db, user_id=current_user.id, skip=skip, limit=limit)
+    return get_user_notify_configs(db=db, user_id=current_user.id, skip=skip, limit=limit)
 
-@router.get("/notification-configs/simple-list", response_model=List[EmailConfigSimpleResponse])
-async def get_simple_email_config_list(
+@router.get("/notify-configs/simple-list", response_model=List[NotifyConfigSimpleResponse])
+async def get_simple_notify_config_list(
     skip: int = 0,
     limit: int = 100,
     db: Session = Depends(get_db),
     current_user: User = Depends(get_current_active_user)
 ):
     """获取当前用户的邮件配置简单列表（用于任务选择）"""
-    configs = get_user_email_configs(db=db, user_id=current_user.id, skip=skip, limit=limit)
+    configs = get_user_notify_configs(db=db, user_id=current_user.id, skip=skip, limit=limit)
     # 只返回必要的字段用于前端选择
     return [
-        EmailConfigSimpleResponse(
+        NotifyConfigSimpleResponse(
             id=config.id,
             name=config.name,
             smtp_user=config.smtp_user,
@@ -166,10 +166,10 @@ async def get_simple_email_config_list(
         ) for config in configs
     ]
 
-@router.get("/notification-configs/{config_id}", response_model=EmailConfigResponse)
-async def read_email_config(config_id: int, db: Session = Depends(get_db), current_user: User = Depends(get_current_active_user)):
+@router.get("/notify-configs/{config_id}", response_model=NotifyConfigResponse)
+async def read_notify_config(config_id: int, db: Session = Depends(get_db), current_user: User = Depends(get_current_active_user)):
     """获取单个邮件配置"""
-    config = get_email_config(db=db, config_id=config_id)
+    config = get_notify_config(db=db, config_id=config_id)
     if config is None:
         raise HTTPException(status_code=404, detail="邮件配置不存在")
     # 确保用户只能访问自己的配置
@@ -177,46 +177,46 @@ async def read_email_config(config_id: int, db: Session = Depends(get_db), curre
         raise HTTPException(status_code=403, detail="无权访问此邮件配置")
     return config
 
-@router.put("/notification-configs/{config_id}", response_model=EmailConfigResponse)
-async def update_email_config_route(config_id: int, config: EmailConfigUpdate, db: Session = Depends(get_db), current_user: User = Depends(get_current_active_user)):
+@router.put("/notify-configs/{config_id}", response_model=NotifyConfigResponse)
+async def update_notify_config_route(config_id: int, config: NotifyConfigUpdate, db: Session = Depends(get_db), current_user: User = Depends(get_current_active_user)):
     """更新邮件配置"""
     # 先检查配置是否存在且属于当前用户
-    existing_config = get_email_config(db=db, config_id=config_id)
+    existing_config = get_notify_config(db=db, config_id=config_id)
     if existing_config is None:
         raise HTTPException(status_code=404, detail="邮件配置不存在")
     if existing_config.user_id != current_user.id:
         raise HTTPException(status_code=403, detail="无权修改此邮件配置")
 
-    db_config = update_email_config(db=db, config_id=config_id, config=config)
+    db_config = update_notify_config(db=db, config_id=config_id, config=config)
     return db_config
 
-@router.delete("/notification-configs/{config_id}")
-async def delete_email_config_route(config_id: int, db: Session = Depends(get_db), current_user: User = Depends(get_current_active_user)):
+@router.delete("/notify-configs/{config_id}")
+async def delete_notify_config_route(config_id: int, db: Session = Depends(get_db), current_user: User = Depends(get_current_active_user)):
     """删除邮件配置"""
     # 先检查配置是否存在且属于当前用户
-    existing_config = get_email_config(db=db, config_id=config_id)
+    existing_config = get_notify_config(db=db, config_id=config_id)
     if existing_config is None:
         raise HTTPException(status_code=404, detail="邮件配置不存在")
     if existing_config.user_id != current_user.id:
         raise HTTPException(status_code=403, detail="无权删除此邮件配置")
 
-    success = delete_email_config(db=db, config_id=config_id)
+    success = delete_notify_config(db=db, config_id=config_id)
     if not success:
         raise HTTPException(status_code=404, detail="邮件配置不存在")
     return {"message": "邮件配置删除成功"}
 
-@router.post("/notification-configs/{config_id}/test")
+@router.post("/notify-configs/{config_id}/test")
 async def test_email_config(config_id: int, db: Session = Depends(get_db), current_user: User = Depends(get_current_active_user)):
     """测试通知配置"""
-    config = get_email_config(db=db, config_id=config_id)
+    config = get_notify_config(db=db, config_id=config_id)
     if config is None:
         raise HTTPException(status_code=404, detail="通知配置不存在")
     if config.user_id != current_user.id:
         raise HTTPException(status_code=403, detail="无权测试此配置")
 
-    email_service = EmailService()
+    notify_service = NotifyService()
     try:
-        success = email_service.send_test_notification(config)
+        success = notify_service.send_test_notification(config)
         if success:
             return {"success": True, "message": "测试通知已发送"}
         else:

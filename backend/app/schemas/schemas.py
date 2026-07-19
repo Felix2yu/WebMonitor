@@ -89,7 +89,7 @@ class MonitorLogResponse(BaseModel):
     class Config:
         from_attributes = True
 
-class EmailConfigBase(BaseModel):
+class NotifyConfigBase(BaseModel):
     name: str = Field(..., description="配置名称", min_length=1, max_length=100)
     smtp_server: Optional[str] = Field(None, description="SMTP服务器地址")
     smtp_port: int = Field(default=465, description="SMTP端口", ge=1, le=65535)
@@ -99,10 +99,10 @@ class EmailConfigBase(BaseModel):
     is_ssl: bool = Field(default=True, description="是否使用SSL")
     apprise_urls: Optional[str] = Field(None, description="Apprise通知URL，每行一个")
 
-class EmailConfigCreate(EmailConfigBase):
+class NotifyConfigCreate(NotifyConfigBase):
     pass
 
-class EmailConfigUpdate(EmailConfigBase):
+class NotifyConfigUpdate(NotifyConfigBase):
     name: Optional[str] = None
     smtp_server: Optional[str] = None
     smtp_port: Optional[int] = None
@@ -112,7 +112,7 @@ class EmailConfigUpdate(EmailConfigBase):
     is_ssl: Optional[bool] = None
     apprise_urls: Optional[str] = None
 
-class EmailConfigSimpleResponse(BaseModel):
+class NotifyConfigSimpleResponse(BaseModel):
     id: int
     name: str
     smtp_user: Optional[str] = None
@@ -121,7 +121,7 @@ class EmailConfigSimpleResponse(BaseModel):
     class Config:
         from_attributes = True
 
-class EmailConfigResponse(EmailConfigBase):
+class NotifyConfigResponse(NotifyConfigBase):
     id: int
     user_id: int
     created_at: datetime
