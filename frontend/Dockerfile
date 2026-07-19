@@ -11,7 +11,8 @@ WORKDIR /app
 COPY package*.json ./
 
 # 安装依赖
-RUN npm install
+RUN --mount=type=cache,target=/root/.npm \
+    npm install
 
 # 复制源代码
 COPY . .

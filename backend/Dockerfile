@@ -5,19 +5,21 @@ FROM python:3.9-slim
 WORKDIR /app
 
 # 安装系统依赖
-RUN apt-get update && apt-get install -y \
+RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
+    --mount=type=cache,target=/var/lib/apt,sharing=locked \
+    apt-get update && apt-get install -y --no-install-recommends \
     wget \
     gnupg \
     gpg \
     unzip \
-    curl \
-    && rm -rf /var/lib/apt/lists/*
+    curl
 
 # 安装Chromium和驱动 (更适合Docker环境)
-RUN apt-get update && apt-get install -y \
+RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
+    --mount=type=cache,target=/var/lib/apt,sharing=locked \
+    apt-get update && apt-get install -y --no-install-recommends \
     chromium \
-    chromium-driver \
-    && rm -rf /var/lib/apt/lists/*
+    chromium-driver
 
 # 设置Chrome二进制路径
 ENV CHROME_BIN=/usr/bin/chromium
@@ -27,7 +29,8 @@ ENV CHROME_DRIVER=/usr/bin/chromedriver
 COPY requirements.txt .
 
 # 安装Python依赖
-RUN pip install --no-cache-dir -r requirements.txt
+RUN --mount=type=cache,target=/root/.cache/pip \
+    pip install -r requirements.txt
 
 # 复制后端代码
 COPY . .
