@@ -3,7 +3,7 @@ FROM node:22-alpine AS frontend-build
 WORKDIR /app
 COPY frontend/package*.json ./
 RUN --mount=type=cache,target=/root/.npm \
-    npm install
+    npm install --legacy-peer-deps
 COPY frontend/ .
 RUN npm run build
 
