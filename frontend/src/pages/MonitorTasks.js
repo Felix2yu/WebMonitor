@@ -420,7 +420,7 @@ const MonitorTasks = () => {
 
       {!user?.is_admin && (
         <Card sx={{ mb: 4, backgroundColor: alpha('#ef4444', 0.04), border: `1px solid ${alpha('#ef4444', 0.12)}` }}>
-          <CardContent sx={{ py: 2 }}>
+          <CardContent sx={{ p: 3 }}>
             <Box sx={{ display: 'flex', alignItems: 'center', gap: 2, mb: 1 }}>
               <WebMonitorLogo size={20} />
               <Typography variant="h6" sx={{ fontWeight: 600, color: '#ef4444' }}>
