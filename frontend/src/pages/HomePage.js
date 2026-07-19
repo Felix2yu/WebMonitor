@@ -34,7 +34,6 @@ import { motion, useInView } from 'framer-motion';
 import { useTranslation } from 'react-i18next';
 
 import { WebMonitorLogo } from '../components/WebMonitorLogo';
-import LanguageSwitcher from '../components/LanguageSwitcher';
 import { isChineseLanguage } from '../utils/i18n';
 
 const GitHubIcon = (props) => (
@@ -247,8 +246,7 @@ const HomePage = () => {
                 </Typography>
               </Box>
               <Box sx={{ display: { xs: 'none', md: 'inline-flex' } }}>
-                <LanguageSwitcher />
-              </Box>
+                              </Box>
             </Stack>
             <Stack direction="row" spacing={2} alignItems="center">
               <Button

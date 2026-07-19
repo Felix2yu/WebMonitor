@@ -31,7 +31,6 @@ import { motion } from 'framer-motion';
 import { useTranslation } from 'react-i18next';
 
 import { WebMonitorLogo } from '../components/WebMonitorLogo';
-import LanguageSwitcher from '../components/LanguageSwitcher';
 import docsEn from '../locales/docs/en';
 import docsZhCN from '../locales/docs/zh-CN';
 import { isChineseLanguage } from '../utils/i18n';
@@ -424,8 +423,7 @@ const Documentation = () => {
               />
 
               <Box sx={{ display: { xs: 'none', md: 'inline-flex' } }}>
-                <LanguageSwitcher />
-              </Box>
+                              </Box>
             </Box>
 
             <Stack direction="row" spacing={1} alignItems="center">

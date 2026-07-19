@@ -27,7 +27,6 @@ import { useAuth } from '../contexts/AuthContext';
 import { motion } from 'framer-motion';
 import axios from 'axios';
 import { WebMonitorLogo } from '../components/WebMonitorLogo';
-import LanguageSwitcher from '../components/LanguageSwitcher';
 import { isChineseLanguage } from '../utils/i18n';
 
 const Login = () => {
@@ -202,8 +201,7 @@ const Login = () => {
                   >
                     <ArrowBackIcon />
                   </IconButton>
-                  <LanguageSwitcher sx={{ ml: 'auto' }} />
-                </Box>
+                                  </Box>
 
                 <Box sx={{ display: 'flex', alignItems: 'center', mb: 4 }}>
                   <Box sx={{ mr: 2 }}>
