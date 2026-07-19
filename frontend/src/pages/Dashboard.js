@@ -66,14 +66,14 @@ const Dashboard = () => {
     contentUnchanged: '内容未发生变化',
     quickActions: '快速操作',
     manageTasks: '管理监控任务',
-    configureEmail: '配置邮件通知',
+    configureNotification: '配置通知',
     viewLogs: '查看详细日志',
     systemStatus: '系统状态',
     monitorEngine: '监控引擎',
     poweredBy: '基于 Selenium',
     healthy: '正常',
     notificationService: '通知服务',
-    emailNotifications: '邮件通知',
+    notificationChannels: '通知渠道',
     active: '活跃',
     responseTime: '响应时间',
     average: '平均',
@@ -104,14 +104,14 @@ const Dashboard = () => {
     contentUnchanged: 'Content unchanged',
     quickActions: 'Quick actions',
     manageTasks: 'Manage monitor tasks',
-    configureEmail: 'Configure email notifications',
+    configureNotification: 'Configure notifications',
     viewLogs: 'View detailed logs',
     systemStatus: 'System status',
     monitorEngine: 'Monitoring engine',
     poweredBy: 'Powered by Selenium',
     healthy: 'Healthy',
     notificationService: 'Notification service',
-    emailNotifications: 'Email notifications',
+    notificationChannels: 'Notification channels',
     active: 'Active',
     responseTime: 'Response time',
     average: 'Average',
@@ -520,7 +520,7 @@ const Dashboard = () => {
                         },
                       }}
                     >
-                      {content.configureEmail}
+                      {content.configureNotification}
                     </Button>
                     <Button
                       variant="outlined"
@@ -607,7 +607,7 @@ const Dashboard = () => {
                             {content.notificationService}
                           </Typography>
                           <Typography variant="caption" color="text.secondary">
-                            {content.emailNotifications}
+                            {content.notificationChannels}
                           </Typography>
                         </Box>
                       </Box>

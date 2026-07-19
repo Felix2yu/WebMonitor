@@ -96,7 +96,7 @@ const HomePage = () => {
     featuresSubtitle: '基于 Selenium WebDriver 的强大引擎，为您提供精准可靠的网页内容监控服务。',
     features: [
       { icon: <MonitorIcon sx={{ fontSize: 28 }} />, title: '实时监控', description: '7x24 持续监控网页内容变化，支持 JavaScript 渲染和动态抓取。', color: '#10b981' },
-      { icon: <NotificationsIcon sx={{ fontSize: 28 }} />, title: '即时通知', description: '通过邮件及时通知您关键变化，避免错过重要更新。', color: '#2563eb' },
+      { icon: <NotificationsIcon sx={{ fontSize: 28 }} />, title: '即时通知', description: '及时通知您关键变化，避免错过重要更新。', color: '#2563eb' },
       { icon: <SecurityIcon sx={{ fontSize: 28 }} />, title: '安全可靠', description: '提供账户权限控制与稳定的任务执行体验。', color: '#f59e0b' },
       { icon: <SpeedIcon sx={{ fontSize: 28 }} />, title: '高性能', description: '优化的监控引擎支持更快的抓取与执行反馈。', color: '#ec4899' },
       { icon: <AssessmentIcon sx={{ fontSize: 28 }} />, title: '智能分析', description: '基于 XPath 精准定位内容，减少误报。', color: '#8b5cf6' },

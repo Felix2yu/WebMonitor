@@ -22,7 +22,7 @@ import { isChineseLanguage } from '../utils/i18n';
 
 const EXAMPLE_URLS = {
   zh: [
-    { label: '邮件', url: 'mailto://user:pass@example.com', desc: 'SMTP 邮件' },
+    { label: 'Email', url: 'mailto://user:pass@example.com', desc: 'SMTP email' },
     { label: 'Telegram', url: 'tgram://bottoken/ChatID', desc: 'Telegram Bot' },
     { label: 'Slack', url: 'slack://TokenA/TokenB/TokenC/Channel', desc: 'Slack Webhook' },
     { label: 'Discord', url: 'discord://WebhookID/WebhookToken', desc: 'Discord Webhook' },
@@ -62,7 +62,7 @@ const NotificationConfig = () => {
     createTitle: '创建通知配置',
     editTitle: '编辑通知配置',
     name: '配置名称',
-    nameHelper: '例如：Telegram 推送、邮件通知',
+    nameHelper: '例如：Telegram 推送、通知',
     urls: '通知 URL',
     urlsHelper: '每行一个 URL，支持 apprise 所有渠道',
     supportedChannels: '支持的渠道',
