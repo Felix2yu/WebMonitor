@@ -188,31 +188,22 @@ async def delete_email_config_route(config_id: int, db: Session = Depends(get_db
 
 @router.post("/notification-configs/{config_id}/test")
 async def test_email_config(config_id: int, db: Session = Depends(get_db), current_user: User = Depends(get_current_active_user)):
-    """测试邮件配置"""
+    """测试通知配置"""
     config = get_email_config(db=db, config_id=config_id)
     if config is None:
-        raise HTTPException(status_code=404, detail="邮件配置不存在")
-    # 确保用户只能测试自己的配置
+        raise HTTPException(status_code=404, detail="通知配置不存在")
     if config.user_id != current_user.id:
-        raise HTTPException(status_code=403, detail="无权测试此邮件配置")
+        raise HTTPException(status_code=403, detail="无权测试此配置")
 
     email_service = EmailService()
-    # 先测试连接
-    connection_result = email_service.test_email_connection_with_config(config)
-
-    if not connection_result.get("success"):
-        return connection_result
-
-    # 如果连接成功，发送测试邮件
-        try:
-            from datetime import datetime
-            success = email_service.send_test_notification(config)
-            if success:
-                return {"success": True, "message": "邮件连接测试成功，测试邮件已发送"}
-            else:
-                return {"success": False, "error": "测试邮件发送失败"}
-        except Exception as e:
-            return {"success": False, "error": f"测试邮件发送失败: {str(e)}"}
+    try:
+        success = email_service.send_test_notification(config)
+        if success:
+            return {"success": True, "message": "测试通知已发送"}
+        else:
+            return {"success": False, "error": "测试通知发送失败，请检查通知 URL"}
+    except Exception as e:
+        return {"success": False, "error": f"测试通知发送失败: {str(e)}"}
 
 # 黑名单域名相关API（仅管理员可访问）
 @router.post("/blacklist-domains", response_model=BlacklistDomainResponse)
