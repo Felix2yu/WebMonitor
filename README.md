@@ -121,7 +121,7 @@ npm start
 | `ADMIN_USERNAME` | 默认管理员用户名 | `admin` |
 | `ADMIN_PASSWORD` | 默认管理员密码 | `admin123` |
 | `ADMIN_EMAIL` | 默认管理员邮箱 | `admin@example.com` |
-| `FRONTEND_URL` | 前端访问地址 | `http://localhost:3000` |
+| `FRONTEND_URL` | 前端访问地址 | `http://localhost:8000` |
 | `DATABASE_URL` | 数据库连接字符串 | `sqlite:///./data/webmonitor.db` |
 | `SMTP_SERVER` | 通知邮件使用的 SMTP 服务器 | - |
 | `SMTP_PORT` | SMTP 端口 | `465` |

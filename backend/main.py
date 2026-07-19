@@ -31,27 +31,17 @@ def create_default_admin():
             return
 
         # 创建默认管理员用户
-        default_password = "admin123"  # 默认密码，用户首次登录后应修改
-
-        # 调试信息
-        print(f"🔧 正在创建管理员用户，密码长度: {len(default_password)}")
+        default_password = settings.ADMIN_PASSWORD
 
         # bcrypt限制密码最长72字节，手动截断以防万一
         if len(default_password) > 72:
             default_password = default_password[:72]
-            print(f"⚠️ 密码已截断为: {len(default_password)} 字节")
 
-        try:
-            hashed_password = get_password_hash(default_password)
-            print(f"✅ 密码哈希生成成功")
-        except Exception as e:
-            print(f"❌ 密码哈希生成失败: {e}")
-            print(f"错误类型: {type(e)}")
-            raise
+        hashed_password = get_password_hash(default_password)
 
         admin_user = User(
-            username="admin",
-            email="admin@webmonitor.com",
+            username=settings.ADMIN_USERNAME,
+            email=settings.ADMIN_EMAIL,
             hashed_password=hashed_password,
             full_name="系统管理员",
             is_active=True,
@@ -62,11 +52,7 @@ def create_default_admin():
         db.commit()
         db.refresh(admin_user)
 
-        print("🔧 已创建默认管理员用户:")
-        print(f"   用户名: admin")
-        print(f"   邮箱: admin@webmonitor.com")
-        print(f"   密码: admin123")
-        print("⚠️  请首次登录后立即修改密码！")
+        print(f"✅ 已创建默认管理员: {settings.ADMIN_USERNAME}")
 
     except Exception as e:
         print(f"❌ 创建管理员用户失败: {e}")
