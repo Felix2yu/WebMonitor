@@ -77,7 +77,7 @@ const PublicTasks = () => {
     usageTitle: '订阅使用情况',
     usageLine1: `当前已订阅 ${subscriptionInfo.current_subscriptions} 个任务，最多可订阅 ${subscriptionInfo.max_subscriptions} 个`,
     usageLine2: `剩余订阅额度：${subscriptionInfo.remaining_slots} 个`,
-    usageLine3: '订阅任务后，当任务监控到内容变化时，您会收到邮件通知',
+    usageLine3: '订阅任务后，当任务监控到内容变化时，您会收到通知',
     taskList: '公开任务列表',
     noTasks: '暂无公开任务',
     noTasksSubtitle: '当前没有用户分享公开的监控任务',
@@ -98,8 +98,8 @@ const PublicTasks = () => {
     subscriberCount: '订阅人数',
     close: '关闭',
     chooseEmailConfig: '选择邮箱配置',
-    chooseEmailConfigSubtitle: '订阅任务需要配置邮件通知，请选择要使用的邮箱配置',
-    noEmailConfig: '您还没有配置邮箱通知设置。请先在“邮件通知配置”页面添加邮箱配置后再订阅任务。',
+    chooseEmailConfigSubtitle: '订阅任务需要配置通知，请选择要使用的邮箱配置',
+    noEmailConfig: '您还没有配置邮箱通知设置。请先在“通知配置”页面添加邮箱配置后再订阅任务。',
     emailConfig: '邮箱配置',
     cancel: '取消',
     confirmSubscribe: '确认订阅',
@@ -162,7 +162,7 @@ const PublicTasks = () => {
   const requiresEmailConfig = (message) => {
     const normalized = String(message || '').toLowerCase();
     return normalized.includes('邮箱配置')
-      || normalized.includes('邮件通知设置')
+      || normalized.includes('通知设置')
       || normalized.includes('email config')
       || normalized.includes('email notification');
   };

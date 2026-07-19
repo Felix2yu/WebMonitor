@@ -58,7 +58,7 @@ const Register = () => {
     heroTitleAccent: '监控账户',
     heroSubtitle: '注册 WebMonitor，开始监控您关心的网页内容变化。',
     benefitsTitle: '注册后您将获得：',
-    benefits: ['实时网页内容监控', '邮件变化通知', '自定义监控频率', '基于 Selenium 的精准抓取'],
+    benefits: ['实时网页内容监控', '内容变化通知', '自定义监控频率', '基于 Selenium 的精准抓取'],
     formTitle: '创建账户',
     formSubtitle: '填写以下信息完成注册',
     username: '用户名',

@@ -13,7 +13,7 @@ import HomePage from './pages/HomePage';
 import Dashboard from './pages/Dashboard';
 import MonitorTasks from './pages/MonitorTasks';
 import MonitorLogs from './pages/MonitorLogs';
-import EmailConfig from './pages/EmailConfig';
+import NotificationConfig from './pages/EmailConfig';
 import UserManagement from './pages/UserManagement';
 import BlacklistManagement from './pages/BlacklistManagement';
 import PublicTasks from './pages/PublicTasks';
@@ -88,10 +88,10 @@ function App() {
                 </ProtectedRoute>
               } />
 
-              {/* 邮件通知配置 */}
+              {/* 通知配置 */}
               <Route path="/email-config" element={
                 <ProtectedRoute>
-                  <Layout><EmailConfig /></Layout>
+                  <Layout><NotificationConfig /></Layout>
                 </ProtectedRoute>
               } />
 
