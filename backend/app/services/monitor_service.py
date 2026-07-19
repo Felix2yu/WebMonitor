@@ -118,15 +118,19 @@ class MonitorService:
             is_changed = old_content != current_content
 
             if is_changed:
-                logger.info(f"任务 {task.name} 检测到内容变化")
+                logger.info(f"任务 {task.name} 检测到内容变化，准备发送通知")
+                logger.info(f"  email_config_id={task.email_config_id}, owner_id={task.owner_id}")
                 try:
-                    self.email_service.send_change_notification(
+                    result = self.email_service.send_change_notification(
                         task_name=task.name, url=task.url, title=title or "未知标题",
                         old_content=old_content or "无历史内容", new_content=current_content,
                         check_time=check_time, email_config_id=task.email_config_id, user_id=task.owner_id,
                     )
+                    logger.info(f"  通知发送结果: {result}")
                 except Exception as e:
                     logger.error(f"发送任务所有者通知失败: {e}")
+            else:
+                logger.info(f"任务 {task.name} 内容未变化，跳过通知")
 
 
             update_monitor_task_content(db, task_id, current_content, check_time)

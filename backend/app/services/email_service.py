@@ -104,12 +104,16 @@ class EmailService:
         user_id: Optional[int] = None,
     ) -> bool:
         """发送内容变化通知"""
+        logger.info(f"[通知] task={task_name}, email_config_id={email_config_id}, user_id={user_id}")
         if email_config_id:
             config = self.get_email_config_by_id(email_config_id)
+            logger.info(f"[通知] 按 config_id={email_config_id} 查找: {config}")
         else:
             config = self.get_email_config(user_id)
+            logger.info(f"[通知] 按 user_id={user_id} 查找: {config}")
 
         urls = self._get_urls_from_config(config) or self._get_urls_from_env()
+        logger.info(f"[通知] 解析到 {len(urls)} 个通知 URL: {urls}")
         subject, body = self._build_message(task_name, url, title, old_content, new_content, check_time)
         return self._send_via_apprise(urls, subject, body)
 
