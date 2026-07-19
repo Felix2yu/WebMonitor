@@ -208,7 +208,7 @@ const MonitorLogs = () => {
       {selectedTaskId ? (
         <>
           <Grid container spacing={3} sx={{ mb: 4 }}>
-            <Grid xs={12} sm={6} md={3}>
+            <Grid item xs={12} sm={6} md={3}>
               <Card
                 sx={{
                   height: '100%',
@@ -256,7 +256,7 @@ const MonitorLogs = () => {
                 </CardContent>
               </Card>
             </Grid>
-            <Grid xs={12} sm={6} md={3}>
+            <Grid item xs={12} sm={6} md={3}>
               <Card
                 sx={{
                   height: '100%',
@@ -304,7 +304,7 @@ const MonitorLogs = () => {
                 </CardContent>
               </Card>
             </Grid>
-            <Grid xs={12} sm={6} md={3}>
+            <Grid item xs={12} sm={6} md={3}>
               <Card
                 sx={{
                   height: '100%',
@@ -352,7 +352,7 @@ const MonitorLogs = () => {
                 </CardContent>
               </Card>
             </Grid>
-            <Grid xs={12} sm={6} md={3}>
+            <Grid item xs={12} sm={6} md={3}>
               <Card
                 sx={{
                   height: '100%',

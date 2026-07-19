@@ -188,7 +188,7 @@ const NotificationConfig = () => {
 
       {/* Stats */}
       <Grid container spacing={3} sx={{ mb: 4 }}>
-        <Grid xs={12} sm={6} md={4}>
+        <Grid item xs={12} sm={6} md={4}>
           <Card sx={{ p: 3, background: 'background.paper', border: '1px solid', borderColor: 'divider', borderRadius: 3 }}>
             <CardContent sx={{ p: 2, '&:last-child': { pb: 2 } }}>
               <Box display="flex" alignItems="center">
