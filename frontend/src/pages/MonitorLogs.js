@@ -16,7 +16,7 @@ import {
   Chip,
   Alert,
   Pagination,
-  Grid,
+  GridLegacy as Grid,
   Card,
   CardContent,
   Button,

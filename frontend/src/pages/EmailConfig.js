@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import {
-  Box, Typography, Paper, TextField, Button, Grid, Alert,
+  Box, Typography, Paper, TextField, Button, GridLegacy as Grid, Alert,
   Dialog, DialogTitle, DialogContent, DialogActions,
   Table, TableBody, TableCell, TableContainer, TableHead, TableRow,
   IconButton, Avatar, Tooltip, Card, CardContent, Chip, Link,

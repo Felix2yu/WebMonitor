@@ -26,7 +26,7 @@ import {
   TableHead,
   TableRow,
   Avatar,
-  Grid,
+  GridLegacy as Grid,
 } from '@mui/material';
 import {
   Add as AddIcon,
