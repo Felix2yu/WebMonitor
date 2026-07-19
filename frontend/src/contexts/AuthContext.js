@@ -4,6 +4,20 @@ import axios from 'axios';
 // 设置 axios 基础 URL
 axios.defaults.baseURL = process.env.REACT_APP_API_URL || '';
 
+// 401 拦截器：token 过期或无效时自动登出
+axios.interceptors.response.use(
+  (response) => response,
+  (error) => {
+    if (error.response?.status === 401 && window.location.pathname !== '/login') {
+      localStorage.removeItem('token');
+      localStorage.removeItem('user');
+      delete axios.defaults.headers.common['Authorization'];
+      window.location.href = '/login';
+    }
+    return Promise.reject(error);
+  }
+);
+
 const AuthContext = createContext();
 
 export const useAuth = () => {
