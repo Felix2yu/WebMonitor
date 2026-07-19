@@ -32,6 +32,20 @@ class UserResponse(BaseModel):
     class Config:
         from_attributes = True
 
+class Token(BaseModel):
+    access_token: str
+    token_type: str = "bearer"
+
+class TokenData(BaseModel):
+    username: Optional[str] = None
+    user_id: Optional[int] = None
+    is_admin: Optional[bool] = False
+
+class LoginResponse(BaseModel):
+    access_token: str
+    token_type: str = "bearer"
+    user: UserResponse
+
 class MonitorTaskBase(BaseModel):
     name: str = Field(..., description="任务名称", min_length=1, max_length=200)
     url: str = Field(..., description="监控URL", min_length=1, max_length=500)
