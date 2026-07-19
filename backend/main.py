@@ -119,13 +119,11 @@ app.include_router(auth_router, prefix="/api")
 # Serve frontend build output
 FRONTEND_BUILD_DIR = os.path.join(os.path.dirname(__file__), "frontend-build")
 if os.path.exists(FRONTEND_BUILD_DIR):
-    app.mount("/assets", StaticFiles(directory=os.path.join(FRONTEND_BUILD_DIR, "assets")), name="frontend-assets")
-
     @app.get("/{full_path:path}")
     async def serve_spa(full_path: str):
-        """SPA catch-all: serve index.html for non-API paths"""
+        """SPA catch-all: serve static files or index.html"""
         file_path = os.path.join(FRONTEND_BUILD_DIR, full_path)
-        if os.path.isfile(file_path):
+        if full_path and os.path.isfile(file_path):
             return FileResponse(file_path)
         return FileResponse(os.path.join(FRONTEND_BUILD_DIR, "index.html"))
 
