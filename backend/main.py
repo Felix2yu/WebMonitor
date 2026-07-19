@@ -15,6 +15,7 @@ from app.api.routes import router as api_router
 from app.api.auth import router as auth_router
 from app.services.scheduler import monitor_scheduler
 from app.services.auth_service import get_password_hash
+import os
 
 # 数据库迁移
 try:
@@ -113,7 +114,6 @@ app.add_middleware(
 )
 
 # 挂载静态文件目录（如果存在）
-import os
 if os.path.exists("static"):
     app.mount("/static", StaticFiles(directory="static"), name="static")
 
