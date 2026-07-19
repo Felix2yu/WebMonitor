@@ -89,7 +89,7 @@ function App() {
               } />
 
               {/* 通知配置 */}
-              <Route path="/email-config" element={
+              <Route path="/notification-config" element={
                 <ProtectedRoute>
                   <Layout><NotificationConfig /></Layout>
                 </ProtectedRoute>

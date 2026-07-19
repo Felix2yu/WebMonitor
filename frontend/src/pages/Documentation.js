@@ -40,7 +40,7 @@ import { isChineseLanguage } from '../utils/i18n';
 const iconMap = {
   'quick-start': <RocketIcon />,
   'monitor-tasks': <TaskIcon />,
-  'email-config': <EmailIcon />,
+  'notification-config': <EmailIcon />,
   'public-tasks': <PublicIcon />,
   dashboard: <DashboardIcon />,
   faq: <HelpIcon />,

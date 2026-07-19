@@ -167,7 +167,7 @@ const MySubscriptions = () => {
 
   const fetchEmailConfigs = useCallback(async () => {
     try {
-      const response = await axios.get('/api/email-configs');
+      const response = await axios.get('/api/notification-configs');
       setEmailConfigs(response.data);
     } catch (error) {
       console.error('Failed to fetch email configs:', error);

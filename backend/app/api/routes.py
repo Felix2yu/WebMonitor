@@ -118,17 +118,17 @@ async def test_email_connection():
     return result
 
 # 邮件配置相关API
-@router.post("/email-configs", response_model=EmailConfigResponse)
+@router.post("/notification-configs", response_model=EmailConfigResponse)
 async def create_email_config_route(config: EmailConfigCreate, db: Session = Depends(get_db), current_user: User = Depends(get_current_active_user)):
     """创建邮件配置"""
     return create_email_config(db=db, config=config, user_id=current_user.id)
 
-@router.get("/email-configs", response_model=List[EmailConfigResponse])
+@router.get("/notification-configs", response_model=List[EmailConfigResponse])
 async def read_email_configs(skip: int = 0, limit: int = 100, db: Session = Depends(get_db), current_user: User = Depends(get_current_active_user)):
     """获取当前用户的邮件配置列表"""
     return get_user_email_configs(db=db, user_id=current_user.id, skip=skip, limit=limit)
 
-@router.get("/email-configs/simple-list", response_model=List[EmailConfigSimpleResponse])
+@router.get("/notification-configs/simple-list", response_model=List[EmailConfigSimpleResponse])
 async def get_simple_email_config_list(
     skip: int = 0,
     limit: int = 100,
@@ -147,7 +147,7 @@ async def get_simple_email_config_list(
         ) for config in configs
     ]
 
-@router.get("/email-configs/{config_id}", response_model=EmailConfigResponse)
+@router.get("/notification-configs/{config_id}", response_model=EmailConfigResponse)
 async def read_email_config(config_id: int, db: Session = Depends(get_db), current_user: User = Depends(get_current_active_user)):
     """获取单个邮件配置"""
     config = get_email_config(db=db, config_id=config_id)
@@ -158,7 +158,7 @@ async def read_email_config(config_id: int, db: Session = Depends(get_db), curre
         raise HTTPException(status_code=403, detail="无权访问此邮件配置")
     return config
 
-@router.put("/email-configs/{config_id}", response_model=EmailConfigResponse)
+@router.put("/notification-configs/{config_id}", response_model=EmailConfigResponse)
 async def update_email_config_route(config_id: int, config: EmailConfigUpdate, db: Session = Depends(get_db), current_user: User = Depends(get_current_active_user)):
     """更新邮件配置"""
     # 先检查配置是否存在且属于当前用户
@@ -171,7 +171,7 @@ async def update_email_config_route(config_id: int, config: EmailConfigUpdate, d
     db_config = update_email_config(db=db, config_id=config_id, config=config)
     return db_config
 
-@router.delete("/email-configs/{config_id}")
+@router.delete("/notification-configs/{config_id}")
 async def delete_email_config_route(config_id: int, db: Session = Depends(get_db), current_user: User = Depends(get_current_active_user)):
     """删除邮件配置"""
     # 先检查配置是否存在且属于当前用户
@@ -186,7 +186,7 @@ async def delete_email_config_route(config_id: int, db: Session = Depends(get_db
         raise HTTPException(status_code=404, detail="邮件配置不存在")
     return {"message": "邮件配置删除成功"}
 
-@router.post("/email-configs/{config_id}/test")
+@router.post("/notification-configs/{config_id}/test")
 async def test_email_config(config_id: int, db: Session = Depends(get_db), current_user: User = Depends(get_current_active_user)):
     """测试邮件配置"""
     config = get_email_config(db=db, config_id=config_id)

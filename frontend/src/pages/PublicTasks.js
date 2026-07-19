@@ -191,7 +191,7 @@ const PublicTasks = () => {
 
   const fetchEmailConfigs = useCallback(async () => {
     try {
-      const response = await axios.get('/api/email-configs/simple-list');
+      const response = await axios.get('/api/notification-configs/simple-list');
       setEmailConfigs(response.data);
     } catch (error) {
       console.error('Failed to fetch email configs:', error);

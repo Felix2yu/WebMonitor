@@ -506,7 +506,7 @@ const Dashboard = () => {
                       variant="outlined"
                       fullWidth
                       startIcon={<NotificationsIcon />}
-                      href="/email-config"
+                      href="/notification-config"
                       sx={{
                         borderColor: '#2563eb',
                         color: '#2563eb',

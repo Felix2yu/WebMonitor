@@ -225,7 +225,7 @@ const MonitorTasks = () => {
   const { data: emailConfigs = [] } = useQuery(
     'emailConfigs',
     async () => {
-      const response = await axios.get('/api/email-configs/simple-list');
+      const response = await axios.get('/api/notification-configs/simple-list');
       return response.data;
     },
     {

@@ -88,7 +88,7 @@ function Layout({ children }) {
     {
       text: isChinese ? '通知配置' : 'Notifications',
       icon: <NotifyIcon />,
-      path: '/email-config',
+      path: '/notification-config',
       description: isChinese ? '通知设置' : 'Notification settings',
     },
   ]), [isChinese]);
