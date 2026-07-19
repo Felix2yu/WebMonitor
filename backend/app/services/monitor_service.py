@@ -1,11 +1,8 @@
-from selenium import webdriver
-from selenium.webdriver.chrome.options import Options
-from selenium.webdriver.common.by import By
-from selenium.webdriver.support.ui import WebDriverWait
-from selenium.webdriver.support import expected_conditions as EC
 import logging
+import requests
 from datetime import datetime
 from typing import Optional, Tuple
+from lxml import html
 
 from ..db.database import SessionLocal
 from ..core.config import settings
@@ -16,63 +13,67 @@ from .email_service import EmailService
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
-class MonitorService:
-    """监控服务"""
 
-    def __init__(self):
-        self.email_service = EmailService()
+def _fetch_via_browserless(url: str, xpath: str) -> Tuple[Optional[str], Optional[str], Optional[str]]:
+    """通过 browserless HTTP API 获取页面内容，本地 lxml 解析 XPath"""
+    browserless_url = settings.BROWSERLESS_URL.rstrip('/')
 
-    def get_content_with_selenium(self, url: str, xpath: str) -> Tuple[Optional[str], Optional[str], Optional[str]]:
-        """
-        使用Selenium获取指定网页xpath路径的内容
+    # browserless v2: POST /content 获取渲染后的 HTML
+    resp = requests.post(
+        f"{browserless_url}/content",
+        json={"url": url, "waitFor": {"selector": {"selector": xpath, "timeout": 20000}}},
+        timeout=30,
+    )
+    resp.raise_for_status()
+    data = resp.json()
 
-        Args:
-            url: 网页URL
-            xpath: XPath选择器
+    page_html = data.get("data", "")
+    if not page_html:
+        return None, "browserless 返回内容为空", None
 
-        Returns:
-            tuple: (内容, 错误信息, 网页标题)
-        """
-        driver = None
-        try:
-            # 配置Chrome选项
-            chrome_options = Options()
-            chrome_options.add_argument("--headless")  # 无界面模式
-            chrome_options.add_argument("--disable-gpu")
-            chrome_options.add_argument("--no-sandbox")
-            chrome_options.add_argument("--disable-dev-shm-usage")
-            chrome_options.add_argument("--user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36")
+    tree = html.fromstring(page_html)
+    elements = tree.xpath(xpath)
+    if not elements:
+        return None, f"XPath 未匹配到元素: {xpath}", None
 
-            # 初始化WebDriver: remote (browserless) or local
-            if settings.BROWSERLESS_URL:
-                # browserless Selenium 端点需要 /webdriver 路径
-                browserless_url = settings.BROWSERLESS_URL.rstrip('/')
-                if not browserless_url.endswith('/webdriver'):
-                    browserless_url = f"{browserless_url}/webdriver"
+    content = (elements[0].text_content() or "").strip()
+    title_el = tree.xpath("//title")
+    title = (title_el[0].text_content() or "").strip() if title_el else ""
 
-                driver = webdriver.Remote(
-                    command_executor=browserless_url,
-                    options=chrome_options,
-                )
-            else:
-                driver = webdriver.Chrome(options=chrome_options)
-            driver.set_page_load_timeout(30)  # 页面加载超时
+    logger.info(f"browserless 获取成功: {title} - {content[:50]}...")
+    return content, None, title
 
-            logger.info(f"正在访问: {url}")
-            driver.get(url)
 
-            # 等待元素加载
-            wait = WebDriverWait(driver, 20)
-            element = wait.until(EC.presence_of_element_located((By.XPATH, xpath)))
+def _fetch_via_selenium(url: str, xpath: str) -> Tuple[Optional[str], Optional[str], Optional[str]]:
+    """通过本地 Selenium WebDriver 获取页面内容"""
+    from selenium import webdriver
+    from selenium.webdriver.chrome.options import Options
+    from selenium.webdriver.common.by import By
+    from selenium.webdriver.support.ui import WebDriverWait
+    from selenium.webdriver.support import expected_conditions as EC
 
-            # 获取内容
-            content = element.text.strip()
+    driver = None
+    try:
+        chrome_options = Options()
+        chrome_options.add_argument("--headless")
+        chrome_options.add_argument("--disable-gpu")
+        chrome_options.add_argument("--no-sandbox")
+        chrome_options.add_argument("--disable-dev-shm-usage")
+        chrome_options.add_argument("--user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36")
 
-            # 获取页面标题
-            title = driver.title
+        driver = webdriver.Chrome(options=chrome_options)
+        driver.set_page_load_timeout(30)
 
-            logger.info(f"成功获取内容: {title} - {content[:50]}...")
-            return content, None, title
+        logger.info(f"正在访问: {url}")
+        driver.get(url)
+
+        wait = WebDriverWait(driver, 20)
+        element = wait.until(EC.presence_of_element_located((By.XPATH, xpath)))
+        content = element.text.strip()
+        title = driver.title
+
+        logger.info(f"成功获取内容: {title} - {content[:50]}...")
+        return content, None, title
 
         except Exception as e:
             error_msg = f"获取内容出错 ({url}): {e}"
@@ -105,7 +106,10 @@ class MonitorService:
             logger.info(f"开始检查任务: {task.name} (ID: {task_id})")
 
             # 获取当前内容
-            current_content, error_message, title = self.get_content_with_selenium(task.url, task.xpath)
+            if settings.BROWSERLESS_URL:
+                current_content, error_message, title = _fetch_via_browserless(task.url, task.xpath)
+            else:
+                current_content, error_message, title = _fetch_via_selenium(task.url, task.xpath)
 
             check_time = datetime.now()
 
@@ -203,7 +207,10 @@ class MonitorService:
             logger.info(f"测试任务: {task.name} (ID: {task_id})")
 
             # 获取内容
-            current_content, error_message, title = self.get_content_with_selenium(task.url, task.xpath)
+            if settings.BROWSERLESS_URL:
+                current_content, error_message, title = _fetch_via_browserless(task.url, task.xpath)
+            else:
+                current_content, error_message, title = _fetch_via_selenium(task.url, task.xpath)
 
             if error_message:
                 return {"success": False, "error": error_message}
