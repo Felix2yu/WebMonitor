@@ -75,14 +75,14 @@ def _fetch_via_selenium(url: str, xpath: str) -> Tuple[Optional[str], Optional[s
         logger.info(f"成功获取内容: {title} - {content[:50]}...")
         return content, None, title
 
-        except Exception as e:
-            error_msg = f"获取内容出错 ({url}): {e}"
-            logger.error(error_msg)
-            return None, error_msg, None
+    except Exception as e:
+        error_msg = f"获取内容出错 ({url}): {e}"
+        logger.error(error_msg)
+        return None, error_msg, None
 
-        finally:
-            if driver:
-                driver.quit()
+    finally:
+        if driver:
+            driver.quit()
 
     async def check_single_task(self, task_id: int) -> bool:
         """
