@@ -5,6 +5,7 @@ from contextlib import asynccontextmanager
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
+from fastapi.responses import FileResponse
 from typing import List
 
 from app.core.config import settings
@@ -114,6 +115,19 @@ if os.path.exists("static"):
 # 注册API路由
 app.include_router(api_router, prefix="/api")
 app.include_router(auth_router, prefix="/api")
+
+# Serve frontend build output
+FRONTEND_BUILD_DIR = os.path.join(os.path.dirname(__file__), "frontend-build")
+if os.path.exists(FRONTEND_BUILD_DIR):
+    app.mount("/assets", StaticFiles(directory=os.path.join(FRONTEND_BUILD_DIR, "assets")), name="frontend-assets")
+
+    @app.get("/{full_path:path}")
+    async def serve_spa(full_path: str):
+        """SPA catch-all: serve index.html for non-API paths"""
+        file_path = os.path.join(FRONTEND_BUILD_DIR, full_path)
+        if os.path.isfile(file_path):
+            return FileResponse(file_path)
+        return FileResponse(os.path.join(FRONTEND_BUILD_DIR, "index.html"))
 
 @app.get("/")
 async def root():

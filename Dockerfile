@@ -1,10 +1,18 @@
-# 使用官方镜像
+# Stage 1: Build frontend
+FROM node:22-alpine AS frontend-build
+WORKDIR /app
+COPY frontend/package*.json ./
+RUN --mount=type=cache,target=/root/.npm \
+    npm install
+COPY frontend/ .
+RUN npm run build
+
+# Stage 2: Final image
 FROM python:3.13-slim
 
-# 设置工作目录
 WORKDIR /app
 
-# 安装系统依赖
+# Install system dependencies
 RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
     --mount=type=cache,target=/var/lib/apt,sharing=locked \
     apt-get update && apt-get install -y --no-install-recommends \
@@ -14,39 +22,36 @@ RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
     unzip \
     curl
 
-# 安装Chromium和驱动 (更适合Docker环境)
+# Install Chromium and driver
 RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
     --mount=type=cache,target=/var/lib/apt,sharing=locked \
     apt-get update && apt-get install -y --no-install-recommends \
     chromium \
     chromium-driver
 
-# 设置Chrome二进制路径
 ENV CHROME_BIN=/usr/bin/chromium
 ENV CHROME_DRIVER=/usr/bin/chromedriver
 
-# 复制requirements文件
-COPY requirements.txt .
-
-# 安装Python依赖
+# Install Python dependencies
+COPY backend/requirements.txt .
 RUN --mount=type=cache,target=/root/.cache/pip \
     pip install -r requirements.txt
 
-# 复制后端代码
-COPY . .
+# Copy backend code
+COPY backend/ .
 
-# 创建非root用户并设置权限
+# Copy frontend build output
+COPY --from=frontend-build /app/build ./frontend-build
+
+# Create non-root user
 RUN useradd -m -u 1000 appuser \
     && mkdir -p /app/data \
     && chown -R appuser:appuser /app
 USER appuser
 
-# 暴露端口
 EXPOSE 8000
 
-# 健康检查
 HEALTHCHECK --interval=30s --timeout=30s --start-period=5s --retries=3 \
     CMD curl -f http://localhost:8000/health || exit 1
 
-# 启动命令
 CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000"]

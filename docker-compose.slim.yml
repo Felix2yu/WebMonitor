@@ -1,7 +1,7 @@
 name: webmonitor
 services:
   webmonitor:
-    image: ghcr.io/felix2yu/webmonitor:latest
+    image: ghcr.io/felix2yu/webmonitor:slim
     container_name: webmonitor
     restart: unless-stopped
     environment:
@@ -14,6 +14,7 @@ services:
       MIN_CHECK_INTERVAL: 10
       SELENIUM_HEADLESS: "true"
       SELENIUM_TIMEOUT: 30
+      BROWSERLESS_URL: http://browserless:3000
       DEBUG: ${DEBUG:-false}
       LOG_LEVEL: ${LOG_LEVEL:-INFO}
       BACKEND_CORS_ORIGINS: http://localhost:8000,https://webmonitor.qfpqhyl.top
@@ -22,9 +23,26 @@ services:
       ADMIN_EMAIL: ${ADMIN_EMAIL:-admin@webmonitor.com}
     ports:
       - "8000:8000"
+    depends_on:
+      browserless:
+        condition: service_healthy
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
       interval: 30s
       timeout: 10s
       retries: 3
       start_period: 40s
+
+  browserless:
+    image: ghcr.io/browserless/chromium:latest
+    container_name: browserless
+    restart: unless-stopped
+    ports:
+      - "3000:3000"
+    environment:
+      TOKEN: ${BROWSERLESS_TOKEN:-}
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3

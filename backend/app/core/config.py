@@ -38,6 +38,9 @@ class Settings(BaseSettings):
     SELENIUM_HEADLESS: bool = True
     SELENIUM_TIMEOUT: int = 30
 
+    # Browserless远程Chrome设置（lite镜像使用）
+    BROWSERLESS_URL: Optional[str] = None
+
     # 日志设置
     LOG_LEVEL: str = "INFO"
     LOG_FILE: str = "logs/app.log"

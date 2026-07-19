@@ -8,6 +8,7 @@ from datetime import datetime
 from typing import Optional, Tuple
 
 from ..db.database import SessionLocal
+from ..core.config import settings
 from ..db.crud import create_monitor_log, update_monitor_task_content
 from .email_service import EmailService
 
@@ -42,8 +43,15 @@ class MonitorService:
             chrome_options.add_argument("--disable-dev-shm-usage")
             chrome_options.add_argument("--user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36")
 
-            # 初始化WebDriver
-            driver = webdriver.Chrome(options=chrome_options)
+            # 初始化WebDriver: remote (browserless) or local
+            if settings.BROWSERLESS_URL:
+
+                driver = webdriver.Remote(
+                    command_executor=settings.BROWSERLESS_URL,
+                    options=chrome_options,
+                )
+            else:
+                driver = webdriver.Chrome(options=chrome_options)
             driver.set_page_load_timeout(30)  # 页面加载超时
 
             logger.info(f"正在访问: {url}")

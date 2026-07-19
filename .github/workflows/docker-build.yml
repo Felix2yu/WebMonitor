@@ -12,7 +12,7 @@ env:
   IMAGE_PREFIX: ${{ github.repository_owner }}
 
 jobs:
-  build-backend:
+  build-latest:
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -36,26 +36,27 @@ jobs:
         id: meta
         uses: docker/metadata-action@v6
         with:
-          images: ${{ env.REGISTRY }}/${{ env.IMAGE_PREFIX }}/webmonitor-backend
+          images: ${{ env.REGISTRY }}/${{ env.IMAGE_PREFIX }}/webmonitor
           tags: |
+            type=raw,value=latest,enable={{is_default_branch}}
             type=ref,event=branch
             type=ref,event=pr
             type=semver,pattern={{version}}
             type=semver,pattern={{major}}.{{minor}}
             type=sha
 
-      - name: Build and push backend image
+      - name: Build and push latest image
         uses: docker/build-push-action@v7
         with:
-          context: backend
-          file: backend/Dockerfile
+          context: .
+          file: Dockerfile
           push: ${{ github.event_name != 'pull_request' }}
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
-          cache-from: type=gha
-          cache-to: type=gha,mode=max
+          cache-from: type=gha,scope=latest
+          cache-to: type=gha,scope=latest,mode=max
 
-  build-frontend:
+  build-slim:
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -79,21 +80,22 @@ jobs:
         id: meta
         uses: docker/metadata-action@v6
         with:
-          images: ${{ env.REGISTRY }}/${{ env.IMAGE_PREFIX }}/webmonitor-frontend
+          images: ${{ env.REGISTRY }}/${{ env.IMAGE_PREFIX }}/webmonitor
           tags: |
-            type=ref,event=branch
-            type=ref,event=pr
-            type=semver,pattern={{version}}
-            type=semver,pattern={{major}}.{{minor}}
-            type=sha
+            type=raw,value=slim,enable={{is_default_branch}}
+            type=ref,event=branch,suffix=-slim
+            type=ref,event=pr,suffix=-slim
+            type=semver,pattern={{version}},suffix=-slim
+            type=semver,pattern={{major}}.{{minor}},suffix=-slim
+            type=sha,suffix=-slim
 
-      - name: Build and push frontend image
+      - name: Build and push slim image
         uses: docker/build-push-action@v7
         with:
-          context: frontend
-          file: frontend/Dockerfile
+          context: .
+          file: Dockerfile.lite
           push: ${{ github.event_name != 'pull_request' }}
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
-          cache-from: type=gha
-          cache-to: type=gha,mode=max
+          cache-from: type=gha,scope=slim
+          cache-to: type=gha,scope=slim,mode=max

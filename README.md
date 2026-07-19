@@ -1,6 +1,6 @@
 # WebMonitor
 
-<h3 align="center">Web content change monitoring platform</h3>
+<h3 align="center">网页内容变化监控平台</h3>
 
 <p align="center">
   <img src="./image/样例图片.png" alt="WebMonitor Dashboard" width="800">
@@ -8,75 +8,90 @@
 
 ---
 
-English | [简体中文](./README.zh-CN.md)
 
-## Online demo
+## 在线体验
 
-**URL**: https://webmonitor.qfpqhyl.top/
+**访问地址**: https://webmonitor.qfpqhyl.top/
 
-> The backend service is currently hosted on the maintainer's MacBook M4 Air. Availability may vary depending on the local Docker runtime. For stable use, self-hosting is recommended.
-
----
-
-## Overview
-
-WebMonitor is a web content monitoring and email notification platform built with a React frontend and FastAPI backend. It can monitor specific areas of a page with XPath, detect content changes, and send email alerts automatically.
-
-## Key features
-
-- Monitor web page content changes with XPath-based targeting
-- Send email notifications when changes are detected
-- Support public tasks and user subscriptions
-- Provide a visual management dashboard for tasks, logs, users, and settings
-- Support Docker-based deployment
-- Support Chinese and English in the frontend UI
+> 当前后端服务部署在维护者的 MacBook M4 Air 上，可用性会受到本地 Docker 运行状态影响。如需稳定使用，建议自行部署。
 
 ---
 
-## Tech stack
+## 项目简介
 
-**Frontend**
+WebMonitor 是一个基于 React 前端和 FastAPI 后端构建的网页内容监控与邮件通知平台。它可以通过 XPath 定位网页中的指定区域，检测内容变化，并在发生变化时自动发送邮件提醒。
+
+## 主要功能
+
+- 基于 XPath 精确监控网页内容变化
+- 检测到变化后自动发送邮件通知
+- 支持公开任务与用户订阅机制
+- 提供任务、日志、用户和系统设置的可视化管理界面
+- 支持 Docker 部署
+- 前端支持中文和英文双语切换
+
+---
+
+## 技术栈
+
+**前端**
 - React
 - Material UI
 - React Query
 - Axios
 - react-i18next
 
-**Backend**
+**后端**
 - FastAPI
 - SQLAlchemy
 - APScheduler
 - Selenium WebDriver
 
-**Deployment**
+**部署**
 - Docker
 - Docker Compose
-- SQLite by default, PostgreSQL supported in production
+- 默认使用 SQLite，生产环境支持 PostgreSQL
 
 ---
 
-## Quick start
+## 快速开始
 
-### Docker deployment
+### Docker 部署
+
+GHCR 上提供两个镜像变体：
+
+| 标签 | 镜像 | 说明 |
+| --- | --- | --- |
+| `latest` | `ghcr.io/felix2yu/webmonitor:latest` | 完整版，内置 Chromium |
+| `slim` | `ghcr.io/felix2yu/webmonitor:slim` | 精简版，需配合外部 browserless 使用 |
+
+**完整版**（内置 Chromium）：
 
 ```bash
-git clone https://github.com/qfpqhyl/WebMonitor.git
+git clone https://github.com/Felix2yu/WebMonitor.git
 cd WebMonitor
-docker-compose up -d
+docker compose up -d
 ```
 
-Then open:
-- Frontend: http://localhost:3000
-- Backend API: http://localhost:8000
-- API docs: http://localhost:8000/docs
+**精简版**（使用外部 browserless 提供 Chrome）：
 
-Default admin account:
-- Username: `admin`
-- Password: `admin123`
+```bash
+git clone https://github.com/Felix2yu/WebMonitor.git
+cd WebMonitor
+docker compose -f docker-compose.slim.yml up -d
+```
 
-### Local development
+启动后访问：
+- 应用 & API: http://localhost:8000
+- API 文档: http://localhost:8000/docs
 
-Backend:
+默认管理员账号：
+- 用户名: `admin`
+- 密码: `admin123`
+
+### 本地开发
+
+后端：
 
 ```bash
 cd backend
@@ -84,7 +99,7 @@ pip install -r requirements.txt
 python main.py
 ```
 
-Frontend:
+前端：
 
 ```bash
 cd frontend
@@ -94,70 +109,71 @@ npm start
 
 ---
 
-## Environment configuration
+## 环境变量配置
 
-Copy `.env.example` to `.env` and update the values as needed.
+复制 `.env.example` 为 `.env`，再按需修改配置。
 
-### Core settings
+### 核心配置项
 
-| Variable | Description | Default |
+| 变量 | 说明 | 默认值 |
 | --- | --- | --- |
-| `SECRET_KEY` | JWT signing key. Change this in production. | - |
-| `ADMIN_USERNAME` | Default admin username | `admin` |
-| `ADMIN_PASSWORD` | Default admin password | `admin123` |
-| `ADMIN_EMAIL` | Default admin email | `admin@example.com` |
-| `FRONTEND_URL` | Frontend origin | `http://localhost:3000` |
-| `DATABASE_URL` | Database connection string | `sqlite:///./data/webmonitor.db` |
-| `SMTP_SERVER` | SMTP host for notifications | - |
-| `SMTP_PORT` | SMTP port | `465` |
-| `SMTP_USER` | SMTP username | - |
-| `SMTP_PASSWORD` | SMTP password or app password | - |
-| `DEFAULT_CHECK_INTERVAL` | Default monitoring interval in seconds | `300` |
+| `SECRET_KEY` | JWT 签名密钥，生产环境必须修改 | - |
+| `ADMIN_USERNAME` | 默认管理员用户名 | `admin` |
+| `ADMIN_PASSWORD` | 默认管理员密码 | `admin123` |
+| `ADMIN_EMAIL` | 默认管理员邮箱 | `admin@example.com` |
+| `FRONTEND_URL` | 前端访问地址 | `http://localhost:3000` |
+| `DATABASE_URL` | 数据库连接字符串 | `sqlite:///./data/webmonitor.db` |
+| `SMTP_SERVER` | 通知邮件使用的 SMTP 服务器 | - |
+| `SMTP_PORT` | SMTP 端口 | `465` |
+| `SMTP_USER` | SMTP 用户名 | - |
+| `SMTP_PASSWORD` | SMTP 密码或应用专用密码 | - |
+| `DEFAULT_CHECK_INTERVAL` | 默认监控间隔（秒） | `300` |
 
-See `.env.example` for the current full configuration template.
-
----
-
-## Common use cases
-
-- Track product price changes
-- Watch website announcements or policy updates
-- Monitor competitor pages
-- Follow any page region that matters to your workflow
+完整配置模板请查看 `.env.example`。
 
 ---
 
-## Project structure
+## 使用场景
+
+- 跟踪商品价格变化
+- 监控网站公告或政策更新
+- 关注竞品页面动态
+- 监控任何对业务或个人工作流重要的网页区域
+
+---
+
+## 项目结构
 
 ```text
-backend/   FastAPI API, database models, services, scheduler
-frontend/  React application, pages, components, i18n resources
-image/     Screenshots and assets used in documentation
+backend/           FastAPI API、数据库模型、业务服务、调度器
+frontend/          React 应用、页面组件、国际化资源
+Dockerfile         完整版镜像（含 Chromium）
+Dockerfile.lite    精简版镜像（需配合外部 browserless）
+image/             文档使用的截图与素材
 ```
 
 ---
 
-## Architecture summary
+## 架构概览
 
-1. The React frontend calls the FastAPI backend through Axios.
-2. Authentication is handled with JWT.
-3. Monitoring tasks are stored in the database through SQLAlchemy.
-4. APScheduler triggers monitoring jobs in the background.
-5. Selenium loads and checks target pages.
-6. Email notifications are sent when content changes are detected.
-
----
-
-## Documentation
-
-- Chinese documentation: [README.zh-CN.md](./README.zh-CN.md)
-- Backend API docs: `http://localhost:8000/docs`
+1. React 前端构建后由 FastAPI 直接托管（单容器部署）。
+2. 系统使用 JWT 进行身份认证。
+3. 监控任务通过 SQLAlchemy 持久化到数据库。
+4. APScheduler 在后台调度监控任务。
+5. Selenium 负责加载并检查目标网页内容（本地 Chromium 或远程 browserless）。
+6. 检测到变化后，系统发送邮件通知。
 
 ---
 
-## License
+## 文档
 
-[CC BY-NC 4.0](LICENSE) - Personal and non-commercial use only.
+- 后端 API 文档: `http://localhost:8000/docs`
+
+---
+
+## 许可证
+
+[CC BY-NC 4.0](LICENSE) - 仅供个人和非商业用途使用。
 
 ---
 
