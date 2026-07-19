@@ -24,6 +24,8 @@ services:
       APPRISE_URLS: ${APPRISE_URLS:-}
     ports:
       - "8000:8000"
+    volumes:
+      - webmonitor-data:/app/data
     depends_on:
       browserless:
         condition: service_healthy
@@ -47,3 +49,6 @@ services:
       interval: 30s
       timeout: 10s
       retries: 3
+
+volumes:
+  webmonitor-data:
