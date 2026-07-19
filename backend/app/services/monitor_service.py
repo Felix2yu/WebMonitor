@@ -9,7 +9,6 @@ from ..core.config import settings
 from ..db.crud import create_monitor_log, update_monitor_task_content
 from .email_service import EmailService
 
-# 配置日志
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
@@ -18,7 +17,6 @@ def _fetch_via_browserless(url: str, xpath: str) -> Tuple[Optional[str], Optiona
     """通过 browserless HTTP API 获取页面内容，本地 lxml 解析 XPath"""
     browserless_url = settings.BROWSERLESS_URL.rstrip('/')
 
-    # browserless v2: POST /content 获取渲染后的 HTML
     resp = requests.post(
         f"{browserless_url}/content",
         json={"url": url, "waitFor": {"selector": {"selector": xpath, "timeout": 20000}}},
@@ -84,16 +82,14 @@ def _fetch_via_selenium(url: str, xpath: str) -> Tuple[Optional[str], Optional[s
         if driver:
             driver.quit()
 
+
+class MonitorService:
+    """监控服务"""
+
+    def __init__(self):
+        self.email_service = EmailService()
+
     async def check_single_task(self, task_id: int) -> bool:
-        """
-        检查单个监控任务
-
-        Args:
-            task_id: 任务ID
-
-        Returns:
-            bool: 检查是否成功
-        """
         db = SessionLocal()
         try:
             from ..db.crud import get_monitor_task
@@ -105,7 +101,6 @@ def _fetch_via_selenium(url: str, xpath: str) -> Tuple[Optional[str], Optional[s
 
             logger.info(f"开始检查任务: {task.name} (ID: {task_id})")
 
-            # 获取当前内容
             if settings.BROWSERLESS_URL:
                 current_content, error_message, title = _fetch_via_browserless(task.url, task.xpath)
             else:
@@ -114,88 +109,46 @@ def _fetch_via_selenium(url: str, xpath: str) -> Tuple[Optional[str], Optional[s
             check_time = datetime.now()
 
             if error_message:
-                # 记录错误日志
-                create_monitor_log(
-                    db=db,
-                    task_id=task_id,
-                    error_message=error_message,
-                    check_time=check_time
-                )
+                create_monitor_log(db=db, task_id=task_id, error_message=error_message, check_time=check_time)
                 logger.error(f"任务 {task.name} 检查失败: {error_message}")
                 return False
 
-            # 检查内容是否发生变化
             old_content = task.last_content
             is_changed = old_content != current_content
 
             if is_changed:
                 logger.info(f"任务 {task.name} 检测到内容变化")
-
-                # 发送邮件通知给任务所有者
                 try:
                     self.email_service.send_change_notification(
-                        task_name=task.name,
-                        url=task.url,
-                        title=title or "未知标题",
-                        old_content=old_content or "无历史内容",
-                        new_content=current_content,
-                        check_time=check_time,
-                        email_config_id=task.email_config_id,
-                        user_id=task.owner_id
+                        task_name=task.name, url=task.url, title=title or "未知标题",
+                        old_content=old_content or "无历史内容", new_content=current_content,
+                        check_time=check_time, email_config_id=task.email_config_id, user_id=task.owner_id,
                     )
                 except Exception as e:
-                    logger.error(f"发送任务所有者邮件通知失败: {e}")
+                    logger.error(f"发送任务所有者通知失败: {e}")
 
-                # 如果是公开任务，发送通知给所有订阅者
                 if task.is_public:
                     await self._notify_subscribers(task, title, current_content, old_content, check_time)
 
-            # 更新任务内容
             update_monitor_task_content(db, task_id, current_content, check_time)
-
-            # 创建监控日志
-            create_monitor_log(
-                db=db,
-                task_id=task_id,
-                old_content=old_content,
-                new_content=current_content,
-                is_changed=is_changed,
-                check_time=check_time
-            )
-
+            create_monitor_log(db=db, task_id=task_id, old_content=old_content,
+                               new_content=current_content, is_changed=is_changed, check_time=check_time)
             logger.info(f"任务 {task.name} 检查完成，变化: {is_changed}")
             return True
 
         except Exception as e:
             error_msg = f"检查任务 {task_id} 时发生错误: {e}"
             logger.error(error_msg)
-
-            # 记录错误日志
             try:
-                create_monitor_log(
-                    db=db,
-                    task_id=task_id,
-                    error_message=error_msg,
-                    check_time=datetime.now()
-                )
+                create_monitor_log(db=db, task_id=task_id, error_message=error_msg, check_time=datetime.now())
             except Exception as log_error:
                 logger.error(f"记录错误日志失败: {log_error}")
-
             return False
 
         finally:
             db.close()
 
     async def test_task(self, task_id: int) -> dict:
-        """
-        测试监控任务
-
-        Args:
-            task_id: 任务ID
-
-        Returns:
-            dict: 测试结果
-        """
         db = SessionLocal()
         try:
             from ..db.crud import get_monitor_task
@@ -206,7 +159,6 @@ def _fetch_via_selenium(url: str, xpath: str) -> Tuple[Optional[str], Optional[s
 
             logger.info(f"测试任务: {task.name} (ID: {task_id})")
 
-            # 获取内容
             if settings.BROWSERLESS_URL:
                 current_content, error_message, title = _fetch_via_browserless(task.url, task.xpath)
             else:
@@ -215,13 +167,7 @@ def _fetch_via_selenium(url: str, xpath: str) -> Tuple[Optional[str], Optional[s
             if error_message:
                 return {"success": False, "error": error_message}
 
-            return {
-                "success": True,
-                "content": current_content,
-                "title": title,
-                "url": task.url,
-                "message": "测试成功"
-            }
+            return {"success": True, "content": current_content, "title": title, "url": task.url, "message": "测试成功"}
 
         except Exception as e:
             error_msg = f"测试任务 {task_id} 时发生错误: {e}"
@@ -232,47 +178,24 @@ def _fetch_via_selenium(url: str, xpath: str) -> Tuple[Optional[str], Optional[s
             db.close()
 
     async def _notify_subscribers(self, task, title: str, new_content: str, old_content: str, check_time: datetime):
-        """
-        向订阅者发送变更通知
-
-        Args:
-            task: 监控任务对象
-            title: 网页标题
-            new_content: 新内容
-            old_content: 旧内容
-            check_time: 检查时间
-        """
         db = SessionLocal()
         try:
             from ..db.crud import get_task_subscriptions
-            from ..db.models import TaskSubscription
 
-            # 获取所有活跃的订阅
             subscriptions = get_task_subscriptions(db=db, task_id=task.id)
-
             logger.info(f"任务 {task.name} 有 {len(subscriptions)} 个订阅者需要通知")
 
             for subscription in subscriptions:
                 try:
-                    # 使用订阅者的邮件配置，如果没有则使用默认配置
-                    email_config_id = subscription.email_config_id
-
                     self.email_service.send_change_notification(
-                        task_name=f"[订阅] {task.name}",
-                        url=task.url,
-                        title=title or "未知标题",
-                        old_content=old_content or "无历史内容",
-                        new_content=new_content,
-                        check_time=check_time,
-                        email_config_id=email_config_id,
-                        user_id=subscription.user_id
+                        task_name=f"[订阅] {task.name}", url=task.url, title=title or "未知标题",
+                        old_content=old_content or "无历史内容", new_content=new_content,
+                        check_time=check_time, email_config_id=subscription.email_config_id,
+                        user_id=subscription.user_id,
                     )
-
                     logger.info(f"已向订阅者 {subscription.user_id} 发送通知")
-
                 except Exception as e:
                     logger.error(f"向订阅者 {subscription.user_id} 发送通知失败: {e}")
-                    continue  # 继续向其他订阅者发送
 
         except Exception as e:
             logger.error(f"获取订阅者列表失败: {e}")
