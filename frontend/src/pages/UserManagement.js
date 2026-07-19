@@ -331,7 +331,7 @@ const UserManagement = () => {
       </Box>
 
       <Grid container spacing={3} sx={{ mb: 4 }}>
-        <Grid item xs={12} sm={6} md={3}>
+        <Grid xs={12} sm={6} md={3} sx={{ width: '100%' }}>
           <Card
             sx={{
               p: 2,
@@ -365,7 +365,7 @@ const UserManagement = () => {
             </CardContent>
           </Card>
         </Grid>
-        <Grid item xs={12} sm={6} md={3}>
+        <Grid xs={12} sm={6} md={3} sx={{ width: '100%' }}>
           <Card
             sx={{
               p: 2,
@@ -399,7 +399,7 @@ const UserManagement = () => {
             </CardContent>
           </Card>
         </Grid>
-        <Grid item xs={12} sm={6} md={3}>
+        <Grid xs={12} sm={6} md={3} sx={{ width: '100%' }}>
           <Card
             sx={{
               p: 2,
@@ -433,7 +433,7 @@ const UserManagement = () => {
             </CardContent>
           </Card>
         </Grid>
-        <Grid item xs={12} sm={6} md={3}>
+        <Grid xs={12} sm={6} md={3} sx={{ width: '100%' }}>
           <Card
             sx={{
               p: 2,
@@ -681,7 +681,7 @@ const UserManagement = () => {
         <form onSubmit={handleSubmit}>
           <DialogContent sx={{ pt: 3 }}>
             <Grid container spacing={3}>
-              <Grid item xs={12}>
+              <Grid xs={12} sx={{ width: '100%' }}>
                 <TextField
                   label={content.username}
                   fullWidth
@@ -709,7 +709,7 @@ const UserManagement = () => {
                   }}
                 />
               </Grid>
-              <Grid item xs={12}>
+              <Grid xs={12} sx={{ width: '100%' }}>
                 <TextField
                   label={content.fullName}
                   fullWidth
@@ -735,7 +735,7 @@ const UserManagement = () => {
                   }}
                 />
               </Grid>
-              <Grid item xs={12}>
+              <Grid xs={12} sx={{ width: '100%' }}>
                 <TextField
                   label={content.emailAddress}
                   fullWidth
@@ -763,7 +763,7 @@ const UserManagement = () => {
                   }}
                 />
               </Grid>
-              <Grid item xs={12}>
+              <Grid xs={12} sx={{ width: '100%' }}>
                 <TextField
                   label={content.password}
                   type={showPassword ? 'text' : 'password'}
@@ -804,7 +804,7 @@ const UserManagement = () => {
                   }}
                 />
               </Grid>
-              <Grid item xs={12} sm={6}>
+              <Grid xs={12} sm={6} sx={{ width: '100%' }}>
                 <TextField
                   label={content.maxSubscriptions}
                   type="number"
@@ -824,7 +824,7 @@ const UserManagement = () => {
                   }}
                 />
               </Grid>
-              <Grid item xs={12} sm={6}>
+              <Grid xs={12} sm={6} sx={{ width: '100%' }}>
                 <Box sx={{ display: 'flex', alignItems: 'center', p: 2, borderRadius: 2, backgroundColor: 'rgba(245, 158, 11, 0.05)' }}>
                   <Switch
                     checked={formData.is_admin}
@@ -848,7 +848,7 @@ const UserManagement = () => {
                   </Box>
                 </Box>
               </Grid>
-              <Grid item xs={12} sm={6}>
+              <Grid xs={12} sm={6} sx={{ width: '100%' }}>
                 <Box sx={{ display: 'flex', alignItems: 'center', p: 2, borderRadius: 2, backgroundColor: 'rgba(16, 185, 129, 0.05)' }}>
                   <Switch
                     checked={formData.is_active}
