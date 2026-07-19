@@ -129,7 +129,7 @@ const Login = () => {
     <Box
       sx={{
         minHeight: '100vh',
-        background: '#ffffff',
+        background: 'background.default',
         position: 'relative',
         overflow: 'hidden',
       }}
@@ -142,8 +142,8 @@ const Login = () => {
           right: 0,
           bottom: 0,
           background: `
-            radial-gradient(circle at 20% 30%, ${alpha('#10b981', 0.04)} 0%, transparent 50%),
-            radial-gradient(circle at 80% 70%, ${alpha('#2563eb', 0.04)} 0%, transparent 50%)
+            radial-gradient(circle at 20% 30%, ${alpha('#10b981', 0.06)} 0%, transparent 50%),
+            radial-gradient(circle at 80% 70%, ${alpha('#2563eb', 0.06)} 0%, transparent 50%)
           `,
           pointerEvents: 'none',
           zIndex: 0,
@@ -157,10 +157,7 @@ const Login = () => {
           left: 0,
           right: 0,
           bottom: 0,
-          backgroundImage: `
-            linear-gradient(${alpha('#e2e8f0', 0.4)} 1px, transparent 1px),
-            linear-gradient(90deg, ${alpha('#e2e8f0', 0.4)} 1px, transparent 1px)
-          `,
+          backgroundImage: (theme) => theme.palette.mode === "dark" ? "none" : `linear-gradient(rgba(0,0,0,0.04) 1px, transparent 1px), linear-gradient(90deg, rgba(0,0,0,0.04) 1px, transparent 1px)`,
           backgroundSize: '60px 60px',
           pointerEvents: 'none',
           zIndex: 0,
@@ -297,7 +294,7 @@ const Login = () => {
                 elevation={0}
                 sx={{
                   p: { xs: 4, md: 5 },
-                  background: '#ffffff',
+                  background: 'background.default',
                   border: '1px solid rgba(0, 0, 0, 0.08)',
                   borderRadius: 4,
                   boxShadow: '0 25px 80px rgba(0, 0, 0, 0.06)',

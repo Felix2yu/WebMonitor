@@ -237,7 +237,7 @@ const Register = () => {
     <Box
       sx={{
         minHeight: '100vh',
-        background: '#ffffff',
+        background: 'background.default',
         position: 'relative',
         overflow: 'hidden',
       }}
@@ -396,7 +396,7 @@ const Register = () => {
                 elevation={0}
                 sx={{
                   p: { xs: 4, md: 5 },
-                  background: '#ffffff',
+                  background: 'background.default',
                   border: '1px solid rgba(0, 0, 0, 0.08)',
                   borderRadius: 4,
                   boxShadow: '0 25px 80px rgba(0, 0, 0, 0.06)',
