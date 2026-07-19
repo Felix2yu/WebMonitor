@@ -93,7 +93,7 @@ const StatCard = ({ title, value, icon, color, subtitle, trend }) => {
             component="div"
             sx={{
               fontWeight: 700,
-              color: '#1a1a1a',
+              color: 'text.primary',
               mb: 0.5,
               fontSize: { xs: '1.8rem', md: '2.2rem' },
             }}
