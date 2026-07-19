@@ -45,9 +45,13 @@ class MonitorService:
 
             # 初始化WebDriver: remote (browserless) or local
             if settings.BROWSERLESS_URL:
+                # browserless Selenium 端点需要 /webdriver 路径
+                browserless_url = settings.BROWSERLESS_URL.rstrip('/')
+                if not browserless_url.endswith('/webdriver'):
+                    browserless_url = f"{browserless_url}/webdriver"
 
                 driver = webdriver.Remote(
-                    command_executor=settings.BROWSERLESS_URL,
+                    command_executor=browserless_url,
                     options=chrome_options,
                 )
             else:
