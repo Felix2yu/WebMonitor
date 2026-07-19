@@ -18,15 +18,16 @@ def _fetch_via_browserless(url: str, xpath: str) -> Tuple[Optional[str], Optiona
     browserless_url = settings.BROWSERLESS_URL.rstrip('/')
 
     resp = requests.post(
-        f"{browserless_url}/v1/content",
-        json={"url": url, "waitFor": 5000},
+        f"{browserless_url}/content",
+        json={"url": url, "waitForTimeout": 5000},
+        headers={"Content-Type": "application/json", "Cache-Control": "no-cache"},
         timeout=30,
     )
     resp.raise_for_status()
-    data = resp.json()
 
-    page_html = data.get("data", "")
-    if not page_html:
+    # browserless /content 返回 text/html，不是 JSON
+    page_html = resp.text
+    if not page_html or len(page_html.strip()) < 10:
         return None, "browserless 返回内容为空", None
 
     tree = html.fromstring(page_html)
