@@ -1032,6 +1032,14 @@ const MonitorTasks = () => {
                       },
                     }}
                   />
+                  <Box sx={{ ml: 2 }}>
+                    <Typography variant="body2" sx={{ fontWeight: 600 }}>
+                      {content.enableMonitoring}
+                    </Typography>
+                    <Typography variant="caption" color="text.secondary">
+                      {content.enableMonitoringHelper}
+                    </Typography>
+                  </Box>
                 </Box>
               </Grid>
             </Grid>
