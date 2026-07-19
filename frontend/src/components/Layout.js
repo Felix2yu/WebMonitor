@@ -30,7 +30,7 @@ import {
   Logout as LogoutIcon,
   AccountCircle as AccountIcon,
   NotificationsActive as NotificationsIcon,
-  Notifications as NotificationsIcon,
+  Notifications as NotifyIcon,
   Security as SecurityIcon,
   Public as PublicIcon,
   BookmarkBorder as SubscriptionsIcon,
@@ -87,7 +87,7 @@ function Layout({ children }) {
     },
     {
       text: isChinese ? '通知配置' : 'Notifications',
-      icon: <NotificationsIcon />,
+      icon: <NotifyIcon />,
       path: '/email-config',
       description: isChinese ? '通知设置' : 'Notification settings',
     },
