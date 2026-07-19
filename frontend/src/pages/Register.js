@@ -298,7 +298,7 @@ const Register = () => {
                   <IconButton
                     onClick={() => navigate('/')}
                     sx={{
-                      color: '#64748b',
+                      color: 'text.secondary',
                       border: '1px solid #e2e8f0',
                       '&:hover': {
                         color: '#2563eb',
@@ -315,7 +315,7 @@ const Register = () => {
                   <Box sx={{ mr: 2 }}>
                     <WebMonitorLogo size={48} showPulse />
                   </Box>
-                  <Typography variant="h5" sx={{ fontWeight: 700, color: '#334155' }}>
+                  <Typography variant="h5" sx={{ fontWeight: 700, color: 'text.primary' }}>
                     WebMonitor
                   </Typography>
                 </Box>
@@ -324,7 +324,7 @@ const Register = () => {
                   variant="h2"
                   component="h1"
                   sx={{
-                    color: '#334155',
+                    color: 'text.primary',
                     fontWeight: 800,
                     mb: 3,
                     fontSize: { xs: '2.5rem', md: '3.5rem' },
@@ -349,7 +349,7 @@ const Register = () => {
                 <Typography
                   variant="h6"
                   sx={{
-                    color: '#64748b',
+                    color: 'text.secondary',
                     mb: 4,
                     fontSize: { xs: '1rem', md: '1.15rem' },
                     lineHeight: 1.7,
@@ -360,7 +360,7 @@ const Register = () => {
                 </Typography>
 
                 <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
-                  <Typography variant="subtitle2" sx={{ color: '#475569', fontWeight: 600 }}>
+                  <Typography variant="subtitle2" sx={{ color: 'text.secondary', fontWeight: 600 }}>
                     {content.benefitsTitle}
                   </Typography>
                   {content.benefits.map((benefit, index) => {
@@ -374,7 +374,7 @@ const Register = () => {
                       >
                         <Box sx={{ display: 'flex', alignItems: 'center' }}>
                           <CheckCircleIcon sx={{ color: colors[index], mr: 1.5, fontSize: 20 }} />
-                          <Typography variant="body2" sx={{ color: '#64748b' }}>
+                          <Typography variant="body2" sx={{ color: 'text.secondary' }}>
                             {benefit}
                           </Typography>
                         </Box>
@@ -415,11 +415,11 @@ const Register = () => {
                     >
                       <PersonAddIcon sx={{ fontSize: 22 }} />
                     </Avatar>
-                    <Typography component="h2" variant="h4" sx={{ fontWeight: 700, color: '#334155' }}>
+                    <Typography component="h2" variant="h4" sx={{ fontWeight: 700, color: 'text.primary' }}>
                       {content.formTitle}
                     </Typography>
                   </Box>
-                  <Typography variant="body2" sx={{ color: '#64748b', ml: 7 }}>
+                  <Typography variant="body2" sx={{ color: 'text.secondary', ml: 7 }}>
                     {content.formSubtitle}
                   </Typography>
                 </Box>
@@ -482,7 +482,7 @@ const Register = () => {
                     sx={{
                       '& .MuiOutlinedInput-root': {
                         borderRadius: 2,
-                        backgroundColor: '#f8fafc',
+                        backgroundColor: 'background.default',
                         '& fieldset': {
                           borderColor: '#e2e8f0',
                         },
@@ -494,7 +494,7 @@ const Register = () => {
                           borderWidth: 2,
                         },
                         '&.Mui-focused': {
-                          backgroundColor: '#ffffff',
+                          backgroundColor: 'background.paper',
                         },
                       },
                       '& .MuiInputLabel-root.Mui-focused': {
@@ -504,7 +504,7 @@ const Register = () => {
                     InputProps={{
                       startAdornment: (
                         <InputAdornment position="start">
-                          <PersonIcon sx={{ color: '#94a3b8' }} />
+                          <PersonIcon sx={{ color: 'text.secondary' }} />
                         </InputAdornment>
                       ),
                     }}
@@ -525,7 +525,7 @@ const Register = () => {
                       mt: 2,
                       '& .MuiOutlinedInput-root': {
                         borderRadius: 2,
-                        backgroundColor: '#f8fafc',
+                        backgroundColor: 'background.default',
                         '& fieldset': {
                           borderColor: '#e2e8f0',
                         },
@@ -537,7 +537,7 @@ const Register = () => {
                           borderWidth: 2,
                         },
                         '&.Mui-focused': {
-                          backgroundColor: '#ffffff',
+                          backgroundColor: 'background.paper',
                         },
                       },
                       '& .MuiInputLabel-root.Mui-focused': {
@@ -547,7 +547,7 @@ const Register = () => {
                     InputProps={{
                       startAdornment: (
                         <InputAdornment position="start">
-                          <EmailIcon sx={{ color: '#94a3b8' }} />
+                          <EmailIcon sx={{ color: 'text.secondary' }} />
                         </InputAdornment>
                       ),
                     }}
@@ -568,7 +568,7 @@ const Register = () => {
                       mt: 2,
                       '& .MuiOutlinedInput-root': {
                         borderRadius: 2,
-                        backgroundColor: '#f8fafc',
+                        backgroundColor: 'background.default',
                         '& fieldset': {
                           borderColor: '#e2e8f0',
                         },
@@ -580,7 +580,7 @@ const Register = () => {
                           borderWidth: 2,
                         },
                         '&.Mui-focused': {
-                          backgroundColor: '#ffffff',
+                          backgroundColor: 'background.paper',
                         },
                       },
                       '& .MuiInputLabel-root.Mui-focused': {
@@ -590,7 +590,7 @@ const Register = () => {
                     InputProps={{
                       startAdornment: (
                         <InputAdornment position="start">
-                          <LockIcon sx={{ color: '#94a3b8' }} />
+                          <LockIcon sx={{ color: 'text.secondary' }} />
                         </InputAdornment>
                       ),
                       endAdornment: (
@@ -600,7 +600,7 @@ const Register = () => {
                             onClick={() => setShowPassword(!showPassword)}
                             edge="end"
                             disabled={loading}
-                            sx={{ color: '#94a3b8' }}
+                            sx={{ color: 'text.secondary' }}
                           >
                             {showPassword ? <VisibilityOffIcon /> : <VisibilityIcon />}
                           </IconButton>
@@ -613,7 +613,7 @@ const Register = () => {
                     <motion.div initial={{ opacity: 0, height: 0 }} animate={{ opacity: 1, height: 'auto' }}>
                       <Box sx={{ mt: 1.5, mb: 1 }}>
                         <Box sx={{ display: 'flex', alignItems: 'center', mb: 1 }}>
-                          <Typography variant="caption" sx={{ color: '#64748b', flexGrow: 1 }}>
+                          <Typography variant="caption" sx={{ color: 'text.secondary', flexGrow: 1 }}>
                             {content.passwordStrength}:
                           </Typography>
                           <Typography variant="caption" sx={{ color: getPasswordStrengthColor(), fontWeight: 600 }}>
@@ -651,7 +651,7 @@ const Register = () => {
                       mt: 2,
                       '& .MuiOutlinedInput-root': {
                         borderRadius: 2,
-                        backgroundColor: '#f8fafc',
+                        backgroundColor: 'background.default',
                         '& fieldset': {
                           borderColor: '#e2e8f0',
                         },
@@ -663,7 +663,7 @@ const Register = () => {
                           borderWidth: 2,
                         },
                         '&.Mui-focused': {
-                          backgroundColor: '#ffffff',
+                          backgroundColor: 'background.paper',
                         },
                       },
                       '& .MuiInputLabel-root.Mui-focused': {
@@ -673,7 +673,7 @@ const Register = () => {
                     InputProps={{
                       startAdornment: (
                         <InputAdornment position="start">
-                          <LockIcon sx={{ color: '#94a3b8' }} />
+                          <LockIcon sx={{ color: 'text.secondary' }} />
                         </InputAdornment>
                       ),
                       endAdornment: (
@@ -683,7 +683,7 @@ const Register = () => {
                             onClick={() => setShowConfirmPassword(!showConfirmPassword)}
                             edge="end"
                             disabled={loading}
-                            sx={{ color: '#94a3b8' }}
+                            sx={{ color: 'text.secondary' }}
                           >
                             {showConfirmPassword ? <VisibilityOffIcon /> : <VisibilityIcon />}
                           </IconButton>
@@ -714,7 +714,7 @@ const Register = () => {
                         },
                         '&:disabled': {
                           background: '#e2e8f0',
-                          color: '#94a3b8',
+                          color: 'text.secondary',
                         },
                       }}
                       endIcon={!loading && <ArrowForwardIcon />}
@@ -746,7 +746,7 @@ const Register = () => {
                 </Box>
 
                 <Box sx={{ mt: 4, width: '100%', textAlign: 'center' }}>
-                  <Typography variant="body2" sx={{ color: '#64748b' }}>
+                  <Typography variant="body2" sx={{ color: 'text.secondary' }}>
                     {content.existingAccount}
                     <Link
                       component="button"
@@ -768,7 +768,7 @@ const Register = () => {
                 </Box>
 
                 <Box sx={{ mt: 3, width: '100%', textAlign: 'center' }}>
-                  <Typography variant="caption" sx={{ color: '#94a3b8' }}>
+                  <Typography variant="caption" sx={{ color: 'text.secondary' }}>
                     {content.footer}
                   </Typography>
                 </Box>

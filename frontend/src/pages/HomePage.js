@@ -171,7 +171,7 @@ const HomePage = () => {
   };
 
   return (
-    <Box sx={{ position: 'relative', overflow: 'hidden', backgroundColor: '#ffffff', minHeight: '100vh' }}>
+    <Box sx={{ position: 'relative', overflow: 'hidden', backgroundColor: 'background.paper', minHeight: '100vh' }}>
       <Box
         sx={{
           position: 'fixed',
@@ -238,7 +238,7 @@ const HomePage = () => {
                   component="div"
                   sx={{
                     fontWeight: 700,
-                    color: '#334155',
+                    color: 'text.primary',
                     letterSpacing: '-0.5px',
                   }}
                 >
@@ -253,7 +253,7 @@ const HomePage = () => {
                 variant="text"
                 onClick={() => navigate('/docs')}
                 sx={{
-                  color: '#64748b',
+                  color: 'text.secondary',
                   fontWeight: 500,
                   '&:hover': {
                     color: '#10b981',
@@ -268,7 +268,7 @@ const HomePage = () => {
                 variant="text"
                 onClick={handleLogin}
                 sx={{
-                  color: '#64748b',
+                  color: 'text.secondary',
                   fontWeight: 500,
                   '&:hover': {
                     color: '#10b981',
@@ -306,7 +306,7 @@ const HomePage = () => {
                   target="_blank"
                   rel="noopener noreferrer"
                   sx={{
-                    color: '#64748b',
+                    color: 'text.secondary',
                     '&:hover': {
                       color: '#10b981',
                       backgroundColor: alpha('#10b981', 0.04),
@@ -377,7 +377,7 @@ const HomePage = () => {
                       mb: 3,
                       fontSize: { xs: '2.75rem', md: '4rem', lg: '4.5rem' },
                       lineHeight: 1.1,
-                      color: '#334155',
+                      color: 'text.primary',
                       letterSpacing: '-0.02em',
                     }}
                   >
@@ -399,7 +399,7 @@ const HomePage = () => {
                   <Typography
                     variant="h6"
                     sx={{
-                      color: '#64748b',
+                      color: 'text.secondary',
                       mb: 5,
                       fontSize: { xs: '1.1rem', md: '1.25rem' },
                       lineHeight: 1.7,
@@ -441,13 +441,13 @@ const HomePage = () => {
                         onClick={handleLogin}
                         sx={{
                           borderColor: '#e2e8f0',
-                          color: '#475569',
+                          color: 'text.secondary',
                           py: 2,
                           px: 4,
                           fontSize: '1rem',
                           fontWeight: 600,
                           borderRadius: 2,
-                          backgroundColor: '#ffffff',
+                          backgroundColor: 'background.paper',
                           '&:hover': {
                             borderColor: '#10b981',
                             color: '#10b981',
@@ -465,10 +465,10 @@ const HomePage = () => {
                     {content.trustStats.map((stat, index) => (
                       <Box key={stat.label} sx={{ display: 'flex', alignItems: 'center' }}>
                         <Box>
-                          <Typography variant="h5" sx={{ fontWeight: 700, color: '#334155' }}>
+                          <Typography variant="h5" sx={{ fontWeight: 700, color: 'text.primary' }}>
                             {stat.value}
                           </Typography>
-                          <Typography variant="caption" sx={{ color: '#94a3b8' }}>
+                          <Typography variant="caption" sx={{ color: 'text.secondary' }}>
                             {stat.label}
                           </Typography>
                         </Box>
@@ -544,8 +544,8 @@ const HomePage = () => {
                           gap: 1,
                         }}
                       >
-                        <MonitorIcon sx={{ fontSize: 14, color: '#94a3b8' }} />
-                        <Typography variant="caption" sx={{ color: '#64748b' }}>
+                        <MonitorIcon sx={{ fontSize: 14, color: 'text.secondary' }} />
+                        <Typography variant="caption" sx={{ color: 'text.secondary' }}>
                           webmonitor.app/dashboard
                         </Typography>
                       </Box>
@@ -571,7 +571,7 @@ const HomePage = () => {
                                 <Typography variant="h5" sx={{ fontWeight: 700, color: stat.color }}>
                                   {stat.value}
                                 </Typography>
-                                <Typography variant="caption" sx={{ color: '#64748b' }}>
+                                <Typography variant="caption" sx={{ color: 'text.secondary' }}>
                                   {stat.label}
                                 </Typography>
                               </Box>
@@ -580,8 +580,8 @@ const HomePage = () => {
                         ))}
                       </Grid>
 
-                      <Box sx={{ backgroundColor: '#f8fafc', borderRadius: 2, p: 2 }}>
-                        <Typography variant="subtitle2" sx={{ color: '#475569', mb: 2 }}>
+                      <Box sx={{ backgroundColor: 'background.default', borderRadius: 2, p: 2 }}>
+                        <Typography variant="subtitle2" sx={{ color: 'text.secondary', mb: 2 }}>
                           {content.activityTitle}
                         </Typography>
                         {content.previewActivities.map((item, i) => (
@@ -609,7 +609,7 @@ const HomePage = () => {
                                     backgroundColor: item.statusColor,
                                   }}
                                 />
-                                <Typography variant="body2" sx={{ color: '#475569' }}>
+                                <Typography variant="body2" sx={{ color: 'text.secondary' }}>
                                   {item.url}
                                 </Typography>
                               </Box>
@@ -636,7 +636,7 @@ const HomePage = () => {
                       sx={{
                         p: 2,
                         borderRadius: 3,
-                        backgroundColor: '#ffffff',
+                        backgroundColor: 'background.paper',
                         boxShadow: '0 10px 40px rgba(0,0,0,0.1)',
                         display: 'flex',
                         alignItems: 'center',
@@ -647,7 +647,7 @@ const HomePage = () => {
                         <CheckCircleIcon sx={{ color: '#10b981', fontSize: 20 }} />
                       </Avatar>
                       <Box>
-                        <Typography variant="caption" sx={{ color: '#64748b' }}>
+                        <Typography variant="caption" sx={{ color: 'text.secondary' }}>
                           {content.floatingTitle}
                         </Typography>
                         <Typography variant="subtitle2" sx={{ color: '#10b981', fontWeight: 600 }}>
@@ -668,7 +668,7 @@ const HomePage = () => {
         sx={{
           py: { xs: 10, md: 15 },
           position: 'relative',
-          backgroundColor: '#f8fafc',
+          backgroundColor: 'background.default',
         }}
       >
         <Container maxWidth="xl" sx={{ px: { xs: 3, md: 6 } }}>
@@ -695,7 +695,7 @@ const HomePage = () => {
                 component="h2"
                 sx={{
                   fontWeight: 800,
-                  color: '#334155',
+                  color: 'text.primary',
                   mb: 2,
                   fontSize: { xs: '2rem', md: '2.75rem' },
                   letterSpacing: '-0.02em',
@@ -706,7 +706,7 @@ const HomePage = () => {
               <Typography
                 variant="body1"
                 sx={{
-                  color: '#64748b',
+                  color: 'text.secondary',
                   maxWidth: 500,
                   mx: 'auto',
                   lineHeight: 1.7,
@@ -734,7 +734,7 @@ const HomePage = () => {
                       p: 1,
                       border: '1px solid rgba(0, 0, 0, 0.06)',
                       borderRadius: 3,
-                      backgroundColor: '#ffffff',
+                      backgroundColor: 'background.paper',
                       transition: 'all 0.3s ease',
                       '&:hover': {
                         transform: 'translateY(-4px)',
@@ -755,10 +755,10 @@ const HomePage = () => {
                       >
                         {feature.icon}
                       </Avatar>
-                      <Typography variant="h6" component="h3" sx={{ fontWeight: 700, color: '#334155', mb: 1.5 }}>
+                      <Typography variant="h6" component="h3" sx={{ fontWeight: 700, color: 'text.primary', mb: 1.5 }}>
                         {feature.title}
                       </Typography>
-                      <Typography variant="body2" sx={{ color: '#64748b', lineHeight: 1.7 }}>
+                      <Typography variant="body2" sx={{ color: 'text.secondary', lineHeight: 1.7 }}>
                         {feature.description}
                       </Typography>
                     </CardContent>
@@ -775,7 +775,7 @@ const HomePage = () => {
         sx={{
           py: { xs: 10, md: 15 },
           position: 'relative',
-          backgroundColor: '#ffffff',
+          backgroundColor: 'background.paper',
         }}
       >
         <Container maxWidth="lg" sx={{ px: { xs: 3, md: 6 } }}>
@@ -802,7 +802,7 @@ const HomePage = () => {
                 component="h2"
                 sx={{
                   fontWeight: 800,
-                  color: '#334155',
+                  color: 'text.primary',
                   mb: 2,
                   fontSize: { xs: '2rem', md: '2.75rem' },
                   letterSpacing: '-0.02em',
@@ -830,12 +830,12 @@ const HomePage = () => {
                       textAlign: 'center',
                       p: 5,
                       height: '100%',
-                      backgroundColor: '#f8fafc',
+                      backgroundColor: 'background.default',
                       border: '1px solid rgba(0, 0, 0, 0.04)',
                       borderRadius: 3,
                       transition: 'all 0.3s ease',
                       '&:hover': {
-                        backgroundColor: '#ffffff',
+                        backgroundColor: 'background.paper',
                         transform: 'translateY(-4px)',
                         boxShadow: '0 20px 40px rgba(0, 0, 0, 0.08)',
                       },
@@ -853,10 +853,10 @@ const HomePage = () => {
                     >
                       {advantage.icon}
                     </Avatar>
-                    <Typography variant="h6" component="h3" sx={{ fontWeight: 700, color: '#334155', mb: 2 }}>
+                    <Typography variant="h6" component="h3" sx={{ fontWeight: 700, color: 'text.primary', mb: 2 }}>
                       {advantage.title}
                     </Typography>
-                    <Typography variant="body2" sx={{ color: '#64748b', lineHeight: 1.7 }}>
+                    <Typography variant="body2" sx={{ color: 'text.secondary', lineHeight: 1.7 }}>
                       {advantage.description}
                     </Typography>
                   </Paper>
@@ -903,7 +903,7 @@ const HomePage = () => {
               sx={{
                 p: { xs: 5, md: 8 },
                 borderRadius: 4,
-                backgroundColor: '#ffffff',
+                backgroundColor: 'background.paper',
                 border: '1px solid rgba(0, 0, 0, 0.06)',
                 boxShadow: '0 25px 80px rgba(0, 0, 0, 0.06)',
               }}
@@ -912,7 +912,7 @@ const HomePage = () => {
                 variant="h3"
                 component="h2"
                 sx={{
-                  color: '#334155',
+                  color: 'text.primary',
                   fontWeight: 800,
                   mb: 3,
                   fontSize: { xs: '2rem', md: '2.75rem' },
@@ -924,7 +924,7 @@ const HomePage = () => {
               <Typography
                 variant="body1"
                 sx={{
-                  color: '#64748b',
+                  color: 'text.secondary',
                   mb: 5,
                   maxWidth: 450,
                   mx: 'auto',
@@ -965,13 +965,13 @@ const HomePage = () => {
                     onClick={handleLogin}
                     sx={{
                       borderColor: '#e2e8f0',
-                      color: '#475569',
+                      color: 'text.secondary',
                       py: 2,
                       px: 5,
                       fontSize: '1rem',
                       fontWeight: 600,
                       borderRadius: 2,
-                      backgroundColor: '#ffffff',
+                      backgroundColor: 'background.paper',
                       '&:hover': {
                         borderColor: '#10b981',
                         color: '#10b981',
@@ -992,7 +992,7 @@ const HomePage = () => {
         component="footer"
         sx={{
           py: 6,
-          backgroundColor: '#ffffff',
+          backgroundColor: 'background.paper',
           textAlign: 'center',
           borderTop: '1px solid rgba(0, 0, 0, 0.06)',
         }}
@@ -1002,11 +1002,11 @@ const HomePage = () => {
             <Box sx={{ mr: 1.5 }}>
               <WebMonitorLogo size={32} />
             </Box>
-            <Typography variant="h6" sx={{ fontWeight: 700, color: '#334155' }}>
+            <Typography variant="h6" sx={{ fontWeight: 700, color: 'text.primary' }}>
               WebMonitor
             </Typography>
           </Box>
-          <Typography variant="body2" sx={{ color: '#94a3b8', mb: 1 }}>
+          <Typography variant="body2" sx={{ color: 'text.secondary', mb: 1 }}>
             © 2024 WebMonitor. All rights reserved.
           </Typography>
           <Typography variant="caption" sx={{ color: '#cbd5e1' }}>

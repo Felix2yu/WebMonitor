@@ -158,7 +158,7 @@ const Dashboard = () => {
       <Container maxWidth="xl">
         <Box
           sx={{
-            background: 'linear-gradient(135deg, #0f172a 0%, #1e293b 100%)',
+            background: (theme) => theme.palette.mode === 'dark' ? 'linear-gradient(135deg, #0f172a 0%, #1e293b 100%)' : 'linear-gradient(135deg, #1a1a1a 0%, #334155 100%)',
             borderRadius: 4,
             mb: 4,
             p: { xs: 3, md: 4 },
@@ -319,13 +319,13 @@ const Dashboard = () => {
               sx={{
                 p: 3,
                 height: '100%',
-                background: 'linear-gradient(135deg, #ffffff 0%, #f8fafc 100%)',
-                border: '1px solid rgba(0, 0, 0, 0.06)',
+                background: 'background.paper',
+                border: '1px solid', borderColor: 'divider',
                 borderRadius: 4,
               }}
             >
               <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 3 }}>
-                <Typography variant="h5" sx={{ fontWeight: 600, color: '#1a1a1a' }}>
+                <Typography variant="h5" sx={{ fontWeight: 600, color: 'text.primary' }}>
                   {content.recentActivity}
                 </Typography>
                 <Button
@@ -359,7 +359,7 @@ const Dashboard = () => {
                   >
                     <ScheduleIcon sx={{ fontSize: 32 }} />
                   </Avatar>
-                  <Typography variant="h6" sx={{ color: '#1a1a1a', mb: 1 }}>
+                  <Typography variant="h6" sx={{ color: 'text.primary', mb: 1 }}>
                     {content.noActivity}
                   </Typography>
                   <Typography variant="body2" color="text.secondary">
@@ -475,12 +475,12 @@ const Dashboard = () => {
                 <Paper
                   sx={{
                     p: 3,
-                    background: 'linear-gradient(135deg, #ffffff 0%, #f8fafc 100%)',
-                    border: '1px solid rgba(0, 0, 0, 0.06)',
+                    background: 'background.paper',
+                    border: '1px solid', borderColor: 'divider',
                     borderRadius: 4,
                   }}
                 >
-                  <Typography variant="h6" sx={{ fontWeight: 600, color: '#1a1a1a', mb: 3 }}>
+                  <Typography variant="h6" sx={{ fontWeight: 600, color: 'text.primary', mb: 3 }}>
                     {content.quickActions}
                   </Typography>
                   <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
@@ -550,12 +550,12 @@ const Dashboard = () => {
                 <Paper
                   sx={{
                     p: 3,
-                    background: 'linear-gradient(135deg, #ffffff 0%, #f8fafc 100%)',
-                    border: '1px solid rgba(0, 0, 0, 0.06)',
+                    background: 'background.paper',
+                    border: '1px solid', borderColor: 'divider',
                     borderRadius: 4,
                   }}
                 >
-                  <Typography variant="h6" sx={{ fontWeight: 600, color: '#1a1a1a', mb: 3 }}>
+                  <Typography variant="h6" sx={{ fontWeight: 600, color: 'text.primary', mb: 3 }}>
                     {content.systemStatus}
                   </Typography>
                   <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2.5 }}>

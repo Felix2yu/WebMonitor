@@ -190,7 +190,7 @@ const Login = () => {
                   <IconButton
                     onClick={() => navigate('/')}
                     sx={{
-                      color: '#64748b',
+                      color: 'text.secondary',
                       border: '1px solid #e2e8f0',
                       '&:hover': {
                         color: '#10b981',
@@ -211,7 +211,7 @@ const Login = () => {
                     variant="h5"
                     sx={{
                       fontWeight: 700,
-                      color: '#334155',
+                      color: 'text.primary',
                     }}
                   >
                     WebMonitor
@@ -222,7 +222,7 @@ const Login = () => {
                   variant="h2"
                   component="h1"
                   sx={{
-                    color: '#334155',
+                    color: 'text.primary',
                     fontWeight: 800,
                     mb: 3,
                     fontSize: { xs: '2.5rem', md: '3.5rem' },
@@ -235,7 +235,7 @@ const Login = () => {
                 <Typography
                   variant="h6"
                   sx={{
-                    color: '#64748b',
+                    color: 'text.secondary',
                     mb: 4,
                     fontSize: { xs: '1rem', md: '1.15rem' },
                     lineHeight: 1.7,
@@ -304,10 +304,10 @@ const Login = () => {
                 }}
               >
                 <Box sx={{ mb: 4 }}>
-                  <Typography component="h2" variant="h4" sx={{ fontWeight: 700, color: '#334155', mb: 1 }}>
+                  <Typography component="h2" variant="h4" sx={{ fontWeight: 700, color: 'text.primary', mb: 1 }}>
                     {content.formTitle}
                   </Typography>
-                  <Typography variant="body2" sx={{ color: '#64748b' }}>
+                  <Typography variant="body2" sx={{ color: 'text.secondary' }}>
                     {content.formSubtitle}
                   </Typography>
                 </Box>
@@ -349,7 +349,7 @@ const Login = () => {
                     sx={{
                       '& .MuiOutlinedInput-root': {
                         borderRadius: 2,
-                        backgroundColor: '#f8fafc',
+                        backgroundColor: 'background.default',
                         '& fieldset': {
                           borderColor: '#e2e8f0',
                         },
@@ -361,7 +361,7 @@ const Login = () => {
                           borderWidth: 2,
                         },
                         '&.Mui-focused': {
-                          backgroundColor: '#ffffff',
+                          backgroundColor: 'background.paper',
                         },
                       },
                       '& .MuiInputLabel-root.Mui-focused': {
@@ -371,7 +371,7 @@ const Login = () => {
                     InputProps={{
                       startAdornment: (
                         <InputAdornment position="start">
-                          <PersonIcon sx={{ color: '#94a3b8' }} />
+                          <PersonIcon sx={{ color: 'text.secondary' }} />
                         </InputAdornment>
                       ),
                     }}
@@ -392,7 +392,7 @@ const Login = () => {
                       mt: 3,
                       '& .MuiOutlinedInput-root': {
                         borderRadius: 2,
-                        backgroundColor: '#f8fafc',
+                        backgroundColor: 'background.default',
                         '& fieldset': {
                           borderColor: '#e2e8f0',
                         },
@@ -404,7 +404,7 @@ const Login = () => {
                           borderWidth: 2,
                         },
                         '&.Mui-focused': {
-                          backgroundColor: '#ffffff',
+                          backgroundColor: 'background.paper',
                         },
                       },
                       '& .MuiInputLabel-root.Mui-focused': {
@@ -414,7 +414,7 @@ const Login = () => {
                     InputProps={{
                       startAdornment: (
                         <InputAdornment position="start">
-                          <LockIcon sx={{ color: '#94a3b8' }} />
+                          <LockIcon sx={{ color: 'text.secondary' }} />
                         </InputAdornment>
                       ),
                       endAdornment: (
@@ -424,7 +424,7 @@ const Login = () => {
                             onClick={handleTogglePasswordVisibility}
                             edge="end"
                             disabled={loading}
-                            sx={{ color: '#94a3b8' }}
+                            sx={{ color: 'text.secondary' }}
                           >
                             {showPassword ? <VisibilityOffIcon /> : <VisibilityIcon />}
                           </IconButton>
@@ -455,7 +455,7 @@ const Login = () => {
                         },
                         '&:disabled': {
                           background: '#e2e8f0',
-                          color: '#94a3b8',
+                          color: 'text.secondary',
                         },
                       }}
                       endIcon={!loading && <ArrowForwardIcon />}
@@ -487,7 +487,7 @@ const Login = () => {
                 </Box>
 
                 <Box sx={{ mt: 4, width: '100%', textAlign: 'center' }}>
-                  <Typography variant="body2" sx={{ color: '#64748b' }}>
+                  <Typography variant="body2" sx={{ color: 'text.secondary' }}>
                     {content.noAccount}
                     <Link
                       component="button"
@@ -509,7 +509,7 @@ const Login = () => {
                 </Box>
 
                 <Box sx={{ mt: 3, width: '100%', textAlign: 'center' }}>
-                  <Typography variant="caption" sx={{ color: '#94a3b8' }}>
+                  <Typography variant="caption" sx={{ color: 'text.secondary' }}>
                     {content.footer}
                   </Typography>
                 </Box>

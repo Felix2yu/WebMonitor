@@ -148,7 +148,7 @@ function Layout({ children }) {
               sx={{
                 fontWeight: 700,
                 fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif',
-                background: 'linear-gradient(45deg, #1a1a1a, #10b981)',
+                color: 'text.primary',
                 backgroundClip: 'text',
                 WebkitBackgroundClip: 'text',
                 WebkitTextFillColor: 'transparent',
@@ -179,21 +179,21 @@ function Layout({ children }) {
                     minHeight: 'auto',
                     transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
                     '&:hover': {
-                      backgroundColor: 'rgba(16, 185, 129, 0.1)',
+                      backgroundColor: 'action.hover',
                       transform: 'translateX(4px)',
                     },
                     '&.Mui-selected': {
-                      background: 'linear-gradient(45deg, rgba(16, 185, 129, 0.15) 0%, rgba(16, 185, 129, 0.05) 100%)',
+                      background: 'action.selected',
                       borderLeft: '3px solid #10b981',
                       '&:hover': {
                         backgroundColor: 'rgba(16, 185, 129, 0.2)',
                         transform: 'translateX(0)',
                       },
                       '& .MuiListItemIcon-root': {
-                        color: '#10b981',
+                        color: 'primary.main',
                       },
                       '& .MuiListItemText-primary': {
-                        color: '#1a1a1a',
+                        color: 'text.primary',
                         fontWeight: 600,
                       },
                       '& .MuiListItemText-secondary': {
@@ -205,7 +205,7 @@ function Layout({ children }) {
                   <ListItemIcon
                     sx={{
                       minWidth: 40,
-                      color: isActive ? '#10b981' : 'rgba(0, 0, 0, 0.6)',
+                      color: isActive ? 'primary.main' : 'text.secondary',
                       '& svg': {
                         fontSize: 20,
                       },
@@ -258,8 +258,8 @@ function Layout({ children }) {
               size="small"
               label={t('common.admin')}
               sx={{
-                backgroundColor: 'rgba(16, 185, 129, 0.1)',
-                color: '#10b981',
+                backgroundColor: 'action.hover',
+                color: 'primary.main',
                 fontWeight: 'bold',
                 fontSize: '0.7rem',
                 height: 20,
@@ -285,7 +285,7 @@ function Layout({ children }) {
           background: 'rgba(255, 255, 255, 0.95)',
           backdropFilter: 'blur(20px)',
           borderBottom: '1px solid rgba(0, 0, 0, 0.06)',
-          color: '#1a1a1a',
+          color: 'text.primary',
         }}
       >
         <Toolbar sx={{ minHeight: 72 }}>
@@ -294,7 +294,7 @@ function Layout({ children }) {
             aria-label="open drawer"
             edge="start"
             onClick={handleDrawerToggle}
-            sx={{ mr: 2, display: { sm: 'none' }, color: '#10b981' }}
+            sx={{ mr: 2, display: { sm: 'none' }, color: 'primary.main' }}
           >
             <MenuIcon />
           </IconButton>
@@ -313,7 +313,7 @@ function Layout({ children }) {
                 }}
               />
               <Box>
-                <Typography variant="h6" sx={{ fontWeight: 700, color: '#1a1a1a', lineHeight: 1.2, fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif' }}>
+                <Typography variant="h6" sx={{ fontWeight: 700, color: 'text.primary', lineHeight: 1.2, fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif' }}>
                   {currentMenuItem?.text || 'WebMonitor'}
                 </Typography>
                 <Typography variant="caption" sx={{ color: 'text.secondary' }}>
@@ -328,7 +328,7 @@ function Layout({ children }) {
               <IconButton
                 sx={{
                   color: 'rgba(0, 0, 0, 0.6)',
-                  '&:hover': { backgroundColor: 'rgba(16, 185, 129, 0.1)', color: '#10b981' },
+                  '&:hover': { backgroundColor: 'action.hover', color: 'primary.main' },
                 }}
               >
                 <Badge badgeContent={0} color="error">
@@ -346,7 +346,7 @@ function Layout({ children }) {
                 onClick={handleUserMenuClick}
                 sx={{
                   p: 0.5,
-                  '&:hover': { backgroundColor: 'rgba(16, 185, 129, 0.1)' },
+                  '&:hover': { backgroundColor: 'action.hover' },
                 }}
               >
                 <Avatar
@@ -381,16 +381,16 @@ function Layout({ children }) {
                   mt: 1,
                   minWidth: 200,
                   borderRadius: 2,
-                  border: '1px solid rgba(0, 0, 0, 0.06)',
+                  border: '1px solid', borderColor: 'divider',
                   boxShadow: '0 10px 40px rgba(0, 0, 0, 0.15)',
                 },
               }}
             >
               <MenuItem
                 onClick={handleUserMenuClose}
-                sx={{ py: 2, '&:hover': { backgroundColor: 'rgba(16, 185, 129, 0.1)' } }}
+                sx={{ py: 2, '&:hover': { backgroundColor: 'action.hover' } }}
               >
-                <AccountIcon sx={{ mr: 2, color: '#2563eb' }} />
+                <AccountIcon sx={{ mr: 2, color: 'primary.main' }} />
                 <Box>
                   <Typography variant="body2" sx={{ fontWeight: 600, fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif' }}>
                     {user?.username || t('common.user')}
@@ -403,21 +403,21 @@ function Layout({ children }) {
               <Divider />
               <MenuItem
                 onClick={() => { handleUserMenuClose(); navigate('/settings'); }}
-                sx={{ py: 1.5, '&:hover': { backgroundColor: 'rgba(16, 185, 129, 0.1)' } }}
+                sx={{ py: 1.5, '&:hover': { backgroundColor: 'action.hover' } }}
               >
-                <SettingsIcon sx={{ mr: 2, color: '#64748b' }} />
+                <SettingsIcon sx={{ mr: 2, color: 'text.secondary' }} />
                 {t('settings.title') || '设置'}
               </MenuItem>
               <MenuItem
                 onClick={() => { handleUserMenuClose(); navigate('/user-management'); }}
-                sx={{ display: isAdmin() ? 'flex' : 'none', py: 1.5, '&:hover': { backgroundColor: 'rgba(16, 185, 129, 0.1)' } }}
+                sx={{ display: isAdmin() ? 'flex' : 'none', py: 1.5, '&:hover': { backgroundColor: 'action.hover' } }}
               >
-                <PeopleIcon sx={{ mr: 2, color: '#10b981' }} />
+                <PeopleIcon sx={{ mr: 2, color: 'primary.main' }} />
                 {isChinese ? '用户管理' : 'User management'}
               </MenuItem>
               <MenuItem
                 onClick={handleLogout}
-                sx={{ py: 1.5, '&:hover': { backgroundColor: 'rgba(239, 68, 68, 0.1)', color: 'error.main' } }}
+                sx={{ py: 1.5, '&:hover': { backgroundColor: 'action.hover', color: 'error.main' } }}
               >
                 <LogoutIcon sx={{ mr: 2 }} />
                 {t('common.logout')}
@@ -470,7 +470,7 @@ function Layout({ children }) {
         sx={{
           flexGrow: 1,
           minHeight: '100vh',
-          backgroundColor: '#f8fafc',
+          backgroundColor: 'background.default',
           width: { sm: `calc(100% - ${drawerWidth}px)` },
         }}
       >

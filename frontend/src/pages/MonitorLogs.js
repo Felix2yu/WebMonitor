@@ -162,7 +162,7 @@ const MonitorLogs = () => {
             component="h1"
             sx={{
               fontWeight: 700,
-              color: '#1a1a1a',
+              color: 'text.primary',
               mb: 1,
             }}
           >
@@ -212,8 +212,8 @@ const MonitorLogs = () => {
               <Card
                 sx={{
                   height: '100%',
-                  background: 'linear-gradient(135deg, #ffffff 0%, #f8fafc 100%)',
-                  border: '1px solid rgba(0, 0, 0, 0.06)',
+                  background: 'background.paper',
+                  border: '1px solid', borderColor: 'divider',
                   borderRadius: 3,
                   transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
                   '&:hover': {
@@ -246,7 +246,7 @@ const MonitorLogs = () => {
                     </Avatar>
                   </Box>
                   <Box>
-                    <Typography variant="h4" component="div" sx={{ fontWeight: 700, color: '#1a1a1a', mb: 0.5 }}>
+                    <Typography variant="h4" component="div" sx={{ fontWeight: 700, color: 'text.primary', mb: 0.5 }}>
                       {totalCount}
                     </Typography>
                     <Typography variant="body1" sx={{ color: 'text.secondary', fontWeight: 500 }}>
@@ -260,8 +260,8 @@ const MonitorLogs = () => {
               <Card
                 sx={{
                   height: '100%',
-                  background: 'linear-gradient(135deg, #ffffff 0%, #f8fafc 100%)',
-                  border: '1px solid rgba(0, 0, 0, 0.06)',
+                  background: 'background.paper',
+                  border: '1px solid', borderColor: 'divider',
                   borderRadius: 3,
                   transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
                   '&:hover': {
@@ -294,7 +294,7 @@ const MonitorLogs = () => {
                     </Avatar>
                   </Box>
                   <Box>
-                    <Typography variant="h4" component="div" sx={{ fontWeight: 700, color: '#1a1a1a', mb: 0.5 }}>
+                    <Typography variant="h4" component="div" sx={{ fontWeight: 700, color: 'text.primary', mb: 0.5 }}>
                       {logs.filter((log) => !log.error_message && !log.is_changed).length}
                     </Typography>
                     <Typography variant="body1" sx={{ color: 'text.secondary', fontWeight: 500 }}>
@@ -308,8 +308,8 @@ const MonitorLogs = () => {
               <Card
                 sx={{
                   height: '100%',
-                  background: 'linear-gradient(135deg, #ffffff 0%, #f8fafc 100%)',
-                  border: '1px solid rgba(0, 0, 0, 0.06)',
+                  background: 'background.paper',
+                  border: '1px solid', borderColor: 'divider',
                   borderRadius: 3,
                   transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
                   '&:hover': {
@@ -342,7 +342,7 @@ const MonitorLogs = () => {
                     </Avatar>
                   </Box>
                   <Box>
-                    <Typography variant="h4" component="div" sx={{ fontWeight: 700, color: '#1a1a1a', mb: 0.5 }}>
+                    <Typography variant="h4" component="div" sx={{ fontWeight: 700, color: 'text.primary', mb: 0.5 }}>
                       {logs.filter((log) => log.is_changed && !log.error_message).length}
                     </Typography>
                     <Typography variant="body1" sx={{ color: 'text.secondary', fontWeight: 500 }}>
@@ -356,8 +356,8 @@ const MonitorLogs = () => {
               <Card
                 sx={{
                   height: '100%',
-                  background: 'linear-gradient(135deg, #ffffff 0%, #f8fafc 100%)',
-                  border: '1px solid rgba(0, 0, 0, 0.06)',
+                  background: 'background.paper',
+                  border: '1px solid', borderColor: 'divider',
                   borderRadius: 3,
                   transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
                   '&:hover': {
@@ -390,7 +390,7 @@ const MonitorLogs = () => {
                     </Avatar>
                   </Box>
                   <Box>
-                    <Typography variant="h4" component="div" sx={{ fontWeight: 700, color: '#1a1a1a', mb: 0.5 }}>
+                    <Typography variant="h4" component="div" sx={{ fontWeight: 700, color: 'text.primary', mb: 0.5 }}>
                       {logs.filter((log) => log.error_message).length}
                     </Typography>
                     <Typography variant="body1" sx={{ color: 'text.secondary', fontWeight: 500 }}>
@@ -405,7 +405,7 @@ const MonitorLogs = () => {
           <Paper
             sx={{
               borderRadius: 4,
-              border: '1px solid rgba(0, 0, 0, 0.06)',
+              border: '1px solid', borderColor: 'divider',
               overflow: 'hidden',
             }}
           >
@@ -523,7 +523,7 @@ const MonitorLogs = () => {
             </TableContainer>
 
             {totalCount > 0 && (
-              <Box sx={{ p: 3, borderTop: '1px solid rgba(0, 0, 0, 0.06)' }}>
+              <Box sx={{ p: 3, borderTop: '1px solid', borderColor: 'divider' }}>
                 <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: 2 }}>
                   <Typography variant="body2" color="text.secondary">
                     {getPaginationSummary()}
@@ -537,7 +537,7 @@ const MonitorLogs = () => {
         <Paper
           sx={{
             borderRadius: 4,
-            border: '1px solid rgba(0, 0, 0, 0.06)',
+            border: '1px solid', borderColor: 'divider',
             p: 8,
             textAlign: 'center',
           }}

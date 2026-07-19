@@ -385,7 +385,7 @@ const MonitorTasks = () => {
             component="h1"
             sx={{
               fontWeight: 700,
-              color: '#1a1a1a',
+              color: 'text.primary',
               mb: 1,
             }}
           >
@@ -445,8 +445,8 @@ const MonitorTasks = () => {
           <Card
             sx={{
               height: '100%',
-              background: 'linear-gradient(135deg, #ffffff 0%, #f8fafc 100%)',
-              border: '1px solid rgba(0, 0, 0, 0.06)',
+              background: 'background.paper',
+              border: '1px solid', borderColor: 'divider',
               borderRadius: 3,
               transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
               '&:hover': {
@@ -477,7 +477,7 @@ const MonitorTasks = () => {
                 </Avatar>
               </Box>
               <Box>
-                <Typography variant="h4" component="div" sx={{ fontWeight: 700, color: '#1a1a1a', mb: 0.5 }}>
+                <Typography variant="h4" component="div" sx={{ fontWeight: 700, color: 'text.primary', mb: 0.5 }}>
                   {tasks.length}
                 </Typography>
                 <Typography variant="body1" sx={{ color: 'text.secondary', fontWeight: 500 }}>
@@ -491,8 +491,8 @@ const MonitorTasks = () => {
           <Card
             sx={{
               height: '100%',
-              background: 'linear-gradient(135deg, #ffffff 0%, #f8fafc 100%)',
-              border: '1px solid rgba(0, 0, 0, 0.06)',
+              background: 'background.paper',
+              border: '1px solid', borderColor: 'divider',
               borderRadius: 3,
               transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
               '&:hover': {
@@ -524,7 +524,7 @@ const MonitorTasks = () => {
                 </Avatar>
               </Box>
               <Box>
-                <Typography variant="h4" component="div" sx={{ fontWeight: 700, color: '#1a1a1a', mb: 0.5 }}>
+                <Typography variant="h4" component="div" sx={{ fontWeight: 700, color: 'text.primary', mb: 0.5 }}>
                   {tasks.filter((task) => task.is_active).length}
                 </Typography>
                 <Typography variant="body1" sx={{ color: 'text.secondary', fontWeight: 500 }}>
@@ -538,8 +538,8 @@ const MonitorTasks = () => {
           <Card
             sx={{
               height: '100%',
-              background: 'linear-gradient(135deg, #ffffff 0%, #f8fafc 100%)',
-              border: '1px solid rgba(0, 0, 0, 0.06)',
+              background: 'background.paper',
+              border: '1px solid', borderColor: 'divider',
               borderRadius: 3,
               transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
               '&:hover': {
@@ -571,7 +571,7 @@ const MonitorTasks = () => {
                 </Avatar>
               </Box>
               <Box>
-                <Typography variant="h4" component="div" sx={{ fontWeight: 700, color: '#1a1a1a', mb: 0.5 }}>
+                <Typography variant="h4" component="div" sx={{ fontWeight: 700, color: 'text.primary', mb: 0.5 }}>
                   {tasks.filter((task) => !task.is_active).length}
                 </Typography>
                 <Typography variant="body1" sx={{ color: 'text.secondary', fontWeight: 500 }}>
@@ -585,8 +585,8 @@ const MonitorTasks = () => {
           <Card
             sx={{
               height: '100%',
-              background: 'linear-gradient(135deg, #ffffff 0%, #f8fafc 100%)',
-              border: '1px solid rgba(0, 0, 0, 0.06)',
+              background: 'background.paper',
+              border: '1px solid', borderColor: 'divider',
               borderRadius: 3,
               transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
               '&:hover': {
@@ -618,7 +618,7 @@ const MonitorTasks = () => {
                 </Avatar>
               </Box>
               <Box>
-                <Typography variant="h4" component="div" sx={{ fontWeight: 700, color: '#1a1a1a', mb: 0.5 }}>
+                <Typography variant="h4" component="div" sx={{ fontWeight: 700, color: 'text.primary', mb: 0.5 }}>
                   {tasks.filter((task) => task.email_config_id).length}
                 </Typography>
                 <Typography variant="body1" sx={{ color: 'text.secondary', fontWeight: 500 }}>
@@ -633,7 +633,7 @@ const MonitorTasks = () => {
       <Paper
         sx={{
           borderRadius: 4,
-          border: '1px solid rgba(0, 0, 0, 0.06)',
+          border: '1px solid', borderColor: 'divider',
           overflow: 'hidden',
         }}
       >
@@ -818,7 +818,7 @@ const MonitorTasks = () => {
         PaperProps={{
           sx: {
             borderRadius: 4,
-            border: '1px solid rgba(0, 0, 0, 0.06)',
+            border: '1px solid', borderColor: 'divider',
           },
         }}
       >

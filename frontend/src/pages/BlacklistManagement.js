@@ -261,7 +261,7 @@ const BlacklistManagement = () => {
             component="h1"
             sx={{
               fontWeight: 700,
-              color: '#1a1a1a',
+              color: 'text.primary',
               mb: 1,
             }}
           >
@@ -299,8 +299,8 @@ const BlacklistManagement = () => {
           <Card
             sx={{
               height: '100%',
-              background: 'linear-gradient(135deg, #ffffff 0%, #f8fafc 100%)',
-              border: '1px solid rgba(0, 0, 0, 0.06)',
+              background: 'background.paper',
+              border: '1px solid', borderColor: 'divider',
               borderRadius: 3,
               transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
               '&:hover': {
@@ -333,7 +333,7 @@ const BlacklistManagement = () => {
                 </Avatar>
               </Box>
               <Box>
-                <Typography variant="h4" component="div" sx={{ fontWeight: 700, color: '#1a1a1a', mb: 0.5 }}>
+                <Typography variant="h4" component="div" sx={{ fontWeight: 700, color: 'text.primary', mb: 0.5 }}>
                   {domains.length}
                 </Typography>
                 <Typography variant="body1" sx={{ color: 'text.secondary', fontWeight: 500 }}>
@@ -347,8 +347,8 @@ const BlacklistManagement = () => {
           <Card
             sx={{
               height: '100%',
-              background: 'linear-gradient(135deg, #ffffff 0%, #f8fafc 100%)',
-              border: '1px solid rgba(0, 0, 0, 0.06)',
+              background: 'background.paper',
+              border: '1px solid', borderColor: 'divider',
               borderRadius: 3,
               transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
               '&:hover': {
@@ -381,7 +381,7 @@ const BlacklistManagement = () => {
                 </Avatar>
               </Box>
               <Box>
-                <Typography variant="h4" component="div" sx={{ fontWeight: 700, color: '#1a1a1a', mb: 0.5 }}>
+                <Typography variant="h4" component="div" sx={{ fontWeight: 700, color: 'text.primary', mb: 0.5 }}>
                   {domains.filter((domain) => domain.is_active).length}
                 </Typography>
                 <Typography variant="body1" sx={{ color: 'text.secondary', fontWeight: 500 }}>
@@ -395,8 +395,8 @@ const BlacklistManagement = () => {
           <Card
             sx={{
               height: '100%',
-              background: 'linear-gradient(135deg, #ffffff 0%, #f8fafc 100%)',
-              border: '1px solid rgba(0, 0, 0, 0.06)',
+              background: 'background.paper',
+              border: '1px solid', borderColor: 'divider',
               borderRadius: 3,
               transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
               '&:hover': {
@@ -429,7 +429,7 @@ const BlacklistManagement = () => {
                 </Avatar>
               </Box>
               <Box>
-                <Typography variant="h4" component="div" sx={{ fontWeight: 700, color: '#1a1a1a', mb: 0.5 }}>
+                <Typography variant="h4" component="div" sx={{ fontWeight: 700, color: 'text.primary', mb: 0.5 }}>
                   {domains.filter((domain) => !domain.is_active).length}
                 </Typography>
                 <Typography variant="body1" sx={{ color: 'text.secondary', fontWeight: 500 }}>
@@ -443,8 +443,8 @@ const BlacklistManagement = () => {
           <Card
             sx={{
               height: '100%',
-              background: 'linear-gradient(135deg, #ffffff 0%, #f8fafc 100%)',
-              border: '1px solid rgba(0, 0, 0, 0.06)',
+              background: 'background.paper',
+              border: '1px solid', borderColor: 'divider',
               borderRadius: 3,
               transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
               '&:hover': {
@@ -477,7 +477,7 @@ const BlacklistManagement = () => {
                 </Avatar>
               </Box>
               <Box>
-                <Typography variant="h4" component="div" sx={{ fontWeight: 700, color: '#1a1a1a', mb: 0.5 }}>
+                <Typography variant="h4" component="div" sx={{ fontWeight: 700, color: 'text.primary', mb: 0.5 }}>
                   {domains.filter((domain) => domain.domain.startsWith('*')).length}
                 </Typography>
                 <Typography variant="body1" sx={{ color: 'text.secondary', fontWeight: 500 }}>
@@ -515,7 +515,7 @@ const BlacklistManagement = () => {
       <Paper
         sx={{
           borderRadius: 4,
-          border: '1px solid rgba(0, 0, 0, 0.06)',
+          border: '1px solid', borderColor: 'divider',
           overflow: 'hidden',
         }}
       >

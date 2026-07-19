@@ -70,7 +70,7 @@ const CodeBlock = ({ children }) => {
           position: 'absolute',
           top: 8,
           right: 8,
-          color: '#94a3b8',
+          color: 'text.secondary',
           '&:hover': { color: '#ffffff' },
         }}
       >
@@ -120,7 +120,7 @@ const DocSection = ({ id, title, icon, children }) => (
         component="h2"
         sx={{
           fontWeight: 700,
-          color: '#334155',
+          color: 'text.primary',
           fontSize: { xs: '1.5rem', md: '1.75rem' },
         }}
       >
@@ -138,7 +138,7 @@ const SubSection = ({ title, children }) => (
       component="h3"
       sx={{
         fontWeight: 600,
-        color: '#334155',
+        color: 'text.primary',
         mb: 2,
         pb: 1,
         borderBottom: '2px solid',
@@ -148,7 +148,7 @@ const SubSection = ({ title, children }) => (
     >
       {title}
     </Typography>
-    <Box sx={{ color: '#64748b', lineHeight: 1.8 }}>{children}</Box>
+    <Box sx={{ color: 'text.secondary', lineHeight: 1.8 }}>{children}</Box>
   </Box>
 );
 
@@ -170,7 +170,7 @@ const TipBox = ({ type = 'info', children }) => {
         borderLeft: `4px solid ${colors[type].bg}`,
       }}
     >
-      <Typography variant="body2" sx={{ color: '#334155' }}>
+      <Typography variant="body2" sx={{ color: 'text.primary' }}>
         {children}
       </Typography>
     </Paper>
@@ -185,7 +185,7 @@ const renderList = (list) => {
   const Component = list.type === 'ol' ? 'ol' : 'ul';
 
   return (
-    <Box component={Component} sx={{ pl: 3, color: '#64748b' }}>
+    <Box component={Component} sx={{ pl: 3, color: 'text.secondary' }}>
       {list.items.map((item) => (
         <li key={item}>{item}</li>
       ))}
@@ -196,7 +196,7 @@ const renderList = (list) => {
 const renderBlock = (block) => {
   if (block.type === 'text') {
     return block.paragraphs.map((paragraph) => (
-      <Typography key={paragraph} paragraph sx={{ color: '#64748b', lineHeight: 1.8 }}>
+      <Typography key={paragraph} paragraph sx={{ color: 'text.secondary', lineHeight: 1.8 }}>
         {paragraph}
       </Typography>
     ));
@@ -213,7 +213,7 @@ const renderBlock = (block) => {
         {renderList(block.list)}
         {block.codeExamples?.map((example) => (
           <Box key={`${example.label}-${example.code}`}>
-            <Typography variant="subtitle2" sx={{ color: '#334155', mt: 2, mb: 1 }}>
+            <Typography variant="subtitle2" sx={{ color: 'text.primary', mt: 2, mb: 1 }}>
               {example.label}
             </Typography>
             <CodeBlock>{example.code}</CodeBlock>
@@ -287,7 +287,7 @@ const Documentation = () => {
       <Typography
         variant="overline"
         sx={{
-          color: '#94a3b8',
+          color: 'text.secondary',
           fontWeight: 600,
           letterSpacing: 1,
           px: 2,
@@ -335,7 +335,7 @@ const Documentation = () => {
     <Box
       sx={{
         minHeight: '100vh',
-        backgroundColor: '#ffffff',
+        backgroundColor: 'background.paper',
         position: 'relative',
       }}
     >
@@ -384,7 +384,7 @@ const Documentation = () => {
             <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
               <IconButton
                 onClick={() => setMobileOpen(true)}
-                sx={{ display: { md: 'none' }, color: '#64748b' }}
+                sx={{ display: { md: 'none' }, color: 'text.secondary' }}
               >
                 <MenuIcon />
               </IconButton>
@@ -404,7 +404,7 @@ const Documentation = () => {
                   variant="h6"
                   sx={{
                     fontWeight: 700,
-                    color: '#334155',
+                    color: 'text.primary',
                     display: { xs: 'none', sm: 'block' },
                   }}
                 >
@@ -432,7 +432,7 @@ const Documentation = () => {
                 startIcon={<ArrowBackIcon />}
                 onClick={() => navigate('/')}
                 sx={{
-                  color: '#64748b',
+                  color: 'text.secondary',
                   display: { xs: 'none', sm: 'flex' },
                   '&:hover': { color: '#10b981' },
                 }}
@@ -442,7 +442,7 @@ const Documentation = () => {
               <Button
                 variant="text"
                 onClick={() => navigate('/login')}
-                sx={{ color: '#64748b', '&:hover': { color: '#10b981' } }}
+                sx={{ color: 'text.secondary', '&:hover': { color: '#10b981' } }}
               >
                 {content.login}
               </Button>
@@ -476,7 +476,7 @@ const Documentation = () => {
           display: { xs: 'block', md: 'none' },
           '& .MuiDrawer-paper': {
             width: sidebarWidth,
-            backgroundColor: '#ffffff',
+            backgroundColor: 'background.paper',
             borderRight: '1px solid rgba(0, 0, 0, 0.06)',
           },
         }}

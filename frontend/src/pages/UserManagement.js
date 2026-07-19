@@ -297,7 +297,7 @@ const UserManagement = () => {
             component="h1"
             sx={{
               fontWeight: 700,
-              color: '#1a1a1a',
+              color: 'text.primary',
               mb: 1,
             }}
           >
@@ -335,8 +335,8 @@ const UserManagement = () => {
           <Card
             sx={{
               p: 2,
-              background: 'linear-gradient(135deg, #ffffff 0%, #f8fafc 100%)',
-              border: '1px solid rgba(0, 0, 0, 0.06)',
+              background: 'background.paper',
+              border: '1px solid', borderColor: 'divider',
               borderRadius: 3,
             }}
           >
@@ -369,8 +369,8 @@ const UserManagement = () => {
           <Card
             sx={{
               p: 2,
-              background: 'linear-gradient(135deg, #ffffff 0%, #f8fafc 100%)',
-              border: '1px solid rgba(0, 0, 0, 0.06)',
+              background: 'background.paper',
+              border: '1px solid', borderColor: 'divider',
               borderRadius: 3,
             }}
           >
@@ -403,8 +403,8 @@ const UserManagement = () => {
           <Card
             sx={{
               p: 2,
-              background: 'linear-gradient(135deg, #ffffff 0%, #f8fafc 100%)',
-              border: '1px solid rgba(0, 0, 0, 0.06)',
+              background: 'background.paper',
+              border: '1px solid', borderColor: 'divider',
               borderRadius: 3,
             }}
           >
@@ -437,8 +437,8 @@ const UserManagement = () => {
           <Card
             sx={{
               p: 2,
-              background: 'linear-gradient(135deg, #ffffff 0%, #f8fafc 100%)',
-              border: '1px solid rgba(0, 0, 0, 0.06)',
+              background: 'background.paper',
+              border: '1px solid', borderColor: 'divider',
               borderRadius: 3,
             }}
           >
@@ -472,7 +472,7 @@ const UserManagement = () => {
       <Paper
         sx={{
           borderRadius: 4,
-          border: '1px solid rgba(0, 0, 0, 0.06)',
+          border: '1px solid', borderColor: 'divider',
           overflow: 'hidden',
         }}
       >
@@ -642,7 +642,7 @@ const UserManagement = () => {
         PaperProps={{
           sx: {
             borderRadius: 4,
-            border: '1px solid rgba(0, 0, 0, 0.06)',
+            border: '1px solid', borderColor: 'divider',
           },
         }}
       >

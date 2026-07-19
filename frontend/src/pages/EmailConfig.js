@@ -175,7 +175,7 @@ const NotificationConfig = () => {
     <Box>
       <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 4, flexDirection: { xs: 'column', sm: 'row' }, gap: 2 }}>
         <Box>
-          <Typography variant="h3" component="h1" sx={{ fontWeight: 700, color: '#1a1a1a', mb: 1 }}>
+          <Typography variant="h3" component="h1" sx={{ fontWeight: 700, color: 'text.primary', mb: 1 }}>
             {content.title}
           </Typography>
           <Typography variant="body1" color="text.secondary">{content.subtitle}</Typography>
@@ -189,7 +189,7 @@ const NotificationConfig = () => {
       {/* Stats */}
       <Grid container spacing={3} sx={{ mb: 4 }}>
         <Grid item xs={12} sm={6} md={4}>
-          <Card sx={{ p: 2, background: 'linear-gradient(135deg, #ffffff 0%, #f8fafc 100%)', border: '1px solid rgba(0, 0, 0, 0.06)', borderRadius: 3 }}>
+          <Card sx={{ p: 2, background: 'background.paper', border: '1px solid', borderColor: 'divider', borderRadius: 3 }}>
             <CardContent sx={{ p: 2, '&:last-child': { pb: 2 } }}>
               <Box display="flex" alignItems="center">
                 <Avatar sx={{ bgcolor: 'rgba(37, 99, 235, 0.1)', color: '#2563eb', mr: 2, width: 48, height: 48 }}>
@@ -207,8 +207,8 @@ const NotificationConfig = () => {
 
       {/* Config table */}
       {configs.length === 0 ? (
-        <Paper sx={{ p: 6, textAlign: 'center', border: '1px solid rgba(0, 0, 0, 0.06)', borderRadius: 3 }}>
-          <NotificationsIcon sx={{ fontSize: 64, color: '#cbd5e1', mb: 2 }} />
+        <Paper sx={{ p: 6, textAlign: 'center', border: '1px solid', borderColor: 'divider', borderRadius: 3 }}>
+          <NotificationsIcon sx={{ fontSize: 64, color: 'text.secondary', mb: 2 }} />
           <Typography variant="h5" sx={{ fontWeight: 600, mb: 1 }}>{content.noConfigs}</Typography>
           <Typography color="text.secondary" sx={{ mb: 3 }}>{content.noConfigsSubtitle}</Typography>
           <Button variant="contained" startIcon={<AddIcon />} onClick={() => handleOpen()} sx={{ textTransform: 'none' }}>
@@ -216,7 +216,7 @@ const NotificationConfig = () => {
           </Button>
         </Paper>
       ) : (
-        <TableContainer component={Paper} sx={{ border: '1px solid rgba(0, 0, 0, 0.06)', borderRadius: 3 }}>
+        <TableContainer component={Paper} sx={{ border: '1px solid', borderColor: 'divider', borderRadius: 3 }}>
           <Table>
             <TableHead>
               <TableRow sx={{ backgroundColor: '#f8fafc' }}>
@@ -259,7 +259,7 @@ const NotificationConfig = () => {
       )}
 
       {/* Supported channels info */}
-      <Paper sx={{ mt: 4, p: 3, border: '1px solid rgba(0, 0, 0, 0.06)', borderRadius: 3 }}>
+      <Paper sx={{ mt: 4, p: 3, border: '1px solid', borderColor: 'divider', borderRadius: 3 }}>
         <Box sx={{ display: 'flex', alignItems: 'center', mb: 2 }}>
           <InfoIcon sx={{ mr: 1, color: '#2563eb' }} />
           <Typography variant="h6" sx={{ fontWeight: 600 }}>{content.supportedChannels}</Typography>
