@@ -128,7 +128,7 @@ function Layout({ children }) {
 
   const drawer = (
     <Box sx={{ height: '100%', display: 'flex', flexDirection: 'column' }}>
-      <Box sx={{ p: 3, borderBottom: '1px solid rgba(0,0,0,0.06)' }}>
+      <Box sx={{ p: 3, borderBottom: '1px solid', borderColor: 'divider' }}>
         <Box sx={{ display: 'flex', alignItems: 'center', mb: 1 }}>
           <Box
             component="img"
@@ -232,8 +232,8 @@ function Layout({ children }) {
         </List>
       </Box>
 
-      <Box sx={{ p: 2, borderTop: '1px solid rgba(0,0,0,0.06)', mb: 2 }}>
-        <Box sx={{ display: 'flex', alignItems: 'center', p: 1.5, borderRadius: 2, backgroundColor: 'rgba(16, 185, 129, 0.05)' }}>
+      <Box sx={{ p: 2, borderTop: '1px solid', borderColor: 'divider', mb: 2 }}>
+        <Box sx={{ display: 'flex', alignItems: 'center', p: 1.5, borderRadius: 2, backgroundColor: 'action.hover' }}>
           <Avatar
             sx={{
               width: 36,
@@ -282,9 +282,9 @@ function Layout({ children }) {
         sx={{
           width: { sm: `calc(100% - ${drawerWidth}px)` },
           ml: { sm: `${drawerWidth}px` },
-          background: 'rgba(255, 255, 255, 0.95)',
+          background: (theme) => theme.palette.mode === 'dark' ? 'rgba(30, 41, 59, 0.95)' : 'rgba(255, 255, 255, 0.95)',
           backdropFilter: 'blur(20px)',
-          borderBottom: '1px solid rgba(0, 0, 0, 0.06)',
+          borderBottom: '1px solid', borderColor: 'divider',
           color: 'text.primary',
         }}
       >
@@ -327,7 +327,7 @@ function Layout({ children }) {
             <Tooltip title={t('common.notifications')}>
               <IconButton
                 sx={{
-                  color: 'rgba(0, 0, 0, 0.6)',
+                  color: 'text.secondary',
                   '&:hover': { backgroundColor: 'action.hover', color: 'primary.main' },
                 }}
               >
@@ -443,7 +443,7 @@ function Layout({ children }) {
             '& .MuiDrawer-paper': {
               boxSizing: 'border-box',
               width: drawerWidth,
-              borderRight: '1px solid rgba(0, 0, 0, 0.06)',
+              borderRight: '1px solid', borderColor: 'divider',
             },
           }}
         >
@@ -456,8 +456,8 @@ function Layout({ children }) {
             '& .MuiDrawer-paper': {
               boxSizing: 'border-box',
               width: drawerWidth,
-              borderRight: '1px solid rgba(0, 0, 0, 0.06)',
-              backgroundColor: 'rgba(255, 255, 255, 0.98)',
+              borderRight: '1px solid', borderColor: 'divider',
+              backgroundColor: 'background.paper',
             },
           }}
           open
