@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="zh-CN" style="background-color: #f8fafc;">
 
 <head>
   <meta charset="utf-8" />
@@ -38,6 +38,19 @@
 <body>
   <noscript>You need to enable JavaScript to run this app.</noscript>
   <div id="root"></div>
+  <script>
+    // Prevent flash of light background in dark mode during page load/navigation
+    (function() {
+      try {
+        var stored = localStorage.getItem('webmonitor-theme') || 'system';
+        var isDark = stored === 'dark' ||
+          (stored === 'system' && window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches);
+        var bg = isDark ? '#0f172a' : '#f8fafc';
+        document.documentElement.style.backgroundColor = bg;
+        document.body.style.backgroundColor = bg;
+      } catch (e) {}
+    })();
+  </script>
 </body>
 
 </html>
