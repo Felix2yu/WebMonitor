@@ -53,7 +53,9 @@ jobs:
           push: ${{ github.event_name != 'pull_request' }}
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
-          cache-from: type=gha,scope=latest
+          cache-from: |
+            type=gha,scope=latest
+            type=gha,scope=slim
           cache-to: type=gha,scope=latest,mode=max
 
   build-slim:
@@ -97,5 +99,7 @@ jobs:
           push: ${{ github.event_name != 'pull_request' }}
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
-          cache-from: type=gha,scope=slim
+          cache-from: |
+            type=gha,scope=slim
+            type=gha,scope=latest
           cache-to: type=gha,scope=slim,mode=max
