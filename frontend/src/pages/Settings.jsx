@@ -44,9 +44,11 @@ const Settings = () => {
                 alignItems: 'center',
                 p: 0.5,
                 borderRadius: 999,
-                backgroundColor: 'action.selected',
+                backgroundColor: (theme) =>
+                  theme.palette.mode === 'dark' ? 'rgba(255,255,255,0.08)' : 'rgba(15,23,42,0.06)',
                 border: '1px solid',
-                borderColor: 'divider',
+                borderColor: (theme) =>
+                  theme.palette.mode === 'dark' ? 'rgba(255,255,255,0.16)' : 'rgba(15,23,42,0.18)',
               }}
             >
               {THEME_OPTIONS.map((opt) => {
@@ -65,12 +67,13 @@ const Settings = () => {
                       fontSize: '0.8125rem',
                       fontWeight: 700,
                       lineHeight: 1,
-                      color: isActive ? '#ffffff' : 'text.primary',
+                      color: isActive ? '#ffffff' : (theme) => theme.palette.text.primary,
                       background: isActive ? 'primary.main' : 'transparent',
-                      boxShadow: isActive ? (theme) => `0 6px 18px ${theme.palette.primary.main}44` : 'none',
+                      boxShadow: isActive ? (theme) => `0 6px 18px ${theme.palette.primary.main}66` : 'none',
                       '&:hover': {
-                        background: isActive ? 'primary.main' : 'action.hover',
-                        color: isActive ? '#ffffff' : 'text.primary',
+                        background: isActive ? 'primary.main' : (theme) =>
+                          theme.palette.mode === 'dark' ? 'rgba(255,255,255,0.12)' : 'rgba(15,23,42,0.08)',
+                        color: isActive ? '#ffffff' : (theme) => theme.palette.text.primary,
                       },
                     }}
                   >
