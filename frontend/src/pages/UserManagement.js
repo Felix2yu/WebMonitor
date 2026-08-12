@@ -6,7 +6,7 @@ import {
   DialogActions,
   DialogContent,
   DialogTitle,
-  GridLegacy as Grid,
+  Grid,
   Paper,
   Table,
   TableBody,
@@ -40,7 +40,7 @@ import {
   VisibilityOff as VisibilityOffIcon,
   Email as EmailIcon,
 } from '@mui/icons-material';
-import { useQuery, useMutation, useQueryClient } from 'react-query';
+import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { useTranslation } from 'react-i18next';
 import axios from 'axios';
 
@@ -155,58 +155,41 @@ const UserManagement = () => {
 
   const queryClient = useQueryClient();
 
-  const { data: users = [], error } = useQuery(
-    'users',
-    async () => {
+  const { data: users = [], error } = useQuery({
+    queryKey: 'users',
+    queryFn: async () => {
       const response = await axios.get('/api/auth/users');
       return response.data;
-    }
-  );
+    },
+  });
 
-  const { data: currentUser } = useQuery(
-    'currentUser',
-    async () => {
+  const { data: currentUser } = useQuery({
+    queryKey: 'currentUser',
+    queryFn: async () => {
       const response = await axios.get('/api/auth/me');
       return response.data;
-    }
-  );
+    },
+  });
 
-  const createMutation = useMutation(
-    async (userData) => {
+  const createMutation = useMutation({
+    mutationFn: async (userData) => {
       const response = await axios.post('/api/auth/register', userData);
       return response.data;
     },
-    {
-      onSuccess: () => {
-        queryClient.invalidateQueries('users');
-        handleClose();
-      },
-    }
-  );
+  });
 
-  const updateMutation = useMutation(
-    async ({ id, userData }) => {
+  const updateMutation = useMutation({
+    mutationFn: async ({ id, userData }) => {
       const response = await axios.put(`/api/auth/users/${id}`, userData);
       return response.data;
     },
-    {
-      onSuccess: () => {
-        queryClient.invalidateQueries('users');
-        handleClose();
-      },
-    }
-  );
+  });
 
-  const deleteMutation = useMutation(
-    async (id) => {
+  const deleteMutation = useMutation({
+    mutationFn: async (id) => {
       await axios.delete(`/api/auth/users/${id}`);
     },
-    {
-      onSuccess: () => {
-        queryClient.invalidateQueries('users');
-      },
-    }
-  );
+  });
 
   const handleOpen = (user = null) => {
     if (user) {
@@ -259,15 +242,29 @@ const UserManagement = () => {
 
 
     if (editingUser) {
-      updateMutation.mutate({ id: editingUser.id, userData: cleanFormData });
+      updateMutation.mutate({ id: editingUser.id, userData: cleanFormData }, {
+        onSuccess: () => {
+          queryClient.invalidateQueries('users');
+          handleClose();
+        },
+      });
     } else {
-      createMutation.mutate(formData);
+      createMutation.mutate(formData, {
+        onSuccess: () => {
+          queryClient.invalidateQueries('users');
+          handleClose();
+        },
+      });
     }
   };
 
   const handleDelete = (id) => {
     if (window.confirm(content.deleteConfirm)) {
-      deleteMutation.mutate(id);
+      deleteMutation.mutate(id, {
+        onSuccess: () => {
+          queryClient.invalidateQueries('users');
+        },
+      });
     }
   };
 
@@ -327,7 +324,7 @@ const UserManagement = () => {
       </Box>
 
       <Grid container spacing={3} sx={{ mb: 4 }}>
-        <Grid item xs={12} sm={6} md={3}>
+        <Grid size={{ xs: 12, sm: 6, md: 3 }}>
           <Card
             sx={{
               p: 2,
@@ -337,7 +334,7 @@ const UserManagement = () => {
             }}
           >
             <CardContent sx={{ p: 2, '&:last-child': { pb: 2 } }}>
-              <Box display="flex" alignItems="center">
+              <Box sx={{ display: 'flex', alignItems: 'center' }}>
                 <Avatar
                   sx={{
                     bgcolor: 'rgba(167, 139, 250, 0.1)',
@@ -361,7 +358,7 @@ const UserManagement = () => {
             </CardContent>
           </Card>
         </Grid>
-        <Grid item xs={12} sm={6} md={3}>
+        <Grid size={{ xs: 12, sm: 6, md: 3 }}>
           <Card
             sx={{
               p: 2,
@@ -371,7 +368,7 @@ const UserManagement = () => {
             }}
           >
             <CardContent sx={{ p: 2, '&:last-child': { pb: 2 } }}>
-              <Box display="flex" alignItems="center">
+              <Box sx={{ display: 'flex', alignItems: 'center' }}>
                 <Avatar
                   sx={{
                     bgcolor: 'rgba(34, 211, 238, 0.1)',
@@ -395,7 +392,7 @@ const UserManagement = () => {
             </CardContent>
           </Card>
         </Grid>
-        <Grid item xs={12} sm={6} md={3}>
+        <Grid size={{ xs: 12, sm: 6, md: 3 }}>
           <Card
             sx={{
               p: 2,
@@ -405,7 +402,7 @@ const UserManagement = () => {
             }}
           >
             <CardContent sx={{ p: 2, '&:last-child': { pb: 2 } }}>
-              <Box display="flex" alignItems="center">
+              <Box sx={{ display: 'flex', alignItems: 'center' }}>
                 <Avatar
                   sx={{
                     bgcolor: 'rgba(245, 158, 11, 0.1)',
@@ -429,7 +426,7 @@ const UserManagement = () => {
             </CardContent>
           </Card>
         </Grid>
-        <Grid item xs={12} sm={6} md={3}>
+        <Grid size={{ xs: 12, sm: 6, md: 3 }}>
           <Card
             sx={{
               p: 2,
@@ -439,7 +436,7 @@ const UserManagement = () => {
             }}
           >
             <CardContent sx={{ p: 2, '&:last-child': { pb: 2 } }}>
-              <Box display="flex" alignItems="center">
+              <Box sx={{ display: 'flex', alignItems: 'center' }}>
                 <Avatar
                   sx={{
                     bgcolor: 'rgba(16, 185, 129, 0.1)',
@@ -635,10 +632,12 @@ const UserManagement = () => {
         maxWidth="md"
         fullWidth
         disableEnforceFocus
-        PaperProps={{
-          sx: {
-            borderRadius: 4,
-            border: '1px solid', borderColor: 'divider',
+        slotProps={{
+          paper: {
+            sx: {
+              borderRadius: 4,
+              border: '1px solid', borderColor: 'divider',
+            },
           },
         }}
       >
@@ -677,7 +676,7 @@ const UserManagement = () => {
         <form onSubmit={handleSubmit}>
           <DialogContent sx={{ pt: 3 }}>
             <Grid container spacing={3}>
-              <Grid item xs={12}>
+              <Grid size={12}>
                 <TextField
                   label={content.username}
                   fullWidth
@@ -705,7 +704,7 @@ const UserManagement = () => {
                   }}
                 />
               </Grid>
-              <Grid item xs={12}>
+              <Grid size={12}>
                 <TextField
                   label={content.fullName}
                   fullWidth
@@ -731,7 +730,7 @@ const UserManagement = () => {
                   }}
                 />
               </Grid>
-              <Grid item xs={12}>
+              <Grid size={12}>
                 <TextField
                   label={content.emailAddress}
                   fullWidth
@@ -759,7 +758,7 @@ const UserManagement = () => {
                   }}
                 />
               </Grid>
-              <Grid item xs={12}>
+              <Grid size={12}>
                 <TextField
                   label={content.password}
                   type={showPassword ? 'text' : 'password'}
@@ -800,7 +799,7 @@ const UserManagement = () => {
                   }}
                 />
               </Grid>
-              <Grid item xs={12} sm={6}>
+              <Grid size={{ xs: 12, sm: 6 }}>
                 <TextField
                   label={content.maxSubscriptions}
                   type="number"
@@ -820,7 +819,7 @@ const UserManagement = () => {
                   }}
                 />
               </Grid>
-              <Grid item xs={12} sm={6}>
+              <Grid size={{ xs: 12, sm: 6 }}>
                 <Box sx={{ display: 'flex', alignItems: 'center', p: 2, borderRadius: 2, backgroundColor: 'rgba(245, 158, 11, 0.05)' }}>
                   <Switch
                     checked={formData.is_admin}
@@ -844,7 +843,7 @@ const UserManagement = () => {
                   </Box>
                 </Box>
               </Grid>
-              <Grid item xs={12} sm={6}>
+              <Grid size={{ xs: 12, sm: 6 }}>
                 <Box sx={{ display: 'flex', alignItems: 'center', p: 2, borderRadius: 2, backgroundColor: 'rgba(16, 185, 129, 0.05)' }}>
                   <Switch
                     checked={formData.is_active}

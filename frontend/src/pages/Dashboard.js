@@ -1,6 +1,6 @@
 import React from 'react';
 import {
-  GridLegacy as Grid,
+  Grid,
   Typography,
   Box,
   Paper,
@@ -28,7 +28,7 @@ import {
   Speed as SpeedIcon,
   Security as SecurityIcon,
 } from '@mui/icons-material';
-import { useQuery } from 'react-query';
+import { useQuery } from '@tanstack/react-query';
 import { useTranslation } from 'react-i18next';
 import axios from 'axios';
 
@@ -114,27 +114,23 @@ const Dashboard = () => {
     excellent: 'Excellent',
   };
 
-  const { data: tasks = [], refetch: refetchTasks } = useQuery(
-    'monitor-tasks',
-    async () => {
+  const { data: tasks = [], refetch: refetchTasks } = useQuery({
+    queryKey: 'monitor-tasks',
+    queryFn: async () => {
       const response = await axios.get('/api/monitor-tasks');
       return response.data;
     },
-    {
-      refetchInterval: 60000,
-    }
-  );
+    refetchInterval: 60000,
+  });
 
-  const { data: logs = [], isLoading: logsLoading, refetch: refetchLogs } = useQuery(
-    'latest-monitor-logs',
-    async () => {
+  const { data: logs = [], isLoading: logsLoading, refetch: refetchLogs } = useQuery({
+    queryKey: 'latest-monitor-logs',
+    queryFn: async () => {
       const response = await axios.get('/api/monitor-logs/latest?limit=10');
       return response.data;
     },
-    {
-      refetchInterval: 30000,
-    }
-  );
+    refetchInterval: 30000,
+  });
 
   const totalTasks = tasks.length;
   const activeTasks = tasks.filter((task) => task.is_active).length;
@@ -225,7 +221,7 @@ const Dashboard = () => {
             </Box>
 
             <Grid container spacing={3}>
-              <Grid item xs={6} md={3}>
+              <Grid size={{ xs: 6, md: 3 }}>
                 <Box sx={{ textAlign: 'center' }}>
                   <Typography variant="h4" sx={{ color: '#10b981', fontWeight: 'bold' }}>
                     {totalTasks}
@@ -235,7 +231,7 @@ const Dashboard = () => {
                   </Typography>
                 </Box>
               </Grid>
-              <Grid item xs={6} md={3}>
+              <Grid size={{ xs: 6, md: 3 }}>
                 <Box sx={{ textAlign: 'center' }}>
                   <Typography variant="h4" sx={{ color: '#22d3ee', fontWeight: 'bold' }}>
                     {activeTasks}
@@ -245,7 +241,7 @@ const Dashboard = () => {
                   </Typography>
                 </Box>
               </Grid>
-              <Grid item xs={6} md={3}>
+              <Grid size={{ xs: 6, md: 3 }}>
                 <Box sx={{ textAlign: 'center' }}>
                   <Typography variant="h4" sx={{ color: '#a78bfa', fontWeight: 'bold' }}>
                     {recentChanges}
@@ -255,7 +251,7 @@ const Dashboard = () => {
                   </Typography>
                 </Box>
               </Grid>
-              <Grid item xs={6} md={3}>
+              <Grid size={{ xs: 6, md: 3 }}>
                 <Box sx={{ textAlign: 'center' }}>
                   <Typography variant="h4" sx={{ color: '#34d399', fontWeight: 'bold' }}>
                     {successRate}%
@@ -270,7 +266,7 @@ const Dashboard = () => {
         </Box>
 
         <Grid container spacing={3} sx={{ mb: 4 }}>
-          <Grid item xs={12} sm={6} md={3}>
+          <Grid size={{ xs: 12, sm: 6, md: 3 }}>
             <StatCard
               title={content.totalTasks}
               value={totalTasks}
@@ -280,7 +276,7 @@ const Dashboard = () => {
               trend={totalTasks > 0 ? 12 : 0}
             />
           </Grid>
-          <Grid item xs={12} sm={6} md={3}>
+          <Grid size={{ xs: 12, sm: 6, md: 3 }}>
             <StatCard
               title={content.activeTasks}
               value={activeTasks}
@@ -290,7 +286,7 @@ const Dashboard = () => {
               trend={activeTasks > 0 ? 8 : 0}
             />
           </Grid>
-          <Grid item xs={12} sm={6} md={3}>
+          <Grid size={{ xs: 12, sm: 6, md: 3 }}>
             <StatCard
               title={content.recentChanges}
               value={recentChanges}
@@ -300,7 +296,7 @@ const Dashboard = () => {
               trend={recentChanges > 0 ? 15 : 0}
             />
           </Grid>
-          <Grid item xs={12} sm={6} md={3}>
+          <Grid size={{ xs: 12, sm: 6, md: 3 }}>
             <StatCard
               title={content.successRate}
               value={`${successRate}%`}
@@ -313,7 +309,7 @@ const Dashboard = () => {
         </Grid>
 
         <Grid container spacing={4}>
-          <Grid item xs={12} lg={8}>
+          <Grid size={{ xs: 12, lg: 8 }}>
             <Paper
               sx={{
                 p: 3,
@@ -468,9 +464,9 @@ const Dashboard = () => {
             </Paper>
           </Grid>
 
-          <Grid item xs={12} lg={4}>
+          <Grid size={{ xs: 12, lg: 4 }}>
             <Grid container spacing={3}>
-              <Grid item xs={12}>
+              <Grid size={12}>
                 <Paper
                   sx={{
                     p: 3,
@@ -545,7 +541,7 @@ const Dashboard = () => {
                 </Paper>
               </Grid>
 
-              <Grid item xs={12}>
+              <Grid size={12}>
                 <Paper
                   sx={{
                     p: 3,

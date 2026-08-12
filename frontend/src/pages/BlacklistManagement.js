@@ -26,7 +26,7 @@ import {
   TableHead,
   TableRow,
   Avatar,
-  GridLegacy as Grid,
+  Grid,
 } from '@mui/material';
 import {
   Add as AddIcon,
@@ -295,7 +295,7 @@ const BlacklistManagement = () => {
       </Box>
 
       <Grid container spacing={3} sx={{ mb: 4 }}>
-        <Grid item xs={12} sm={6} md={3}>
+        <Grid size={{ xs: 12, sm: 6, md: 3 }}>
           <Card
             sx={{
               height: '100%',
@@ -320,7 +320,7 @@ const BlacklistManagement = () => {
             }}
           >
             <CardContent sx={{ p: 3 }}>
-              <Box display="flex" alignItems="center" justifyContent="space-between" mb={2}>
+              <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', mb: 2 }}>
                 <Avatar
                   sx={{
                     bgcolor: 'rgba(25, 118, 210, 0.1)',
@@ -343,7 +343,7 @@ const BlacklistManagement = () => {
             </CardContent>
           </Card>
         </Grid>
-        <Grid item xs={12} sm={6} md={3}>
+        <Grid size={{ xs: 12, sm: 6, md: 3 }}>
           <Card
             sx={{
               height: '100%',
@@ -368,7 +368,7 @@ const BlacklistManagement = () => {
             }}
           >
             <CardContent sx={{ p: 3 }}>
-              <Box display="flex" alignItems="center" justifyContent="space-between" mb={2}>
+              <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', mb: 2 }}>
                 <Avatar
                   sx={{
                     bgcolor: 'rgba(239, 68, 68, 0.1)',
@@ -391,7 +391,7 @@ const BlacklistManagement = () => {
             </CardContent>
           </Card>
         </Grid>
-        <Grid item xs={12} sm={6} md={3}>
+        <Grid size={{ xs: 12, sm: 6, md: 3 }}>
           <Card
             sx={{
               height: '100%',
@@ -416,7 +416,7 @@ const BlacklistManagement = () => {
             }}
           >
             <CardContent sx={{ p: 3 }}>
-              <Box display="flex" alignItems="center" justifyContent="space-between" mb={2}>
+              <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', mb: 2 }}>
                 <Avatar
                   sx={{
                     bgcolor: 'rgba(107, 114, 128, 0.1)',
@@ -439,7 +439,7 @@ const BlacklistManagement = () => {
             </CardContent>
           </Card>
         </Grid>
-        <Grid item xs={12} sm={6} md={3}>
+        <Grid size={{ xs: 12, sm: 6, md: 3 }}>
           <Card
             sx={{
               height: '100%',
@@ -464,7 +464,7 @@ const BlacklistManagement = () => {
             }}
           >
             <CardContent sx={{ p: 3 }}>
-              <Box display="flex" alignItems="center" justifyContent="space-between" mb={2}>
+              <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', mb: 2 }}>
                 <Avatar
                   sx={{
                     bgcolor: 'rgba(167, 139, 250, 0.1)',

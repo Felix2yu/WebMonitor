@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import {
-  Box, Typography, Paper, TextField, Button, GridLegacy as Grid, Alert,
+  Box, Typography, Paper, TextField, Button, Grid, Alert,
   Dialog, DialogTitle, DialogContent, DialogActions,
   Table, TableBody, TableCell, TableContainer, TableHead, TableRow,
   IconButton, Avatar, Tooltip, Card, CardContent, Chip, Link,
@@ -14,7 +14,7 @@ import {
   Info as InfoIcon,
   OpenInNew as LinkIcon,
 } from '@mui/icons-material';
-import { useQuery, useMutation, useQueryClient } from 'react-query';
+import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { useTranslation } from 'react-i18next';
 import axios from 'axios';
 import { isChineseLanguage } from '../utils/i18n';
@@ -98,33 +98,29 @@ const NotificationConfig = () => {
 
   const queryClient = useQueryClient();
 
-  const { data: configs = [] } = useQuery('emailConfigs', async () => {
-    const res = await axios.get('/api/notify-configs');
-    return res.data;
+  const { data: configs = [] } = useQuery({
+    queryKey: 'emailConfigs',
+    queryFn: async () => {
+      const res = await axios.get('/api/notify-configs');
+      return res.data;
+    },
   });
 
-  const createMutation = useMutation(
-    async (data) => axios.post('/api/notify-configs', data),
-    { onSuccess: () => { queryClient.invalidateQueries('emailConfigs'); setOpenDialog(false); resetForm(); } }
-  );
+  const createMutation = useMutation({
+    mutationFn: async (data) => axios.post('/api/notify-configs', data),
+  });
 
-  const updateMutation = useMutation(
-    async ({ id, ...data }) => axios.put(`/api/notify-configs/${id}`, data),
-    { onSuccess: () => { queryClient.invalidateQueries('emailConfigs'); setOpenDialog(false); resetForm(); } }
-  );
+  const updateMutation = useMutation({
+    mutationFn: async ({ id, ...data }) => axios.put(`/api/notify-configs/${id}`, data),
+  });
 
-  const deleteMutation = useMutation(
-    async (id) => axios.delete(`/api/notify-configs/${id}`),
-    { onSuccess: () => queryClient.invalidateQueries('emailConfigs') }
-  );
+  const deleteMutation = useMutation({
+    mutationFn: async (id) => axios.delete(`/api/notify-configs/${id}`),
+  });
 
-  const testMutation = useMutation(
-    async (id) => axios.post(`/api/notify-configs/${id}/test`),
-    {
-      onSuccess: (res) => setTestResult({ ok: res.data.success, msg: res.data.message || res.data.error }),
-      onError: () => setTestResult({ ok: false, msg: content.testFailed }),
-    }
-  );
+  const testMutation = useMutation({
+    mutationFn: async (id) => axios.post(`/api/notify-configs/${id}/test`),
+  });
 
   const resetForm = () => { setFormData({ name: '', apprise_urls: '' }); setEditingConfig(null); };
 
@@ -142,20 +138,29 @@ const NotificationConfig = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     if (editingConfig) {
-      updateMutation.mutate({ id: editingConfig.id, ...formData });
+      updateMutation.mutate({ id: editingConfig.id, ...formData }, {
+        onSuccess: () => { queryClient.invalidateQueries('emailConfigs'); setOpenDialog(false); resetForm(); },
+      });
     } else {
-      createMutation.mutate(formData);
+      createMutation.mutate(formData, {
+        onSuccess: () => { queryClient.invalidateQueries('emailConfigs'); setOpenDialog(false); resetForm(); },
+      });
     }
   };
 
   const handleTest = (id) => {
     setTestResult(null);
-    testMutation.mutate(id);
+    testMutation.mutate(id, {
+      onSuccess: (res) => setTestResult({ ok: res.data.success, msg: res.data.message || res.data.error }),
+      onError: () => setTestResult({ ok: false, msg: content.testFailed }),
+    });
   };
 
   const handleDelete = (id) => {
     if (window.confirm(content.deleteConfirm)) {
-      deleteMutation.mutate(id);
+      deleteMutation.mutate(id, {
+        onSuccess: () => queryClient.invalidateQueries('emailConfigs'),
+      });
     }
   };
 
@@ -181,10 +186,10 @@ const NotificationConfig = () => {
 
       {/* Stats */}
       <Grid container spacing={3} sx={{ mb: 4 }}>
-        <Grid item xs={12} sm={6} md={4}>
+        <Grid size={{ xs: 12, sm: 6, md: 4 }}>
           <Card sx={{ p: 3, background: 'background.paper', border: '1px solid', borderColor: 'divider', borderRadius: 3 }}>
             <CardContent sx={{ p: 2, '&:last-child': { pb: 2 } }}>
-              <Box display="flex" alignItems="center">
+              <Box sx={{ display: 'flex', alignItems: 'center' }}>
                 <Avatar sx={{ bgcolor: 'rgba(37, 99, 235, 0.1)', color: '#2563eb', mr: 2, width: 48, height: 48 }}>
                   <NotificationsIcon />
                 </Avatar>
@@ -259,7 +264,7 @@ const NotificationConfig = () => {
         </Box>
         <Grid container spacing={1}>
           {(isChinese ? EXAMPLE_URLS.zh : EXAMPLE_URLS.en).map((ch) => (
-            <Grid item key={ch.label}>
+            <Grid key={ch.label}>
               <Chip label={`${ch.label}: ${ch.desc}`} variant="outlined" size="small" />
             </Grid>
           ))}

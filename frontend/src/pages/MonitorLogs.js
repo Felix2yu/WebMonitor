@@ -15,7 +15,7 @@ import {
   InputLabel,
   Chip,
   Alert,
-  GridLegacy as Grid,
+  Grid,
   Card,
   CardContent,
   Avatar,
@@ -27,7 +27,7 @@ import {
   Warning as WarningIcon,
   Schedule as ScheduleIcon,
 } from '@mui/icons-material';
-import { useQuery } from 'react-query';
+import { useQuery, keepPreviousData } from '@tanstack/react-query';
 import { useTranslation } from 'react-i18next';
 import axios from 'axios';
 
@@ -79,25 +79,26 @@ const MonitorLogs = () => {
     selectTaskSubtitle: 'Choose a task to view its execution logs.',
   };
 
-  const { data: tasks = [] } = useQuery('monitor-tasks', async () => {
-    const response = await axios.get('/api/monitor-tasks');
-    return response.data;
+  const { data: tasks = [] } = useQuery({
+    queryKey: 'monitor-tasks',
+    queryFn: async () => {
+      const response = await axios.get('/api/monitor-tasks');
+      return response.data;
+    },
   });
 
-  const { data: logsData = [], error } = useQuery(
-    ['monitor-logs', selectedTaskId, page, rowsPerPage],
-    async () => {
+  const { data: logsData = [], error } = useQuery({
+    queryKey: ['monitor-logs', selectedTaskId, page, rowsPerPage],
+    queryFn: async () => {
       if (!selectedTaskId) return [];
       const response = await axios.get(
         `/api/monitor-tasks/${selectedTaskId}/logs?page=${page}&limit=${rowsPerPage}`
       );
       return response.data;
     },
-    {
-      enabled: !!selectedTaskId,
-      keepPreviousData: true,
-    }
-  );
+    enabled: !!selectedTaskId,
+    placeholderData: keepPreviousData,
+  });
 
   const logs = Array.isArray(logsData) ? logsData : logsData?.logs || [];
   const totalCount = logsData?.total || logs.length || 0;
@@ -187,7 +188,7 @@ const MonitorLogs = () => {
       {selectedTaskId ? (
         <>
           <Grid container spacing={3} sx={{ mb: 4 }}>
-            <Grid item xs={12} sm={6} md={3}>
+            <Grid size={{ xs: 12, sm: 6, md: 3 }}>
               <Card
                 sx={{
                   height: '100%',
@@ -212,7 +213,7 @@ const MonitorLogs = () => {
                 }}
               >
                 <CardContent sx={{ p: 3 }}>
-                  <Box display="flex" alignItems="center" justifyContent="space-between" mb={2}>
+                  <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', mb: 2 }}>
                     <Avatar
                       sx={{
                         bgcolor: 'rgba(25, 118, 210, 0.1)',
@@ -235,7 +236,7 @@ const MonitorLogs = () => {
                 </CardContent>
               </Card>
             </Grid>
-            <Grid item xs={12} sm={6} md={3}>
+            <Grid size={{ xs: 12, sm: 6, md: 3 }}>
               <Card
                 sx={{
                   height: '100%',
@@ -260,7 +261,7 @@ const MonitorLogs = () => {
                 }}
               >
                 <CardContent sx={{ p: 3 }}>
-                  <Box display="flex" alignItems="center" justifyContent="space-between" mb={2}>
+                  <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', mb: 2 }}>
                     <Avatar
                       sx={{
                         bgcolor: 'rgba(16, 185, 129, 0.1)',
@@ -283,7 +284,7 @@ const MonitorLogs = () => {
                 </CardContent>
               </Card>
             </Grid>
-            <Grid item xs={12} sm={6} md={3}>
+            <Grid size={{ xs: 12, sm: 6, md: 3 }}>
               <Card
                 sx={{
                   height: '100%',
@@ -308,7 +309,7 @@ const MonitorLogs = () => {
                 }}
               >
                 <CardContent sx={{ p: 3 }}>
-                  <Box display="flex" alignItems="center" justifyContent="space-between" mb={2}>
+                  <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', mb: 2 }}>
                     <Avatar
                       sx={{
                         bgcolor: 'rgba(245, 158, 11, 0.1)',
@@ -331,7 +332,7 @@ const MonitorLogs = () => {
                 </CardContent>
               </Card>
             </Grid>
-            <Grid item xs={12} sm={6} md={3}>
+            <Grid size={{ xs: 12, sm: 6, md: 3 }}>
               <Card
                 sx={{
                   height: '100%',
@@ -356,7 +357,7 @@ const MonitorLogs = () => {
                 }}
               >
                 <CardContent sx={{ p: 3 }}>
-                  <Box display="flex" alignItems="center" justifyContent="space-between" mb={2}>
+                  <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', mb: 2 }}>
                     <Avatar
                       sx={{
                         bgcolor: 'rgba(239, 68, 68, 0.1)',

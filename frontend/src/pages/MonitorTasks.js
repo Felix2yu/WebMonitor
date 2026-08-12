@@ -6,7 +6,7 @@ import {
   DialogActions,
   DialogContent,
   DialogTitle,
-  GridLegacy as Grid,
+  Grid,
   Paper,
   Table,
   TableBody,
@@ -41,7 +41,7 @@ import {
   Pause as PauseIcon,
   Link as LinkIcon,
 } from '@mui/icons-material';
-import { useQuery, useMutation, useQueryClient } from 'react-query';
+import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { useTranslation } from 'react-i18next';
 import axios from 'axios';
 
@@ -223,95 +223,60 @@ const MonitorTasks = () => {
     return config ? config.name : content.unknownConfig;
   };
 
-  const { data: tasks = [], error } = useQuery(
-    'monitor-tasks',
-    async () => {
+  const { data: tasks = [], error } = useQuery({
+    queryKey: 'monitor-tasks',
+    queryFn: async () => {
       const response = await axios.get('/api/monitor-tasks');
       return response.data;
-    }
-  );
+    },
+  });
 
-  const { data: emailConfigs = [] } = useQuery(
-    'emailConfigs',
-    async () => {
+  const { data: emailConfigs = [] } = useQuery({
+    queryKey: 'emailConfigs',
+    queryFn: async () => {
       const response = await axios.get('/api/notify-configs/simple-list');
       return response.data;
     },
-    {
-      onSuccess: (data) => {
-        if (data.length === 1 && !formData.email_config_id && !editingTask) {
-          setFormData((prev) => ({
-            ...prev,
-            email_config_id: data[0].id,
-          }));
-        }
-      },
-    }
-  );
+    onSuccess: (data) => {
+      if (data.length === 1 && !formData.email_config_id && !editingTask) {
+        setFormData((prev) => ({
+          ...prev,
+          email_config_id: data[0].id,
+        }));
+      }
+    },
+  });
 
   const showBlacklistAlert = () => {
     window.alert(`${content.blacklistAlertTitle}\n\n${content.blacklistAlertBody}`);
   };
 
-  const createMutation = useMutation(
-    async (taskData) => {
+  const createMutation = useMutation({
+    mutationFn: async (taskData) => {
       const response = await axios.post('/api/monitor-tasks', taskData);
       return response.data;
     },
-    {
-      onSuccess: () => {
-        queryClient.invalidateQueries('monitor-tasks');
-        handleClose();
-      },
-      onError: (errorValue) => {
-        if (errorValue.response?.status === 403 && errorValue.response?.data?.detail?.includes('黑名单')) {
-          showBlacklistAlert();
-          return;
-        }
+  });
 
-        window.alert(`${content.createFailed}: ${getReadableError(errorValue)}`);
-      },
-    }
-  );
-
-  const updateMutation = useMutation(
-    async ({ id, taskData }) => {
+  const updateMutation = useMutation({
+    mutationFn: async ({ id, taskData }) => {
       const response = await axios.put(`/api/monitor-tasks/${id}`, taskData);
       return response.data;
     },
-    {
-      onSuccess: () => {
-        queryClient.invalidateQueries('monitor-tasks');
-        handleClose();
-      },
-      onError: (errorValue) => {
-        if (errorValue.response?.status === 403 && errorValue.response?.data?.detail?.includes('黑名单')) {
-          showBlacklistAlert();
-          return;
-        }
+  });
 
-        window.alert(`${content.updateFailed}: ${getReadableError(errorValue)}`);
-      },
-    }
-  );
-
-  const deleteMutation = useMutation(
-    async (id) => {
+  const deleteMutation = useMutation({
+    mutationFn: async (id) => {
       await axios.delete(`/api/monitor-tasks/${id}`);
     },
-    {
-      onSuccess: () => {
-        queryClient.invalidateQueries('monitor-tasks');
-      },
-    }
-  );
+  });
 
-  const testMutation = useMutation(
-    async (id) => {
+  const testMutation = useMutation({
+    mutationFn: async (id) => {
       const response = await axios.post(`/api/monitor-tasks/${id}/test`);
       return response.data;
-    }
-  );
+    },
+  });
 
   const handleOpen = (task = null) => {
     if (task) {
@@ -357,16 +322,36 @@ const MonitorTasks = () => {
       return;
     }
 
+    const options = {
+      onSuccess: () => {
+        queryClient.invalidateQueries('monitor-tasks');
+        handleClose();
+      },
+      onError: (errorValue) => {
+        if (errorValue.response?.status === 403 && errorValue.response?.data?.detail?.includes('黑名单')) {
+          showBlacklistAlert();
+          return;
+        }
+
+        const failMessage = editingTask ? content.updateFailed : content.createFailed;
+        window.alert(`${failMessage}: ${getReadableError(errorValue)}`);
+      },
+    };
+
     if (editingTask) {
-      updateMutation.mutate({ id: editingTask.id, taskData: formData });
+      updateMutation.mutate({ id: editingTask.id, taskData: formData }, options);
     } else {
-      createMutation.mutate(formData);
+      createMutation.mutate(formData, options);
     }
   };
 
   const handleDelete = (id) => {
     if (window.confirm(content.deleteConfirm)) {
-      deleteMutation.mutate(id);
+      deleteMutation.mutate(id, {
+        onSuccess: () => {
+          queryClient.invalidateQueries('monitor-tasks');
+        },
+      });
     }
   };
 
@@ -459,7 +444,7 @@ const MonitorTasks = () => {
       )}
 
       <Grid container spacing={3} sx={{ mb: 4 }}>
-        <Grid item xs={12} sm={6} md={3}>
+        <Grid size={{ xs: 12, sm: 6, md: 3 }}>
           <Card
             sx={{
               height: '100%',
@@ -483,7 +468,7 @@ const MonitorTasks = () => {
             }}
           >
             <CardContent sx={{ p: 3 }}>
-              <Box display="flex" alignItems="center" justifyContent="space-between" mb={2}>
+              <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', mb: 2 }}>
                 <Avatar
                   sx={{
                     bgcolor: 'rgba(16, 185, 129, 0.1)',
@@ -505,7 +490,7 @@ const MonitorTasks = () => {
             </CardContent>
           </Card>
         </Grid>
-        <Grid item xs={12} sm={6} md={3}>
+        <Grid size={{ xs: 12, sm: 6, md: 3 }}>
           <Card
             sx={{
               height: '100%',
@@ -529,7 +514,7 @@ const MonitorTasks = () => {
             }}
           >
             <CardContent sx={{ p: 3 }}>
-              <Box display="flex" alignItems="center" justifyContent="space-between" mb={2}>
+              <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', mb: 2 }}>
                 <Avatar
                   sx={{
                     bgcolor: 'rgba(34, 211, 238, 0.1)',
@@ -552,7 +537,7 @@ const MonitorTasks = () => {
             </CardContent>
           </Card>
         </Grid>
-        <Grid item xs={12} sm={6} md={3}>
+        <Grid size={{ xs: 12, sm: 6, md: 3 }}>
           <Card
             sx={{
               height: '100%',
@@ -576,7 +561,7 @@ const MonitorTasks = () => {
             }}
           >
             <CardContent sx={{ p: 3 }}>
-              <Box display="flex" alignItems="center" justifyContent="space-between" mb={2}>
+              <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', mb: 2 }}>
                 <Avatar
                   sx={{
                     bgcolor: 'rgba(239, 68, 68, 0.1)',
@@ -599,7 +584,7 @@ const MonitorTasks = () => {
             </CardContent>
           </Card>
         </Grid>
-        <Grid item xs={12} sm={6} md={3}>
+        <Grid size={{ xs: 12, sm: 6, md: 3 }}>
           <Card
             sx={{
               height: '100%',
@@ -623,7 +608,7 @@ const MonitorTasks = () => {
             }}
           >
             <CardContent sx={{ p: 3 }}>
-              <Box display="flex" alignItems="center" justifyContent="space-between" mb={2}>
+              <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', mb: 2 }}>
                 <Avatar
                   sx={{
                     bgcolor: 'rgba(167, 139, 250, 0.1)',
@@ -835,10 +820,12 @@ const MonitorTasks = () => {
         onClose={handleClose}
         maxWidth="md"
         fullWidth
-        PaperProps={{
-          sx: {
-            borderRadius: 4,
-            border: '1px solid', borderColor: 'divider',
+        slotProps={{
+          paper: {
+            sx: {
+              borderRadius: 4,
+              border: '1px solid', borderColor: 'divider',
+            },
           },
         }}
       >
@@ -857,7 +844,7 @@ const MonitorTasks = () => {
         <form onSubmit={handleSubmit}>
           <DialogContent sx={{ pt: 3 }}>
             <Grid container spacing={3}>
-              <Grid item xs={12}>
+              <Grid size={12}>
                 <TextField
                   label={content.taskName}
                   fullWidth
@@ -877,7 +864,7 @@ const MonitorTasks = () => {
                   }}
                 />
               </Grid>
-              <Grid item xs={12}>
+              <Grid size={12}>
                 <TextField
                   label={content.monitorUrl}
                   fullWidth
@@ -897,7 +884,7 @@ const MonitorTasks = () => {
                   }}
                 />
               </Grid>
-              <Grid item xs={12}>
+              <Grid size={12}>
                 <TextField
                   label={content.xpathSelector}
                   fullWidth
@@ -919,7 +906,7 @@ const MonitorTasks = () => {
                   }}
                 />
               </Grid>
-              <Grid item xs={12} sm={6}>
+              <Grid size={{ xs: 12, sm: 6 }}>
                 <FormControl fullWidth>
                   <InputLabel id="schedule-type-label">{content.scheduleType}</InputLabel>
                   <Select
@@ -949,7 +936,7 @@ const MonitorTasks = () => {
                   </Select>
                 </FormControl>
               </Grid>
-              <Grid item xs={12} sm={6}>
+              <Grid size={{ xs: 12, sm: 6 }}>
                 {formData.schedule_type === 'cron' ? (
                   <TextField
                     label={content.cronExpression}
@@ -1005,7 +992,7 @@ const MonitorTasks = () => {
                   />
                 )}
               </Grid>
-              <Grid item xs={12} sm={6}>
+              <Grid size={{ xs: 12, sm: 6 }}>
                 <FormControl fullWidth required>
                   <InputLabel id="email-config-label">{content.emailConfigRequired}</InputLabel>
                   <Select
@@ -1045,7 +1032,7 @@ const MonitorTasks = () => {
                   )}
                 </FormControl>
               </Grid>
-              <Grid item xs={12}>
+              <Grid size={12}>
                 <TextField
                   label={content.taskDescription}
                   fullWidth
@@ -1068,7 +1055,7 @@ const MonitorTasks = () => {
                 />
               </Grid>
 
-              <Grid item xs={12}>
+              <Grid size={12}>
                 <Box sx={{ display: 'flex', alignItems: 'center', p: 2, borderRadius: 2, backgroundColor: 'rgba(16, 185, 129, 0.05)' }}>
                   <Switch
                     checked={formData.is_active}
