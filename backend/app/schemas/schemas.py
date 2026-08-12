@@ -46,8 +46,7 @@ class MonitorTaskBase(BaseModel):
     name: str = Field(..., description="任务名称", min_length=1, max_length=200)
     url: str = Field(..., description="监控URL", min_length=1, max_length=500)
     xpath: str = Field(..., description="XPath选择器", min_length=1, max_length=500)
-    interval: int = Field(default=300, description="检查间隔（秒）", ge=10)
-    schedule_type: str = Field(default="interval", description="调度类型: interval / cron")
+    schedule_type: str = Field(default="cron", description="调度类型: cron")
     cron_expression: Optional[str] = Field(None, description="Cron表达式（标准5字段: 分 时 日 月 星期）", max_length=100)
     is_active: bool = Field(default=True, description="是否启用")
     description: Optional[str] = Field(None, description="任务描述", max_length=1000)
@@ -55,14 +54,14 @@ class MonitorTaskBase(BaseModel):
     @field_validator('schedule_type')
     @classmethod
     def validate_schedule_type(cls, v):
-        if v not in ("interval", "cron"):
-            raise ValueError("schedule_type 只能是 interval 或 cron")
+        if v != "cron":
+            raise ValueError("schedule_type 仅支持 cron")
         return v
 
     @field_validator('cron_expression')
     @classmethod
     def validate_cron_expression(cls, v, info):
-        schedule_type = info.data.get("schedule_type", "interval")
+        schedule_type = info.data.get("schedule_type", "cron")
         if schedule_type == "cron":
             if not v or not v.strip():
                 raise ValueError("cron 调度类型需要提供 cron_expression")
@@ -80,8 +79,7 @@ class MonitorTaskUpdate(BaseModel):
     name: Optional[str] = Field(None, description="任务名称", min_length=1, max_length=200)
     url: Optional[str] = Field(None, description="监控URL", min_length=1, max_length=500)
     xpath: Optional[str] = Field(None, description="XPath选择器", min_length=1, max_length=500)
-    interval: Optional[int] = Field(None, description="检查间隔（秒）", ge=10)
-    schedule_type: Optional[str] = Field(None, description="调度类型: interval / cron")
+    schedule_type: Optional[str] = Field(None, description="调度类型: cron")
     cron_expression: Optional[str] = Field(None, description="Cron表达式（标准5字段: 分 时 日 月 星期）", max_length=100)
     is_active: Optional[bool] = Field(None, description="是否启用")
     description: Optional[str] = Field(None, description="任务描述", max_length=1000)
@@ -90,8 +88,8 @@ class MonitorTaskUpdate(BaseModel):
     @field_validator('schedule_type')
     @classmethod
     def validate_schedule_type(cls, v):
-        if v is not None and v not in ("interval", "cron"):
-            raise ValueError("schedule_type 只能是 interval 或 cron")
+        if v is not None and v != "cron":
+            raise ValueError("schedule_type 仅支持 cron")
         return v
 
     @field_validator('cron_expression')

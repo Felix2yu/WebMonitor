@@ -30,10 +30,7 @@ class Settings(BaseSettings):
     # Apprise多渠道通知URL，逗号分隔
     APPRISE_URLS: Optional[str] = None
 
-    # 监控设置
-    DEFAULT_CHECK_INTERVAL: int = 300  # 5分钟
-    MAX_CHECK_INTERVAL: int = 86400  # 24小时
-    MIN_CHECK_INTERVAL: int = 10  # 10秒
+    # 监控设置（调度统一使用 cron 表达式）
 
     # Selenium设置
     SELENIUM_HEADLESS: bool = True

@@ -59,8 +59,7 @@ const MonitorTasks = () => {
     name: '',
     url: '',
     xpath: '',
-    interval: 300,
-    schedule_type: 'interval',
+    schedule_type: 'cron',
     cron_expression: '',
     is_active: true,
     description: '',
@@ -85,9 +84,7 @@ const MonitorTasks = () => {
     createFirstTask: '创建第一个任务',
     taskInfo: '任务信息',
     monitorConfig: '监控配置',
-    interval: '检查间隔',
     scheduleType: '调度类型',
-    scheduleInterval: '固定间隔',
     scheduleCron: 'Cron 表达式',
     cronExpression: 'Cron 表达式',
     cronHelper: '标准 5 字段格式：分 时 日 月 星期',
@@ -97,7 +94,6 @@ const MonitorTasks = () => {
     actions: '操作',
     notSet: '未设置',
     unknownConfig: '未知配置',
-    seconds: '秒',
     running: '运行中',
     paused: '已暂停',
     testMonitor: '测试监控',
@@ -109,7 +105,6 @@ const MonitorTasks = () => {
     monitorUrl: '监控 URL',
     xpathSelector: 'XPath 选择器',
     xpathHelper: '用于定位监控内容的 XPath 表达式',
-    intervalSeconds: '检查间隔（秒）',
     emailConfigRequired: '通知配置 *',
     noEmailConfigOption: '暂无通知配置，请先添加通知配置',
     addEmailConfigHint: '请先在通知配置页面添加通知配置',
@@ -148,9 +143,7 @@ const MonitorTasks = () => {
     createFirstTask: 'Create first task',
     taskInfo: 'Task info',
     monitorConfig: 'Monitor config',
-    interval: 'Interval',
     scheduleType: 'Schedule type',
-    scheduleInterval: 'Fixed interval',
     scheduleCron: 'Cron expression',
     cronExpression: 'Cron expression',
     cronHelper: 'Standard 5-field format: minute hour day month weekday',
@@ -160,7 +153,6 @@ const MonitorTasks = () => {
     actions: 'Actions',
     notSet: 'Not set',
     unknownConfig: 'Unknown config',
-    seconds: 's',
     running: 'Running',
     paused: 'Paused',
     testMonitor: 'Test monitor',
@@ -172,7 +164,6 @@ const MonitorTasks = () => {
     monitorUrl: 'Monitor URL',
     xpathSelector: 'XPath selector',
     xpathHelper: 'XPath expression used to locate the monitored content',
-    intervalSeconds: 'Check interval (seconds)',
     emailConfigRequired: 'Email config *',
     noEmailConfigOption: 'No email config yet. Add one first.',
     addEmailConfigHint: 'Please add an email config in the email configuration page first.',
@@ -285,8 +276,7 @@ const MonitorTasks = () => {
         name: task.name,
         url: task.url,
         xpath: task.xpath,
-        interval: task.interval,
-        schedule_type: task.schedule_type || 'interval',
+        schedule_type: task.schedule_type || 'cron',
         cron_expression: task.cron_expression || '',
         is_active: task.is_active,
         description: task.description || '',
@@ -298,8 +288,7 @@ const MonitorTasks = () => {
         name: '',
         url: '',
         xpath: '',
-        interval: 300,
-        schedule_type: 'interval',
+        schedule_type: 'cron',
         cron_expression: '',
         is_active: true,
         description: '',
@@ -684,7 +673,7 @@ const MonitorTasks = () => {
                 <TableRow sx={{ backgroundColor: 'rgba(16, 185, 129, 0.05)' }}>
                   <TableCell sx={{ fontWeight: 600 }}>{content.taskInfo}</TableCell>
                   <TableCell sx={{ fontWeight: 600 }}>{content.monitorConfig}</TableCell>
-                  <TableCell sx={{ fontWeight: 600 }}>{content.interval}</TableCell>
+                  <TableCell sx={{ fontWeight: 600 }}>{content.cronExpression}</TableCell>
                   <TableCell sx={{ fontWeight: 600 }}>{content.emailConfig}</TableCell>
                   <TableCell sx={{ fontWeight: 600 }}>{content.status}</TableCell>
                   <TableCell sx={{ fontWeight: 600 }}>{content.actions}</TableCell>
@@ -745,9 +734,7 @@ const MonitorTasks = () => {
                       <Box sx={{ display: 'flex', alignItems: 'center' }}>
                         <ScheduleIcon sx={{ fontSize: 16, mr: 1, color: 'text.secondary' }} />
                         <Typography variant="body2" sx={{ fontFamily: 'monospace' }}>
-                          {task.schedule_type === 'cron' && task.cron_expression
-                            ? task.cron_expression
-                            : `${task.interval}${content.seconds}`}
+                          {task.cron_expression || content.notSet}
                         </Typography>
                       </Box>
                     </TableCell>
@@ -907,38 +894,7 @@ const MonitorTasks = () => {
                 />
               </Grid>
               <Grid size={{ xs: 12, sm: 6 }}>
-                <FormControl fullWidth>
-                  <InputLabel id="schedule-type-label">{content.scheduleType}</InputLabel>
-                  <Select
-                    labelId="schedule-type-label"
-                    value={formData.schedule_type}
-                    label={content.scheduleType}
-                    onChange={(e) =>
-                      setFormData({
-                        ...formData,
-                        schedule_type: e.target.value,
-                      })
-                    }
-                    sx={{
-                      '& .MuiOutlinedInput-root': {
-                        '&:hover fieldset': {
-                          borderColor: 'rgba(16, 185, 129, 0.5)',
-                        },
-                        '&.Mui-focused fieldset': {
-                          borderColor: '#10b981',
-                          borderWidth: 2,
-                        },
-                      },
-                    }}
-                  >
-                    <MenuItem value="interval">{content.scheduleInterval}</MenuItem>
-                    <MenuItem value="cron">{content.scheduleCron}</MenuItem>
-                  </Select>
-                </FormControl>
-              </Grid>
-              <Grid size={{ xs: 12, sm: 6 }}>
-                {formData.schedule_type === 'cron' ? (
-                  <TextField
+                <TextField
                     label={content.cronExpression}
                     fullWidth
                     value={formData.cron_expression}
@@ -965,32 +921,6 @@ const MonitorTasks = () => {
                       },
                     }}
                   />
-                ) : (
-                  <TextField
-                    label={content.intervalSeconds}
-                    type="number"
-                    fullWidth
-                    value={formData.interval}
-                    onChange={(e) =>
-                      setFormData({
-                        ...formData,
-                        interval: parseInt(e.target.value, 10) || 300,
-                      })
-                    }
-                    inputProps={{ min: 10 }}
-                    sx={{
-                      '& .MuiOutlinedInput-root': {
-                        '&:hover fieldset': {
-                          borderColor: 'rgba(16, 185, 129, 0.5)',
-                        },
-                        '&.Mui-focused fieldset': {
-                          borderColor: '#10b981',
-                          borderWidth: 2,
-                        },
-                      },
-                    }}
-                  />
-                )}
               </Grid>
               <Grid size={{ xs: 12, sm: 6 }}>
                 <FormControl fullWidth required>

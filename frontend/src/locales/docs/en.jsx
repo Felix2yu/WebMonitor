@@ -94,24 +94,22 @@ const docsEn = {
           type: 'subsection',
           title: 'Check interval',
           paragraphs: [
-            'The interval controls how often WebMonitor checks the target page. Two scheduling modes are supported:',
+            'WebMonitor uses a Cron expression to decide how often to check the target page.',
           ],
           list: {
             type: 'ul',
             items: [
-              'Fixed interval: loop checks by seconds, minimum 10 seconds, default 300 seconds (5 minutes)',
-              'Cron expression: scheduled checks using the standard 5-field format (minute hour day month weekday), ideal for daily or low-frequency probes',
+              'Cron expression: scheduled checks using the standard 5-field format (minute hour day month weekday), suitable for any frequency such as daily, weekly or monthly probes',
             ],
           },
           codeExamples: [
             { label: 'Daily at 9:00', language: 'cron', code: '0 9 * * *' },
             { label: 'Mondays at 12:00', language: 'cron', code: '0 12 * * 1' },
             { label: '1st of every month at 0:00', language: 'cron', code: '0 0 1 * *' },
-            { label: 'Every 30 minutes (fixed interval 1800s)', language: 'text', code: 'interval: 1800' },
           ],
           tip: {
             type: 'warning',
-            text: 'Very short intervals may trigger rate limits on the target site. For low-frequency needs such as once a day, prefer using a Cron expression.',
+            text: 'Too high a frequency (e.g. every minute) may trigger rate limits on the target site. Adjust the Cron expression as needed.',
           },
         },
         {

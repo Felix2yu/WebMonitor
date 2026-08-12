@@ -34,10 +34,14 @@ def ensure_columns():
     inspector = inspect(engine)
     existing_columns = {col["name"] for col in inspector.get_columns("monitor_tasks")}
     additions = {
-        "schedule_type": "VARCHAR(20) DEFAULT 'interval'",
+        "schedule_type": "VARCHAR(20) DEFAULT 'cron'",
         "cron_expression": "VARCHAR(100)",
     }
     with engine.begin() as conn:
+        # 彻底清理：删除已废弃的 interval 列（不再向后兼容）
+        if "interval" in existing_columns:
+            logger.info("删除 monitor_tasks 表废弃列: interval")
+            conn.execute(text("ALTER TABLE monitor_tasks DROP COLUMN interval"))
         for col, ddl in additions.items():
             if col not in existing_columns:
                 logger.info(f"为 monitor_tasks 表补充缺失列: {col}")

@@ -87,7 +87,7 @@ const Register = () => {
     heroTitleAccent: 'monitoring account',
     heroSubtitle: 'Join WebMonitor and start tracking the web pages you care about.',
     benefitsTitle: 'With an account you get:',
-    benefits: ['Real-time page monitoring', 'Email change notifications', 'Custom monitoring intervals', 'Precise Selenium-based extraction'],
+    benefits: ['Real-time page monitoring', 'Email change notifications', 'Flexible Cron-based scheduling', 'Precise Selenium-based extraction'],
     formTitle: 'Create account',
     formSubtitle: 'Fill in the details below to get started',
     username: 'Username',
