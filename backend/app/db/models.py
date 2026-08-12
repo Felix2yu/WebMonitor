@@ -33,7 +33,7 @@ class MonitorTask(Base):
     is_active = Column(Boolean, default=True, comment="是否启用")
     description = Column(Text, comment="任务描述")
     last_content = Column(Text, comment="上次内容")
-    last_check = Column(DateTime, comment="上次检查时间")
+    last_check = Column(DateTime(timezone=True), comment="上次检查时间")
     owner_id = Column(Integer, ForeignKey("users.id"), nullable=False, comment="所有者ID")
     email_config_id = Column(Integer, ForeignKey("email_configs.id"), nullable=True, comment="邮件配置ID")
     created_at = Column(DateTime(timezone=True), server_default=func.now(), comment="创建时间")

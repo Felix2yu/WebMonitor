@@ -116,7 +116,7 @@ async def test_monitor_task(task_id: int, db: Session = Depends(get_db)):
         raise HTTPException(status_code=500, detail=result.get("error", "测试失败"))
 
     # 测试成功后发送一条测试通知，验证通知链路
-    from datetime import datetime
+    from datetime import datetime, timezone
     notify_service = NotifyService()
     try:
         notify_service.send_change_notification(
@@ -125,7 +125,7 @@ async def test_monitor_task(task_id: int, db: Session = Depends(get_db)):
             title=result.get("title") or "测试",
             old_content="测试前内容",
             new_content=result.get("content") or "无内容",
-            check_time=datetime.now(),
+            check_time=datetime.now(timezone.utc),
             email_config_id=task.email_config_id,
             user_id=task.owner_id,
         )

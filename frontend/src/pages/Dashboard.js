@@ -147,6 +147,10 @@ const Dashboard = () => {
     : 100;
   const recentChanges = logs.filter((log) => log.is_changed).length;
   const averageResponseTime = 1.2;
+  const taskMap = tasks.reduce((acc, task) => {
+    acc[task.id] = task.name;
+    return acc;
+  }, {});
 
   const handleRefresh = () => {
     refetchTasks();
@@ -400,7 +404,7 @@ const Dashboard = () => {
                             <Box sx={{ display: 'flex', alignItems: 'center', mb: 0.5 }}>
                               <Chip
                                 size="small"
-                                label={`${content.taskLabel} #${log.task_id}`}
+                                label={`${content.taskLabel}: ${taskMap[log.task_id] || `#${log.task_id}`}`}
                                 sx={{
                                   backgroundColor: 'rgba(37, 99, 235, 0.1)',
                                   color: '#2563eb',

@@ -1,6 +1,6 @@
 import logging
 import requests
-from datetime import datetime
+from datetime import datetime, timezone
 from typing import Optional, Tuple
 from lxml import html
 
@@ -107,7 +107,7 @@ class MonitorService:
             else:
                 current_content, error_message, title = _fetch_via_selenium(task.url, task.xpath)
 
-            check_time = datetime.now()
+            check_time = datetime.now(timezone.utc)
 
             if error_message:
                 create_monitor_log(db=db, task_id=task_id, error_message=error_message, check_time=check_time)
@@ -143,7 +143,7 @@ class MonitorService:
             error_msg = f"检查任务 {task_id} 时发生错误: {e}"
             logger.error(error_msg)
             try:
-                create_monitor_log(db=db, task_id=task_id, error_message=error_msg, check_time=datetime.now())
+                create_monitor_log(db=db, task_id=task_id, error_message=error_msg, check_time=datetime.now(timezone.utc))
             except Exception as log_error:
                 logger.error(f"记录错误日志失败: {log_error}")
             return False

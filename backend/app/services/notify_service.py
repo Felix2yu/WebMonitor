@@ -57,7 +57,7 @@ class NotifyService:
     def _build_message(self, task_name: str, url: str, title: str,
                        old_content: str, new_content: str, check_time: datetime) -> tuple[str, str]:
         """构建通知标题和正文"""
-        time_str = check_time.strftime("%Y-%m-%d %H:%M:%S")
+        time_str = check_time.astimezone().strftime("%Y-%m-%d %H:%M:%S")
         subject = f"{title} - 内容更新通知"
         body = (
             f"网页内容已更新！\n\n"

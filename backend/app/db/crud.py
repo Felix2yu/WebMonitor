@@ -1,6 +1,6 @@
 from sqlalchemy.orm import Session
 from sqlalchemy import desc
-from datetime import datetime
+from datetime import datetime, timezone
 from typing import Union, List, Optional
 from .models import MonitorTask, MonitorLog, EmailConfig, User, BlacklistDomain
 from ..schemas.schemas import MonitorTaskCreate, MonitorTaskUpdate, NotifyConfigCreate, NotifyConfigUpdate, UserCreate, UserUpdate, BlacklistDomainCreate, BlacklistDomainUpdate
@@ -83,7 +83,7 @@ def create_monitor_log(
         new_content=new_content,
         is_changed=is_changed,
         error_message=error_message,
-        check_time=check_time or datetime.now()
+        check_time=check_time or datetime.now(timezone.utc)
     )
     db.add(db_log)
     db.commit()
