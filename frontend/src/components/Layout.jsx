@@ -48,7 +48,7 @@ function Layout({ children }) {
   const location = useLocation();
   const { user, logout, isAdmin } = useAuth();
   const { t, i18n } = useTranslation();
-  const faviconSrc = `${process.env.PUBLIC_URL || ''}/favicon.svg`;
+  const faviconSrc = '/favicon.svg';
 
   const isChinese = isChineseLanguage(i18n.language);
 

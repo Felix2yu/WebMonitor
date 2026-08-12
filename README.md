@@ -99,13 +99,20 @@ pip install -r requirements.txt
 python main.py
 ```
 
-前端：
+前端（已从 Create React App 迁移至 Vite）：
 
 ```bash
 cd frontend
 npm install
-npm start
+npm run dev        # 本地开发服务器（默认 http://localhost:3000）
+# 生产构建
+npm run build      # 产出 build/ 目录
+npm run preview    # 本地预览构建产物
 ```
+
+> 前端环境变量使用 `VITE_` 前缀（对应原 CRA 的 `REACT_APP_`）。
+> 复制 `frontend/.env.example` 为 `frontend/.env` 并按需修改 `VITE_API_URL`。
+> 本地开发通过 `vite.config.js` 中的 `/api` 代理访问后端，无需单独设置 `VITE_API_URL`。
 
 ---
 

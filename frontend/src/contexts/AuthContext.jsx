@@ -2,7 +2,7 @@ import React, { createContext, useContext, useState, useEffect } from 'react';
 import axios from 'axios';
 
 // 设置 axios 基础 URL
-axios.defaults.baseURL = process.env.REACT_APP_API_URL || '';
+axios.defaults.baseURL = import.meta.env.VITE_API_URL || '';
 
 // 401 拦截器：token 过期或无效时自动登出
 axios.interceptors.response.use(

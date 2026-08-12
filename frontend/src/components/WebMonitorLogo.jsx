@@ -1,6 +1,6 @@
 import { Box } from '@mui/material';
 
-const faviconSrc = `${process.env.PUBLIC_URL || ''}/favicon.svg`;
+const faviconSrc = '/favicon.svg';
 
 const WebMonitorLogo = ({ size = 40, ...props }) => {
   return (
