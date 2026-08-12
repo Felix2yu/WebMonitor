@@ -44,7 +44,7 @@ const Settings = () => {
                 alignItems: 'center',
                 p: 0.5,
                 borderRadius: 999,
-                backgroundColor: 'action.hover',
+                backgroundColor: 'action.selected',
                 border: '1px solid',
                 borderColor: 'divider',
               }}
@@ -65,11 +65,12 @@ const Settings = () => {
                       fontSize: '0.8125rem',
                       fontWeight: 700,
                       lineHeight: 1,
-                      color: isActive ? '#ffffff' : 'text.secondary',
+                      color: isActive ? '#ffffff' : 'text.primary',
                       background: isActive ? 'primary.main' : 'transparent',
                       boxShadow: isActive ? (theme) => `0 6px 18px ${theme.palette.primary.main}44` : 'none',
                       '&:hover': {
                         background: isActive ? 'primary.main' : 'action.hover',
+                        color: isActive ? '#ffffff' : 'text.primary',
                       },
                     }}
                   >
