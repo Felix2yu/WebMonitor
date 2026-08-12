@@ -18,8 +18,8 @@
     "react-router-dom": "^7.18.2"
   },
   "devDependencies": {
-    "@vitejs/plugin-react": "^4.3.4",
-    "vite": "^6.4.3"
+    "@vitejs/plugin-react": "^6.0.5",
+    "vite": "^8.2.1"
   },
   "scripts": {
     "dev": "vite",
