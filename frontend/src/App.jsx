@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Suspense } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 
@@ -6,17 +6,22 @@ import { AuthProvider } from './contexts/AuthContext';
 import { ThemeProvider } from './contexts/ThemeContext';
 import ProtectedRoute from './components/ProtectedRoute';
 import Layout from './components/Layout';
-import Login from './pages/Login';
-import Register from './pages/Register';
-import HomePage from './pages/HomePage';
-import Dashboard from './pages/Dashboard';
-import MonitorTasks from './pages/MonitorTasks';
-import MonitorLogs from './pages/MonitorLogs';
-import NotificationConfig from './pages/EmailConfig';
-import UserManagement from './pages/UserManagement';
-import BlacklistManagement from './pages/BlacklistManagement';
-import Documentation from './pages/Documentation';
-import Settings from './pages/Settings';
+
+// 路由级代码分割：每个页面独立成 chunk，降低首屏主包体积
+const Login = React.lazy(() => import('./pages/Login'));
+const Register = React.lazy(() => import('./pages/Register'));
+const HomePage = React.lazy(() => import('./pages/HomePage'));
+const Dashboard = React.lazy(() => import('./pages/Dashboard'));
+const MonitorTasks = React.lazy(() => import('./pages/MonitorTasks'));
+const MonitorLogs = React.lazy(() => import('./pages/MonitorLogs'));
+const NotificationConfig = React.lazy(() => import('./pages/EmailConfig'));
+const UserManagement = React.lazy(() => import('./pages/UserManagement'));
+const BlacklistManagement = React.lazy(() => import('./pages/BlacklistManagement'));
+const Documentation = React.lazy(() => import('./pages/Documentation'));
+const Settings = React.lazy(() => import('./pages/Settings'));
+
+// 懒加载期间的占位，避免路由切换白屏
+const PageFallback = () => null;
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -33,7 +38,8 @@ function App() {
       <ThemeProvider>
         <AuthProvider>
           <Router>
-            <Routes>
+            <Suspense fallback={<PageFallback />}>
+              <Routes>
               <Route path="/" element={<HomePage />} />
               <Route path="/login" element={<Login />} />
               <Route path="/register" element={<Register />} />
@@ -74,7 +80,8 @@ function App() {
                   <Layout><Settings /></Layout>
                 </ProtectedRoute>
               } />
-            </Routes>
+              </Routes>
+            </Suspense>
           </Router>
         </AuthProvider>
       </ThemeProvider>
