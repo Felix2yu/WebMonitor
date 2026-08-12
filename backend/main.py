@@ -65,6 +65,13 @@ except Exception as _e:
 # 创建数据库表
 Base.metadata.create_all(bind=engine)
 
+# 轻量级迁移：补充 monitor_tasks 新增列
+try:
+    from app.db.database import ensure_columns
+    ensure_columns()
+except Exception as _e:
+    print(f"⚠️ monitor_tasks 列迁移跳过: {_e}")
+
 # 自动创建管理员用户
 def create_default_admin():
     """如果不存在管理员用户，则创建默认管理员"""

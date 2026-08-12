@@ -12,6 +12,7 @@ from app.services import NotifyService
 import logging
 logger = logging.getLogger(__name__)
 from app.services.monitor_service import MonitorService
+from app.services.scheduler import monitor_scheduler
 from app.services.auth_service import get_current_active_user
 from app.db.models import User
 
@@ -28,7 +29,11 @@ async def create_task(task: MonitorTaskCreate, db: Session = Depends(get_db), cu
     if not validate_notify_config_ownership(db, task.email_config_id, current_user.id):
         raise HTTPException(status_code=400, detail="邮箱配置不存在或不属于当前用户")
 
-    return create_monitor_task(db=db, task=task, owner_id=current_user.id)
+    new_task = create_monitor_task(db=db, task=task, owner_id=current_user.id)
+    # 任务创建后立即加入调度器
+    if new_task.is_active:
+        monitor_scheduler.add_task_job(new_task)
+    return new_task
 
 @router.get("/monitor-tasks", response_model=List[MonitorTaskResponse])
 async def read_tasks(skip: int = 0, limit: int = 100, db: Session = Depends(get_db), current_user: User = Depends(get_current_active_user)):
@@ -65,6 +70,11 @@ async def update_task(task_id: int, task: MonitorTaskUpdate, db: Session = Depen
         raise HTTPException(status_code=400, detail="邮箱配置不存在或不属于当前用户")
 
     updated_task = update_monitor_task(db=db, task_id=task_id, task=task)
+    # 根据启用状态更新调度器作业
+    if updated_task.is_active:
+        monitor_scheduler.add_task_job(updated_task)
+    else:
+        monitor_scheduler.remove_task_job(updated_task.id)
     return updated_task
 
 @router.delete("/monitor-tasks/{task_id}")
@@ -78,6 +88,7 @@ async def delete_task(task_id: int, db: Session = Depends(get_db), current_user:
         raise HTTPException(status_code=403, detail="无权访问此任务")
 
     success = delete_monitor_task(db=db, task_id=task_id)
+    monitor_scheduler.remove_task_job(task_id)
     return {"message": "监控任务删除成功"}
 
 @router.get("/monitor-tasks/{task_id}/logs", response_model=List[MonitorLogResponse])

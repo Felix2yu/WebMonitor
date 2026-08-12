@@ -54,7 +54,7 @@ const docsEn = {
               'Task name for easy identification',
               'Target URL to monitor',
               'XPath selector used to locate the content',
-              'Check interval in seconds',
+              'Check interval (fixed seconds or a Cron expression)',
               'Email configuration used for notifications',
             ],
           },
@@ -102,19 +102,24 @@ const docsEn = {
           type: 'subsection',
           title: 'Check interval',
           paragraphs: [
-            'The interval controls how often WebMonitor checks the target page.',
+            'The interval controls how often WebMonitor checks the target page. Two scheduling modes are supported:',
           ],
           list: {
             type: 'ul',
             items: [
-              'Minimum interval: 10 seconds',
-              'Default interval: 300 seconds (5 minutes)',
-              'Maximum interval: 86,400 seconds (24 hours)',
+              'Fixed interval: loop checks by seconds, minimum 10 seconds, default 300 seconds (5 minutes)',
+              'Cron expression: scheduled checks using the standard 5-field format (minute hour day month weekday), ideal for daily or low-frequency probes',
             ],
           },
+          codeExamples: [
+            { label: 'Daily at 9:00', language: 'cron', code: '0 9 * * *' },
+            { label: 'Mondays at 12:00', language: 'cron', code: '0 12 * * 1' },
+            { label: '1st of every month at 0:00', language: 'cron', code: '0 0 1 * *' },
+            { label: 'Every 30 minutes (fixed interval 1800s)', language: 'text', code: 'interval: 1800' },
+          ],
           tip: {
             type: 'warning',
-            text: 'Very short intervals may trigger rate limits on the target site. Choose a practical interval for your use case.',
+            text: 'Very short intervals may trigger rate limits on the target site. For low-frequency needs such as once a day, prefer using a Cron expression.',
           },
         },
         {

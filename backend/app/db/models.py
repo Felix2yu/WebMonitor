@@ -28,6 +28,8 @@ class MonitorTask(Base):
     url = Column(String(500), nullable=False, comment="监控URL")
     xpath = Column(String(500), nullable=False, comment="XPath选择器")
     interval = Column(Integer, default=300, comment="检查间隔（秒）")
+    schedule_type = Column(String(20), default="interval", comment="调度类型: interval(固定间隔) / cron(Cron表达式)")
+    cron_expression = Column(String(100), nullable=True, comment="Cron表达式（如 0 9 * * * 表示每天9点）")
     is_active = Column(Boolean, default=True, comment="是否启用")
     description = Column(Text, comment="任务描述")
     last_content = Column(Text, comment="上次内容")

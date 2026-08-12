@@ -54,7 +54,7 @@ const docsZhCN = {
               '方便识别的任务名称',
               '要监控的目标 URL',
               '用于定位内容的 XPath 选择器',
-              '检查间隔（秒）',
+              '检查间隔（固定间隔秒数或 Cron 表达式）',
               '用于通知的邮件配置',
             ],
           },
@@ -102,19 +102,24 @@ const docsZhCN = {
           type: 'subsection',
           title: '检查间隔',
           paragraphs: [
-            '检查间隔决定了 WebMonitor 多久检查一次目标页面。',
+            '检查间隔决定了 WebMonitor 多久检查一次目标页面，支持两种调度方式：',
           ],
           list: {
             type: 'ul',
             items: [
-              '最小间隔：10 秒',
-              '默认间隔：300 秒（5 分钟）',
-              '最大间隔：86,400 秒（24 小时）',
+              '固定间隔：按秒数循环检查，最小间隔 10 秒，默认 300 秒（5 分钟）',
+              'Cron 表达式：按标准 5 字段（分 时 日 月 星期）定时检查，适合每日、每周等低频探测',
             ],
           },
+          codeExamples: [
+            { label: '每天 9:00', language: 'cron', code: '0 9 * * *' },
+            { label: '每周一 12:00', language: 'cron', code: '0 12 * * 1' },
+            { label: '每月 1 日 0:00', language: 'cron', code: '0 0 1 * *' },
+            { label: '每 30 分钟（固定间隔 1800 秒）', language: 'text', code: 'interval: 1800' },
+          ],
           tip: {
             type: 'warning',
-            text: '过短的间隔可能触发目标网站的访问限制，请根据实际需求合理设置。',
+            text: '过短的间隔可能触发目标网站的访问限制。对于每天检查一次等低频需求，推荐使用 Cron 表达式。',
           },
         },
         {

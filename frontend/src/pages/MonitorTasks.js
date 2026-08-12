@@ -60,6 +60,8 @@ const MonitorTasks = () => {
     url: '',
     xpath: '',
     interval: 300,
+    schedule_type: 'interval',
+    cron_expression: '',
     is_active: true,
     description: '',
     email_config_id: '',
@@ -84,6 +86,12 @@ const MonitorTasks = () => {
     taskInfo: '任务信息',
     monitorConfig: '监控配置',
     interval: '检查间隔',
+    scheduleType: '调度类型',
+    scheduleInterval: '固定间隔',
+    scheduleCron: 'Cron 表达式',
+    cronExpression: 'Cron 表达式',
+    cronHelper: '标准 5 字段格式：分 时 日 月 星期',
+    cronExamples: '示例：0 9 * * *（每天 9:00）、0 12 * * 1（每周一 12:00）、0 0 1 * *（每月 1 日 0:00）',
     emailConfig: '通知配置',
     status: '状态',
     actions: '操作',
@@ -141,6 +149,12 @@ const MonitorTasks = () => {
     taskInfo: 'Task info',
     monitorConfig: 'Monitor config',
     interval: 'Interval',
+    scheduleType: 'Schedule type',
+    scheduleInterval: 'Fixed interval',
+    scheduleCron: 'Cron expression',
+    cronExpression: 'Cron expression',
+    cronHelper: 'Standard 5-field format: minute hour day month weekday',
+    cronExamples: 'Examples: 0 9 * * * (daily at 9:00), 0 12 * * 1 (Mondays at 12:00), 0 0 1 * * (1st of every month at 0:00)',
     emailConfig: 'Email config',
     status: 'Status',
     actions: 'Actions',
@@ -307,6 +321,8 @@ const MonitorTasks = () => {
         url: task.url,
         xpath: task.xpath,
         interval: task.interval,
+        schedule_type: task.schedule_type || 'interval',
+        cron_expression: task.cron_expression || '',
         is_active: task.is_active,
         description: task.description || '',
         email_config_id: task.email_config_id || '',
@@ -318,8 +334,10 @@ const MonitorTasks = () => {
         url: '',
         xpath: '',
         interval: 300,
+        schedule_type: 'interval',
+        cron_expression: '',
         is_active: true,
-            description: '',
+        description: '',
         email_config_id: emailConfigs.length === 1 ? emailConfigs[0].id : '',
       });
     }
@@ -741,8 +759,10 @@ const MonitorTasks = () => {
                     <TableCell>
                       <Box sx={{ display: 'flex', alignItems: 'center' }}>
                         <ScheduleIcon sx={{ fontSize: 16, mr: 1, color: 'text.secondary' }} />
-                        <Typography variant="body2">
-                          {task.interval}{content.seconds}
+                        <Typography variant="body2" sx={{ fontFamily: 'monospace' }}>
+                          {task.schedule_type === 'cron' && task.cron_expression
+                            ? task.cron_expression
+                            : `${task.interval}${content.seconds}`}
                         </Typography>
                       </Box>
                     </TableCell>
@@ -900,30 +920,90 @@ const MonitorTasks = () => {
                 />
               </Grid>
               <Grid item xs={12} sm={6}>
-                <TextField
-                  label={content.intervalSeconds}
-                  type="number"
-                  fullWidth
-                  value={formData.interval}
-                  onChange={(e) =>
-                    setFormData({
-                      ...formData,
-                      interval: parseInt(e.target.value, 10) || 300,
-                    })
-                  }
-                  inputProps={{ min: 10 }}
-                  sx={{
-                    '& .MuiOutlinedInput-root': {
-                      '&:hover fieldset': {
-                        borderColor: 'rgba(16, 185, 129, 0.5)',
+                <FormControl fullWidth>
+                  <InputLabel id="schedule-type-label">{content.scheduleType}</InputLabel>
+                  <Select
+                    labelId="schedule-type-label"
+                    value={formData.schedule_type}
+                    label={content.scheduleType}
+                    onChange={(e) =>
+                      setFormData({
+                        ...formData,
+                        schedule_type: e.target.value,
+                      })
+                    }
+                    sx={{
+                      '& .MuiOutlinedInput-root': {
+                        '&:hover fieldset': {
+                          borderColor: 'rgba(16, 185, 129, 0.5)',
+                        },
+                        '&.Mui-focused fieldset': {
+                          borderColor: '#10b981',
+                          borderWidth: 2,
+                        },
                       },
-                      '&.Mui-focused fieldset': {
-                        borderColor: '#10b981',
-                        borderWidth: 2,
+                    }}
+                  >
+                    <MenuItem value="interval">{content.scheduleInterval}</MenuItem>
+                    <MenuItem value="cron">{content.scheduleCron}</MenuItem>
+                  </Select>
+                </FormControl>
+              </Grid>
+              <Grid item xs={12} sm={6}>
+                {formData.schedule_type === 'cron' ? (
+                  <TextField
+                    label={content.cronExpression}
+                    fullWidth
+                    value={formData.cron_expression}
+                    onChange={(e) =>
+                      setFormData({
+                        ...formData,
+                        cron_expression: e.target.value,
+                      })
+                    }
+                    helperText={formData.cron_expression
+                      ? `${content.cronHelper}。${content.cronExamples}`
+                      : content.cronHelper}
+                    placeholder="0 9 * * *"
+                    required
+                    sx={{
+                      '& .MuiOutlinedInput-root': {
+                        '&:hover fieldset': {
+                          borderColor: 'rgba(16, 185, 129, 0.5)',
+                        },
+                        '&.Mui-focused fieldset': {
+                          borderColor: '#10b981',
+                          borderWidth: 2,
+                        },
                       },
-                    },
-                  }}
-                />
+                    }}
+                  />
+                ) : (
+                  <TextField
+                    label={content.intervalSeconds}
+                    type="number"
+                    fullWidth
+                    value={formData.interval}
+                    onChange={(e) =>
+                      setFormData({
+                        ...formData,
+                        interval: parseInt(e.target.value, 10) || 300,
+                      })
+                    }
+                    inputProps={{ min: 10 }}
+                    sx={{
+                      '& .MuiOutlinedInput-root': {
+                        '&:hover fieldset': {
+                          borderColor: 'rgba(16, 185, 129, 0.5)',
+                        },
+                        '&.Mui-focused fieldset': {
+                          borderColor: '#10b981',
+                          borderWidth: 2,
+                        },
+                      },
+                    }}
+                  />
+                )}
               </Grid>
               <Grid item xs={12} sm={6}>
                 <FormControl fullWidth required>

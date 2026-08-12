@@ -24,6 +24,8 @@ def create_monitor_task(db: Session, task: MonitorTaskCreate, owner_id: int) -> 
         url=task.url,
         xpath=task.xpath,
         interval=task.interval,
+        schedule_type=task.schedule_type,
+        cron_expression=task.cron_expression,
         is_active=task.is_active,
         owner_id=owner_id,
         email_config_id=task.email_config_id

@@ -1,4 +1,4 @@
-from pydantic import BaseModel, Field, EmailStr
+from pydantic import BaseModel, Field, EmailStr, field_validator, model_validator
 from typing import Optional, List
 from datetime import datetime
 
@@ -51,8 +51,31 @@ class MonitorTaskBase(BaseModel):
     url: str = Field(..., description="监控URL", min_length=1, max_length=500)
     xpath: str = Field(..., description="XPath选择器", min_length=1, max_length=500)
     interval: int = Field(default=300, description="检查间隔（秒）", ge=10)
+    schedule_type: str = Field(default="interval", description="调度类型: interval / cron")
+    cron_expression: Optional[str] = Field(None, description="Cron表达式（标准5字段: 分 时 日 月 星期）", max_length=100)
     is_active: bool = Field(default=True, description="是否启用")
     description: Optional[str] = Field(None, description="任务描述", max_length=1000)
+
+    @field_validator('schedule_type')
+    @classmethod
+    def validate_schedule_type(cls, v):
+        if v not in ("interval", "cron"):
+            raise ValueError("schedule_type 只能是 interval 或 cron")
+        return v
+
+    @field_validator('cron_expression')
+    @classmethod
+    def validate_cron_expression(cls, v, info):
+        schedule_type = info.data.get("schedule_type", "interval")
+        if schedule_type == "cron":
+            if not v or not v.strip():
+                raise ValueError("cron 调度类型需要提供 cron_expression")
+            from apscheduler.triggers.cron import CronTrigger
+            try:
+                CronTrigger.from_crontab(v)
+            except Exception as e:
+                raise ValueError(f"无效的 Cron 表达式: {e}")
+        return v
 
 class MonitorTaskCreate(MonitorTaskBase):
     email_config_id: int = Field(..., description="通知配置ID")
@@ -62,9 +85,36 @@ class MonitorTaskUpdate(BaseModel):
     url: Optional[str] = Field(None, description="监控URL", min_length=1, max_length=500)
     xpath: Optional[str] = Field(None, description="XPath选择器", min_length=1, max_length=500)
     interval: Optional[int] = Field(None, description="检查间隔（秒）", ge=10)
+    schedule_type: Optional[str] = Field(None, description="调度类型: interval / cron")
+    cron_expression: Optional[str] = Field(None, description="Cron表达式（标准5字段: 分 时 日 月 星期）", max_length=100)
     is_active: Optional[bool] = Field(None, description="是否启用")
     description: Optional[str] = Field(None, description="任务描述", max_length=1000)
     email_config_id: Optional[int] = Field(None, description="通知配置ID")
+
+    @field_validator('schedule_type')
+    @classmethod
+    def validate_schedule_type(cls, v):
+        if v is not None and v not in ("interval", "cron"):
+            raise ValueError("schedule_type 只能是 interval 或 cron")
+        return v
+
+    @field_validator('cron_expression')
+    @classmethod
+    def validate_cron_expression(cls, v):
+        if v is None or v == "":
+            return v
+        from apscheduler.triggers.cron import CronTrigger
+        try:
+            CronTrigger.from_crontab(v)
+        except Exception as e:
+            raise ValueError(f"无效的 Cron 表达式: {e}")
+        return v
+
+    @model_validator(mode='after')
+    def check_cron_required(self):
+        if self.schedule_type == "cron" and not (self.cron_expression or "").strip():
+            raise ValueError("cron 调度类型需要提供 cron_expression")
+        return self
 
 class MonitorTaskResponse(MonitorTaskBase):
     id: int
