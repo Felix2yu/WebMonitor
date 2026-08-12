@@ -1,5 +1,5 @@
 # 使用官方镜像
-FROM node:22-alpine
+FROM node:24-alpine
 
 # 安装nginx用于反向代理
 RUN apk add --no-cache nginx
