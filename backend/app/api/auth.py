@@ -1,11 +1,11 @@
 """
 认证相关API路由
 """
-from fastapi import APIRouter, Depends, HTTPException, status
+from fastapi import APIRouter, Depends, HTTPException, status, Body
 from fastapi.security import OAuth2PasswordRequestForm
 from sqlalchemy.orm import Session
 from typing import List
-from pydantic import ValidationError
+from pydantic import ValidationError, BaseModel
 
 from app.db.database import get_db
 from app.db.crud import create_user, get_users, get_user, update_user, delete_user, get_user_by_username, get_user_by_email
@@ -112,3 +112,12 @@ async def delete_user_account(
 async def logout():
     """用户登出 (客户端处理)"""
     return {"message": "登出成功"}
+
+class RefreshRequest(BaseModel):
+    token: str
+
+@router.post("/refresh")
+async def refresh(payload: RefreshRequest, db: Session = Depends(get_db)):
+    """刷新访问令牌，避免频繁重新登录"""
+    auth_service = AuthService()
+    return auth_service.refresh(db, payload.token)

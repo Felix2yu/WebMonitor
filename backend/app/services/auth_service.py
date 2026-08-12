@@ -1,7 +1,7 @@
 import logging
 logger = logging.getLogger(__name__)
 
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 from typing import Optional
 from jose import JWTError, jwt
 from fastapi import Depends, HTTPException, status
@@ -57,12 +57,12 @@ def authenticate_user(db: Session, username: str, password: str):
     return user
 
 def create_access_token(data: dict, expires_delta: Optional[timedelta] = None):
-    """创建访问令牌"""
+    """创建访问令牌（使用带时区的 UTC，避免 exp 时区歧义）"""
     to_encode = data.copy()
     if expires_delta:
-        expire = datetime.utcnow() + expires_delta
+        expire = datetime.now(timezone.utc) + expires_delta
     else:
-        expire = datetime.utcnow() + timedelta(minutes=15)
+        expire = datetime.now(timezone.utc) + timedelta(minutes=15)
 
     settings = get_settings()
     to_encode.update({"exp": expire})
@@ -147,3 +147,59 @@ class AuthService:
         }
 
         return result
+
+    def refresh(self, db: Session, token: str) -> dict:
+        """用旧 token 刷新，签发新的访问令牌。
+
+        刷新时关闭 exp 校验，仅验证签名与 sub，让前端可实现静默续期，
+        避免 token 过期后被频繁踢回登录页。
+        """
+        credentials_exception = HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="凭证无效，请重新登录",
+            headers={"WWW-Authenticate": "Bearer"},
+        )
+        try:
+            settings = get_settings()
+            payload = jwt.decode(
+                token,
+                settings.SECRET_KEY,
+                algorithms=[settings.ALGORITHM],
+                options={"verify_exp": False},  # 刷新阶段暂不校验过期时间
+            )
+            sub: str = payload.get("sub")
+            if sub is None:
+                raise credentials_exception
+        except JWTError:
+            raise credentials_exception
+
+        # sub 为字符串形式的用户 id（与 login 保持一致）
+        try:
+            user_id = int(sub)
+        except (ValueError, TypeError):
+            raise credentials_exception
+
+        user = db.query(User).filter(User.id == user_id).first()
+        if user is None or not user.is_active:
+            raise credentials_exception
+
+        access_token_expires = timedelta(minutes=self.settings.ACCESS_TOKEN_EXPIRE_MINUTES)
+        access_token = create_access_token(
+            data={"sub": str(user.id), "username": user.username, "is_admin": user.is_admin},
+            expires_delta=access_token_expires
+        )
+
+        return {
+            "access_token": access_token,
+            "token_type": "bearer",
+            "user": {
+                "id": user.id,
+                "username": user.username,
+                "email": user.email,
+                "full_name": user.full_name,
+                "is_active": user.is_active,
+                "is_admin": user.is_admin,
+                "created_at": user.created_at,
+                "updated_at": user.updated_at,
+            },
+        }
