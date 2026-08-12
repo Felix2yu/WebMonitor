@@ -18,9 +18,11 @@ const LanguageSwitcher = ({ sx = {} }) => {
           alignItems: 'center',
           p: 0.5,
           borderRadius: 999,
-          backgroundColor: 'rgba(148, 163, 184, 0.12)',
-          border: '1px solid rgba(148, 163, 184, 0.18)',
-          backdropFilter: 'blur(8px)',
+          backgroundColor: (theme) =>
+            theme.palette.mode === 'dark' ? 'rgba(255,255,255,0.08)' : 'rgba(15,23,42,0.06)',
+          border: '1px solid',
+          borderColor: (theme) =>
+            theme.palette.mode === 'dark' ? 'rgba(255,255,255,0.16)' : 'rgba(15,23,42,0.18)',
           ...sx,
         }}
       >
@@ -41,11 +43,13 @@ const LanguageSwitcher = ({ sx = {} }) => {
                 fontSize: '0.8125rem',
                 fontWeight: 700,
                 lineHeight: 1,
-                color: isActive ? '#ffffff' : 'text.secondary',
+                color: isActive ? '#ffffff' : (theme) => theme.palette.text.primary,
                 background: isActive ? 'primary.main' : 'transparent',
-                boxShadow: isActive ? '0 6px 18px rgba(16, 185, 129, 0.28)' : 'none',
+                boxShadow: isActive ? (theme) => `0 6px 18px ${theme.palette.primary.main}66` : 'none',
                 '&:hover': {
-                  background: isActive ? 'primary.main' : 'action.hover',
+                  background: isActive ? 'primary.main' : (theme) =>
+                    theme.palette.mode === 'dark' ? 'rgba(255,255,255,0.12)' : 'rgba(15,23,42,0.08)',
+                  color: isActive ? '#ffffff' : (theme) => theme.palette.text.primary,
                 },
               }}
             >
