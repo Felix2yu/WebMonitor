@@ -7,7 +7,7 @@
     "@emotion/styled": "^11.14.0",
     "@mui/icons-material": "^7.2.0",
     "@mui/material": "^7.2.0",
-    "axios": "^1.8.0",
+    "axios": "^1.18.0",
     "dayjs": "^1.11.13",
     "framer-motion": "^12.6.0",
     "i18next": "^23.16.8",
@@ -15,7 +15,7 @@
     "react-dom": "^19.1.0",
     "react-i18next": "^15.4.0",
     "react-query": "^3.39.3",
-    "react-router-dom": "^6.28.0",
+    "react-router-dom": "^7.18.2",
     "react-scripts": "5.0.1",
     "web-vitals": "^4.2.0"
   },
