@@ -39,7 +39,7 @@ import { useTranslation } from 'react-i18next';
 import { useAuth } from '../contexts/AuthContext';
 import { isChineseLanguage } from '../utils/i18n';
 
-const drawerWidth = 280;
+const drawerWidth = 232;
 
 function Layout({ children }) {
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -165,14 +165,14 @@ function Layout({ children }) {
           {dynamicMenuItems.map((item) => {
             const isActive = location.pathname === item.path;
             return (
-              <ListItem key={item.text} disablePadding sx={{ px: 2, mb: 1 }}>
+              <ListItem key={item.text} disablePadding sx={{ px: 1.5, mb: 0.5 }}>
                 <ListItemButton
                   selected={isActive}
                   onClick={() => handleMenuItemClick(item.path)}
                   sx={{
-                    borderRadius: 2,
-                    px: 3,
-                    py: 2.5,
+                    borderRadius: 1.5,
+                    px: 2,
+                    py: 1.5,
                     minHeight: 'auto',
                     transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
                     '&:hover': {
@@ -201,10 +201,10 @@ function Layout({ children }) {
                 >
                   <ListItemIcon
                     sx={{
-                      minWidth: 40,
+                      minWidth: 34,
                       color: isActive ? 'primary.main' : 'text.secondary',
                       '& svg': {
-                        fontSize: 20,
+                        fontSize: 22,
                       },
                     }}
                   >
@@ -214,12 +214,12 @@ function Layout({ children }) {
                     primary={item.text}
                     secondary={item.description}
                     primaryTypographyProps={{
-                      fontSize: '0.9rem',
+                      fontSize: '0.95rem',
                       fontWeight: isActive ? 600 : 500,
                       fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif',
                     }}
                     secondaryTypographyProps={{
-                      fontSize: '0.75rem',
+                      fontSize: '0.72rem',
                     }}
                   />
                 </ListItemButton>
