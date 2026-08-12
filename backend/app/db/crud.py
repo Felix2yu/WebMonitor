@@ -1,5 +1,5 @@
 from sqlalchemy.orm import Session
-from sqlalchemy import desc
+from sqlalchemy import desc, func, and_
 from datetime import datetime, timezone
 from typing import Union, List, Optional
 from .models import MonitorTask, MonitorLog, EmailConfig, User, BlacklistDomain
@@ -98,9 +98,25 @@ def get_monitor_logs(db: Session, task_id: int, skip: int = 0, limit: int = 100)
     )
 
 def get_latest_monitor_logs(db: Session, limit: int = 10) -> List[MonitorLog]:
-    """获取最新的监控日志记录"""
+    """获取最新的监控日志记录（每个任务仅保留最新一条，避免高频任务刷屏挤占列表）"""
+    # 子查询：每个 task_id 取最新一条日志的 id
+    subq = (
+        db.query(
+            MonitorLog.task_id,
+            func.max(MonitorLog.check_time).label("max_check_time"),
+        )
+        .group_by(MonitorLog.task_id)
+        .subquery()
+    )
     return (
         db.query(MonitorLog)
+        .join(
+            subq,
+            and_(
+                MonitorLog.task_id == subq.c.task_id,
+                MonitorLog.check_time == subq.c.max_check_time,
+            ),
+        )
         .order_by(desc(MonitorLog.check_time))
         .limit(limit)
         .all()

@@ -1,5 +1,4 @@
 from apscheduler.schedulers.background import BackgroundScheduler
-from apscheduler.triggers.interval import IntervalTrigger
 from apscheduler.triggers.cron import CronTrigger
 import logging
 import asyncio
@@ -20,76 +19,62 @@ class MonitorScheduler:
         self.monitor_service = MonitorService()
         self._setup_jobs()
 
-    def _setup_jobs(self):
-        """设置定时任务"""
-        # 每5分钟检查一次活跃任务
-        self.scheduler.add_job(
-            func=self._check_active_tasks,
-            trigger=IntervalTrigger(minutes=5),
-            id="check_active_tasks",
-            name="检查活跃监控任务",
-            replace_existing=True
-        )
-
     def _build_trigger(self, task):
-        """根据任务的调度配置构建调度触发器"""
+        """根据任务的调度配置构建调度触发器（仅支持 cron）"""
         if task.schedule_type == "cron" and task.cron_expression:
             return CronTrigger.from_crontab(task.cron_expression)
-        return IntervalTrigger(seconds=task.interval or 300)
+        raise ValueError(f"任务 {task.name} 未配置有效的 cron 表达式")
 
     def _schedule_desc(self, task):
         """生成任务调度的可读描述"""
         if task.schedule_type == "cron" and task.cron_expression:
             return f"Cron: {task.cron_expression}"
-        return f"间隔: {task.interval or 300}秒"
+        return "未配置调度"
 
-    def _check_active_tasks(self):
-        """检查所有活跃任务"""
+    def _schedule_active_tasks(self):
+        """启动时一次性调度所有活跃任务（不周期性重建，避免 cron job 被重复移除/添加导致误触发）"""
         db = SessionLocal()
         try:
             from ..db.crud import get_active_monitor_tasks
             active_tasks = get_active_monitor_tasks(db)
 
-            logger.info(f"检查到 {len(active_tasks)} 个活跃任务")
+            logger.info(f"调度到 {len(active_tasks)} 个活跃任务")
 
             for task in active_tasks:
-                # 为每个任务添加监控作业
-                job_id = f"monitor_task_{task.id}"
-                try:
-                    # 移除已存在的作业
-                    if self.scheduler.get_job(job_id):
-                        self.scheduler.remove_job(job_id)
-
-                    # 添加新的定时作业 - 包装异步函数调用
-                    def task_wrapper():
-                        try:
-                            asyncio.run(self.monitor_service.check_single_task(task.id))
-                        except Exception as e:
-                            logger.error(f"执行任务 {task.name} 时发生错误: {e}")
-
-                    self.scheduler.add_job(
-                        func=task_wrapper,
-                        trigger=self._build_trigger(task),
-                        id=job_id,
-                        name=f"监控任务: {task.name}",
-                        replace_existing=True
-                    )
-                    logger.info(f"为任务 {task.name} (ID: {task.id}) 设置监控作业，调度: {self._schedule_desc(task)}")
-
-                except Exception as e:
-                    logger.error(f"为任务 {task.id} 设置监控作业失败: {e}")
+                self._add_job_safe(task)
 
         except Exception as e:
-            logger.error(f"检查活跃任务失败: {e}")
+            logger.error(f"调度活跃任务失败: {e}")
         finally:
             db.close()
+
+    def _add_job_safe(self, task):
+        """为任务添加监控作业（replace_existing 自动去重，绝不先 remove 再 add 以免 cron 立即触发）"""
+        job_id = f"monitor_task_{task.id}"
+        try:
+            def task_wrapper():
+                try:
+                    asyncio.run(self.monitor_service.check_single_task(task.id))
+                except Exception as e:
+                    logger.error(f"执行任务 {task.name} 时发生错误: {e}")
+
+            self.scheduler.add_job(
+                func=task_wrapper,
+                trigger=self._build_trigger(task),
+                id=job_id,
+                name=f"监控任务: {task.name}",
+                replace_existing=True
+            )
+            logger.info(f"为任务 {task.name} (ID: {task.id}) 设置监控作业，调度: {self._schedule_desc(task)}")
+        except Exception as e:
+            logger.error(f"为任务 {task.id} 设置监控作业失败: {e}")
 
     def start(self):
         """启动调度器"""
         try:
             self.scheduler.start()
-            # 立即检查一次活跃任务
-            self._check_active_tasks()
+            # 启动时一次性调度所有活跃任务（后续增删改由 API 调用 add/remove_task_job 维护）
+            self._schedule_active_tasks()
             logger.info("监控调度器启动成功")
         except Exception as e:
             logger.error(f"监控调度器启动失败: {e}")
@@ -103,30 +88,10 @@ class MonitorScheduler:
             logger.error(f"监控调度器停止失败: {e}")
 
     def add_task_job(self, task: MonitorTask):
-        """为指定任务添加监控作业"""
-        job_id = f"monitor_task_{task.id}"
+        """为指定任务添加监控作业（供 API 在任务创建/更新时调用）"""
         try:
-            # 移除已存在的作业
-            if self.scheduler.get_job(job_id):
-                self.scheduler.remove_job(job_id)
-
-            # 添加新的定时作业 - 包装异步函数调用
-            def task_wrapper():
-                try:
-                    asyncio.run(self.monitor_service.check_single_task(task.id))
-                except Exception as e:
-                    logger.error(f"执行任务 {task.id} 时发生错误: {e}")
-
-            self.scheduler.add_job(
-                func=task_wrapper,
-                trigger=self._build_trigger(task),
-                id=job_id,
-                name=f"监控任务: {task.name}",
-                replace_existing=True
-            )
-            logger.info(f"为任务 {task.name} (ID: {task.id}) 添加监控作业，调度: {self._schedule_desc(task)}")
+            self._add_job_safe(task)
             return True
-
         except Exception as e:
             logger.error(f"为任务 {task.id} 添加监控作业失败: {e}")
             return False
