@@ -17,7 +17,6 @@ class MonitorScheduler:
     def __init__(self):
         self.scheduler = BackgroundScheduler()
         self.monitor_service = MonitorService()
-        self._setup_jobs()
 
     def _build_trigger(self, task):
         """根据任务的调度配置构建调度触发器（仅支持 cron）"""
