@@ -713,7 +713,7 @@ const MonitorTasks = () => {
                               variant="caption"
                               color="text.secondary"
                               sx={{
-                                maxWidth: 200,
+                                maxWidth: 380,
                                 overflow: 'hidden',
                                 textOverflow: 'ellipsis',
                                 whiteSpace: 'nowrap',
@@ -726,8 +726,18 @@ const MonitorTasks = () => {
                       </Box>
                     </TableCell>
                     <TableCell>
-                      <Typography variant="body2" color="text.secondary">
-                        {task.xpath ? `${task.xpath.substring(0, 50)}...` : content.notSet}
+                      <Typography
+                        variant="body2"
+                        color="text.secondary"
+                        sx={{
+                          maxWidth: 280,
+                          overflow: 'hidden',
+                          textOverflow: 'ellipsis',
+                          whiteSpace: 'nowrap',
+                        }}
+                        title={task.xpath || undefined}
+                      >
+                        {task.xpath ? task.xpath : content.notSet}
                       </Typography>
                     </TableCell>
                     <TableCell>

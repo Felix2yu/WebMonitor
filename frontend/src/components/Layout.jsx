@@ -13,11 +13,8 @@ import {
   Toolbar,
   Typography,
   CssBaseline,
-  Menu,
-  MenuItem,
   Avatar,
   Tooltip,
-  Divider,
   Chip,
   Badge,
 } from '@mui/material';
@@ -28,7 +25,6 @@ import {
   History as LogIcon,
   People as PeopleIcon,
   Logout as LogoutIcon,
-  AccountCircle as AccountIcon,
   NotificationsActive as NotificationsIcon,
   Notifications as NotifyIcon,
   Security as SecurityIcon,
@@ -43,7 +39,6 @@ const drawerWidth = 232;
 
 function Layout({ children }) {
   const [mobileOpen, setMobileOpen] = useState(false);
-  const [userMenuAnchor, setUserMenuAnchor] = useState(null);
   const navigate = useNavigate();
   const location = useLocation();
   const { user, logout, isAdmin } = useAuth();
@@ -111,14 +106,6 @@ function Layout({ children }) {
   const handleMenuItemClick = (path) => {
     navigate(path);
     setMobileOpen(false);
-  };
-
-  const handleUserMenuClick = (event) => {
-    setUserMenuAnchor(event.currentTarget);
-  };
-
-  const handleUserMenuClose = () => {
-    setUserMenuAnchor(null);
   };
 
   const handleLogout = async () => {
@@ -226,45 +213,85 @@ function Layout({ children }) {
               </ListItem>
             );
           })}
+          <ListItem disablePadding sx={{ px: 1.5, mt: 1.5 }}>
+            <ListItemButton
+              onClick={() => handleMenuItemClick('/settings')}
+              sx={{
+                borderRadius: 1.5,
+                px: 2,
+                py: 1.5,
+                minHeight: 'auto',
+                opacity: 0.85,
+                '&:hover': {
+                  backgroundColor: 'action.hover',
+                },
+              }}
+            >
+              <ListItemIcon sx={{ minWidth: 34, color: 'text.secondary', '& svg': { fontSize: 22 } }}>
+                <SettingsIcon />
+              </ListItemIcon>
+              <ListItemText
+                primary={t('settings.title') || (isChinese ? '设置' : 'Settings')}
+                secondary={isChinese ? '偏好与账户' : 'Preferences & account'}
+                primaryTypographyProps={{
+                  fontSize: '0.95rem',
+                  fontWeight: 500,
+                  fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif',
+                }}
+                secondaryTypographyProps={{ fontSize: '0.72rem' }}
+              />
+            </ListItemButton>
+          </ListItem>
         </List>
       </Box>
 
-      <Box sx={{ p: 2, borderTop: '1px solid', borderColor: 'divider', mb: 2 }}>
+      <Box sx={{ p: 2, borderTop: '1px solid', borderColor: 'divider' }}>
         <Box sx={{ display: 'flex', alignItems: 'center', p: 1.5, borderRadius: 2, backgroundColor: 'action.hover' }}>
           <Avatar
             sx={{
-              width: 36,
-              height: 36,
+              width: 40,
+              height: 40,
               mr: 2,
               background: 'linear-gradient(45deg, #2563eb 30%, #1d4ed8 90%)',
-              fontSize: '0.9rem',
+              fontSize: '1rem',
+              flexShrink: 0,
             }}
           >
             {user?.username?.charAt(0).toUpperCase() || 'U'}
           </Avatar>
           <Box sx={{ flexGrow: 1, minWidth: 0 }}>
-            <Typography variant="body2" sx={{ fontWeight: 600, truncate: true }}>
-              {user?.username || t('common.user')}
-            </Typography>
-            <Typography variant="caption" color="text.secondary" sx={{ truncate: true }}>
+            <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+              <Typography variant="body2" sx={{ fontWeight: 600, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                {user?.username || t('common.user')}
+              </Typography>
+              {isAdmin() && (
+                <Chip
+                  size="small"
+                  label={t('common.admin')}
+                  sx={{
+                    backgroundColor: 'action.selected',
+                    color: 'primary.main',
+                    fontWeight: 'bold',
+                    fontSize: '0.65rem',
+                    height: 18,
+                    flexShrink: 0,
+                  }}
+                />
+              )}
+            </Box>
+            <Typography variant="caption" color="text.secondary" sx={{ display: 'block', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
               {user?.email || ''}
             </Typography>
           </Box>
-          {isAdmin() && (
-            <Chip
+          <Tooltip title={t('common.logout')}>
+            <IconButton
               size="small"
-              label={t('common.admin')}
-              sx={{
-                backgroundColor: 'action.hover',
-                color: 'primary.main',
-                fontWeight: 'bold',
-                fontSize: '0.7rem',
-                height: 20,
-                alignSelf: 'flex-start',
-                marginTop: 0,
-              }}
-            />
-          )}
+              onClick={handleLogout}
+              sx={{ ml: 1, color: 'text.secondary', flexShrink: 0, '&:hover': { backgroundColor: 'rgba(239, 68, 68, 0.1)', color: 'error.main' } }}
+            >
+              <LogoutIcon fontSize="small" />
+            </IconButton>
+          </Tooltip>
         </Box>
       </Box>
     </Box>
@@ -333,93 +360,6 @@ function Layout({ children }) {
                 </Badge>
               </IconButton>
             </Tooltip>
-
-            <Tooltip title={t('common.userMenu')}>
-              <IconButton
-                size="small"
-                aria-label="account of current user"
-                aria-controls="menu-appbar"
-                aria-haspopup="true"
-                onClick={handleUserMenuClick}
-                sx={{
-                  p: 0.5,
-                  '&:hover': { backgroundColor: 'action.hover' },
-                }}
-              >
-                <Avatar
-                  sx={{
-                    width: 36,
-                    height: 36,
-                    background: 'linear-gradient(45deg, #2563eb 30%, #1d4ed8 90%)',
-                    boxShadow: '0 2px 10px rgba(37, 99, 235, 0.3)',
-                  }}
-                >
-                  {user?.username?.charAt(0).toUpperCase() || 'U'}
-                </Avatar>
-              </IconButton>
-            </Tooltip>
-
-            <Menu
-              id="menu-appbar"
-              anchorEl={userMenuAnchor}
-              anchorOrigin={{
-                vertical: 'bottom',
-                horizontal: 'right',
-              }}
-              keepMounted
-              transformOrigin={{
-                vertical: 'top',
-                horizontal: 'right',
-              }}
-              open={Boolean(userMenuAnchor)}
-              onClose={handleUserMenuClose}
-              PaperProps={{
-                sx: {
-                  mt: 1,
-                  minWidth: 200,
-                  borderRadius: 2,
-                  border: '1px solid', borderColor: 'divider',
-                  boxShadow: '0 10px 40px rgba(0, 0, 0, 0.15)',
-                },
-              }}
-            >
-              <MenuItem
-                onClick={handleUserMenuClose}
-                sx={{ py: 2, '&:hover': { backgroundColor: 'action.hover' } }}
-              >
-                <AccountIcon sx={{ mr: 2, color: 'primary.main' }} />
-                <Box>
-                  <Typography variant="body2" sx={{ fontWeight: 600, fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif' }}>
-                    {user?.username || t('common.user')}
-                  </Typography>
-                  <Typography variant="caption" color="text.secondary">
-                    {user?.email || ''}
-                  </Typography>
-                </Box>
-              </MenuItem>
-              <Divider />
-              <MenuItem
-                onClick={() => { handleUserMenuClose(); navigate('/settings'); }}
-                sx={{ py: 1.5, '&:hover': { backgroundColor: 'action.hover' } }}
-              >
-                <SettingsIcon sx={{ mr: 2, color: 'text.secondary' }} />
-                {t('settings.title') || '设置'}
-              </MenuItem>
-              <MenuItem
-                onClick={() => { handleUserMenuClose(); navigate('/user-management'); }}
-                sx={{ display: isAdmin() ? 'flex' : 'none', py: 1.5, '&:hover': { backgroundColor: 'action.hover' } }}
-              >
-                <PeopleIcon sx={{ mr: 2, color: 'primary.main' }} />
-                {isChinese ? '用户管理' : 'User management'}
-              </MenuItem>
-              <MenuItem
-                onClick={handleLogout}
-                sx={{ py: 1.5, '&:hover': { backgroundColor: 'action.hover', color: 'error.main' } }}
-              >
-                <LogoutIcon sx={{ mr: 2 }} />
-                {t('common.logout')}
-              </MenuItem>
-            </Menu>
           </Box>
         </Toolbar>
       </AppBar>

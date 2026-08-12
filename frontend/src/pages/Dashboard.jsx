@@ -30,6 +30,7 @@ import {
 } from '@mui/icons-material';
 import { useQuery } from '@tanstack/react-query';
 import { useTranslation } from 'react-i18next';
+import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
 import StatCard from '../components/StatCard';
@@ -38,6 +39,7 @@ import { isChineseLanguage } from '../utils/i18n';
 
 const Dashboard = () => {
   const { t, i18n } = useTranslation();
+  const navigate = useNavigate();
   const isChinese = isChineseLanguage(i18n.language);
 
   const content = isChinese ? {
@@ -326,6 +328,7 @@ const Dashboard = () => {
                 <Button
                   size="small"
                   startIcon={<VisibilityIcon />}
+                  onClick={() => navigate('/logs')}
                   sx={{
                     color: '#10b981',
                     textTransform: 'none',
