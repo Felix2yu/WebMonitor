@@ -1,8 +1,6 @@
 """
 应用配置设置
 """
-import os
-import json
 from typing import Optional, Union, List
 from pydantic_settings import BaseSettings
 from pydantic import field_validator

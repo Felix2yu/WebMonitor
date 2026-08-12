@@ -6,7 +6,7 @@ from sqlalchemy.orm import Session
 from typing import List
 
 from app.db.database import get_db
-from app.db.crud import create_monitor_task, get_monitor_tasks, get_monitor_task, update_monitor_task, delete_monitor_task, get_monitor_logs, get_latest_monitor_logs, create_notify_config, get_notify_configs, get_notify_config, update_notify_config, delete_notify_config, get_user_monitor_tasks, get_user_notify_configs, get_user_active_notify_config, validate_notify_config_ownership, create_blacklist_domain, get_blacklist_domains, get_blacklist_domain, update_blacklist_domain, delete_blacklist_domain, is_url_allowed_for_user, is_url_in_blacklist
+from app.db.crud import create_monitor_task, get_monitor_task, update_monitor_task, delete_monitor_task, get_monitor_logs, get_latest_monitor_logs, create_notify_config, get_notify_config, update_notify_config, delete_notify_config, get_user_monitor_tasks, get_user_notify_configs, validate_notify_config_ownership, create_blacklist_domain, get_blacklist_domains, get_blacklist_domain, update_blacklist_domain, delete_blacklist_domain, is_url_allowed_for_user, is_url_in_blacklist
 from app.schemas.schemas import MonitorTaskCreate, MonitorTaskUpdate, MonitorTaskResponse, MonitorLogResponse, NotifyConfigCreate, NotifyConfigResponse, NotifyConfigUpdate, NotifyConfigSimpleResponse, BlacklistDomainCreate, BlacklistDomainUpdate, BlacklistDomainResponse
 from app.services import NotifyService
 import logging
@@ -87,7 +87,7 @@ async def delete_task(task_id: int, db: Session = Depends(get_db), current_user:
     if existing_task.owner_id != current_user.id:
         raise HTTPException(status_code=403, detail="无权访问此任务")
 
-    success = delete_monitor_task(db=db, task_id=task_id)
+    delete_monitor_task(db=db, task_id=task_id)
     monitor_scheduler.remove_task_job(task_id)
     return {"message": "监控任务删除成功"}
 

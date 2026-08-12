@@ -15,11 +15,9 @@ import {
   InputLabel,
   Chip,
   Alert,
-  Pagination,
   GridLegacy as Grid,
   Card,
   CardContent,
-  Button,
   Avatar,
 } from '@mui/material';
 import {
@@ -59,11 +57,6 @@ const MonitorLogs = () => {
     errorInfo: '错误信息',
     noLogs: '暂无监控日志',
     noLogsSubtitle: '该任务还没有执行过监控',
-    showing: '显示第',
-    to: '-',
-    of: '条，共',
-    records: '条记录',
-    rowsPerPage: '每页显示',
     selectTaskEmpty: '请选择监控任务',
     selectTaskSubtitle: '选择一个监控任务查看其执行日志',
   } : {
@@ -82,11 +75,6 @@ const MonitorLogs = () => {
     errorInfo: 'Error message',
     noLogs: 'No monitor logs yet',
     noLogsSubtitle: 'This task has not run yet.',
-    showing: 'Showing',
-    to: '-',
-    of: 'of',
-    records: 'records',
-    rowsPerPage: 'Rows per page',
     selectTaskEmpty: 'Please select a monitor task',
     selectTaskSubtitle: 'Choose a task to view its execution logs.',
   };
@@ -128,15 +116,6 @@ const MonitorLogs = () => {
     }
 
     return `Showing ${start}-${end} of ${totalCount} records`;
-  };
-
-  const handleChangePage = (_, newPage) => {
-    setPage(newPage);
-  };
-
-  const handleChangeRowsPerPage = (event) => {
-    setRowsPerPage(parseInt(event.target.value, 10));
-    setPage(1);
   };
 
   const handleTaskChange = (event) => {

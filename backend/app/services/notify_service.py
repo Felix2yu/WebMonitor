@@ -144,15 +144,3 @@ class NotifyService:
         if not a:
             return {"success": False, "error": "无有效通知 URL"}
         return {"success": True, "message": f"已加载 {len(urls)} 个通知渠道"}
-
-    def test_notify_connection_with_config(self, config: EmailConfig) -> dict:
-        """使用指定配置测试连接"""
-        urls = self._get_urls_from_config(config)
-        if not urls:
-            return {"success": False, "error": "未配置通知 URL"}
-        a = apprise.Apprise()
-        for url in urls:
-            a.add(url)
-        if not a:
-            return {"success": False, "error": "无有效通知 URL"}
-        return {"success": True, "message": f"已加载 {len(urls)} 个通知渠道"}

@@ -100,8 +100,8 @@ const UserManagement = () => {
     passwordHelperCreate: '请设置安全密码',
     adminPermission: '管理员权限',
     adminPermissionHelper: '拥有系统管理权限',
-    activeAccount: '启用账户',
-    activeAccountHelper: '允许用户登录系统',
+    maxSubscriptions: '最大订阅数',
+    maxSubscriptionsHelper: '限制该用户可订阅的公开任务数量',
     cancel: '取消',
     updateUser: '更新用户',
     createUserAction: '创建用户',
@@ -145,8 +145,8 @@ const UserManagement = () => {
     passwordHelperCreate: 'Set a secure password',
     adminPermission: 'Admin permission',
     adminPermissionHelper: 'Gives access to system management features',
-    activeAccount: 'Active account',
-    activeAccountHelper: 'Allows the user to sign in',
+    maxSubscriptions: 'Max subscriptions',
+    maxSubscriptionsHelper: 'Limit how many public tasks this user can subscribe to',
     cancel: 'Cancel',
     updateUser: 'Update user',
     createUserAction: 'Create user',
@@ -193,8 +193,6 @@ const UserManagement = () => {
       onSuccess: () => {
         queryClient.invalidateQueries('users');
         handleClose();
-      },
-      onError: (mutationError) => {
       },
     }
   );

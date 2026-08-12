@@ -1,5 +1,5 @@
 from pydantic import BaseModel, Field, EmailStr, field_validator, model_validator
-from typing import Optional, List
+from typing import Optional
 from datetime import datetime
 
 class UserBase(BaseModel):
@@ -31,10 +31,6 @@ class UserResponse(BaseModel):
     updated_at: datetime
     class Config:
         from_attributes = True
-
-class Token(BaseModel):
-    access_token: str
-    token_type: str = "bearer"
 
 class TokenData(BaseModel):
     username: Optional[str] = None

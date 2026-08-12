@@ -35,10 +35,6 @@ def create_monitor_task(db: Session, task: MonitorTaskCreate, owner_id: int) -> 
     db.refresh(db_task)
     return db_task
 
-def get_monitor_tasks(db: Session, skip: int = 0, limit: int = 100) -> List[MonitorTask]:
-    """获取监控任务列表"""
-    return db.query(MonitorTask).offset(skip).limit(limit).all()
-
 def get_monitor_task(db: Session, task_id: int) -> Union[MonitorTask, None]:
     """获取单个监控任务"""
     return db.query(MonitorTask).filter(MonitorTask.id == task_id).first()
@@ -144,10 +140,6 @@ def create_notify_config(db: Session, config: NotifyConfigCreate, user_id: int) 
     db.refresh(db_config)
     return db_config
 
-def get_notify_configs(db: Session, skip: int = 0, limit: int = 100) -> List[EmailConfig]:
-    """获取邮件配置列表"""
-    return db.query(EmailConfig).offset(skip).limit(limit).all()
-
 def get_user_notify_configs(db: Session, user_id: int, skip: int = 0, limit: int = 100) -> List[EmailConfig]:
     """获取用户的邮件配置列表"""
     return db.query(EmailConfig).filter(EmailConfig.user_id == user_id).offset(skip).limit(limit).all()
@@ -159,10 +151,6 @@ def get_notify_config(db: Session, config_id: int) -> Union[EmailConfig, None]:
 def get_user_active_notify_config(db: Session, user_id: int) -> Union[EmailConfig, None]:
     """获取用户的邮件配置（用于向后兼容）"""
     return db.query(EmailConfig).filter(EmailConfig.user_id == user_id).first()
-
-def get_active_notify_config(db: Session) -> Union[EmailConfig, None]:
-    """获取邮件配置（用于向后兼容）"""
-    return db.query(EmailConfig).first()
 
 def update_notify_config(db: Session, config_id: int, config: NotifyConfigUpdate) -> Union[EmailConfig, None]:
     """更新邮件配置"""

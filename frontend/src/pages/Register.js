@@ -313,7 +313,7 @@ const Register = () => {
 
                 <Box sx={{ display: 'flex', alignItems: 'center', mb: 4 }}>
                   <Box sx={{ mr: 2 }}>
-                    <WebMonitorLogo size={48} showPulse />
+                    <WebMonitorLogo size={48} />
                   </Box>
                   <Typography variant="h5" sx={{ fontWeight: 700, color: 'text.primary' }}>
                     WebMonitor

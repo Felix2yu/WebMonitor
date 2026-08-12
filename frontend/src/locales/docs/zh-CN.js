@@ -4,14 +4,6 @@ const docsZhCN = {
   backHome: '返回首页',
   login: '登录',
   register: '免费注册',
-  title: '使用文档',
-  subtitle: '了解如何使用 WebMonitor 监控网页内容变化并获取即时通知。',
-  footerCta: {
-    title: '准备好开始监控了吗？',
-    subtitle: '立即注册账号，开始追踪您关心的网页内容变化。',
-    primary: '免费注册',
-    secondary: '立即登录',
-  },
   sections: [
     {
       id: 'quick-start',

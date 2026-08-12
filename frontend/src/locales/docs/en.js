@@ -4,14 +4,6 @@ const docsEn = {
   backHome: 'Back to home',
   login: 'Log in',
   register: 'Sign up free',
-  title: 'Documentation',
-  subtitle: 'Learn how to monitor web content changes and receive timely notifications with WebMonitor.',
-  footerCta: {
-    title: 'Ready to start monitoring?',
-    subtitle: 'Create an account and start tracking the pages that matter to you.',
-    primary: 'Sign up free',
-    secondary: 'Log in',
-  },
   sections: [
     {
       id: 'quick-start',

@@ -399,7 +399,7 @@ const Documentation = () => {
                   '&:hover': { opacity: 0.8 },
                 }}
               >
-                <WebMonitorLogo size={36} showPulse />
+                <WebMonitorLogo size={36} />
                 <Typography
                   variant="h6"
                   sx={{

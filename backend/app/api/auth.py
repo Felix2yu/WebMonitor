@@ -5,14 +5,12 @@ from fastapi import APIRouter, Depends, HTTPException, status
 from fastapi.security import OAuth2PasswordRequestForm
 from sqlalchemy.orm import Session
 from typing import List
-from datetime import timedelta
 from pydantic import ValidationError
 
 from app.db.database import get_db
 from app.db.crud import create_user, get_users, get_user, update_user, delete_user, get_user_by_username, get_user_by_email
-from app.schemas.schemas import UserCreate, UserResponse, UserUpdate, Token, LoginResponse
+from app.schemas.schemas import UserCreate, UserResponse, UserUpdate, LoginResponse
 from app.services.auth_service import AuthService, get_current_active_user, get_current_admin_user
-from app.core.config import get_settings
 from app.db.models import User
 
 router = APIRouter(prefix="/auth", tags=["认证"])

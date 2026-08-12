@@ -110,7 +110,6 @@ const HomePage = () => {
     ],
     ctaTitle: '立即开始监控您关心的网页内容',
     ctaSubtitle: '注册账号，立即体验专业的网页监控服务，享受实时内容变化通知。',
-    footerTagline: '基于 Selenium 的专业网页内容监控解决方案',
   } : {
     navDocs: 'Documentation',
     navLogin: 'Log in',
@@ -159,7 +158,6 @@ const HomePage = () => {
     ],
     ctaTitle: 'Start monitoring the pages you care about',
     ctaSubtitle: 'Create an account and get timely notifications when important web content changes.',
-    footerTagline: 'A Selenium-powered solution for professional web content monitoring',
   };
 
   const handleLogin = () => {
@@ -232,7 +230,7 @@ const HomePage = () => {
           >
             <Stack direction="row" spacing={1.5} alignItems="center">
               <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5 }}>
-                <WebMonitorLogo size={40} showPulse />
+                <WebMonitorLogo size={40} />
                 <Typography
                   variant="h6"
                   component="div"
@@ -245,9 +243,7 @@ const HomePage = () => {
                   WebMonitor
                 </Typography>
               </Box>
-              <Box sx={{ display: { xs: 'none', md: 'inline-flex' } }}>
-                              </Box>
-            </Stack>
+              </Stack>
             <Stack direction="row" spacing={2} alignItems="center">
               <Button
                 variant="text"

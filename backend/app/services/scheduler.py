@@ -1,8 +1,6 @@
 from apscheduler.schedulers.background import BackgroundScheduler
 from apscheduler.triggers.interval import IntervalTrigger
 from apscheduler.triggers.cron import CronTrigger
-from sqlalchemy.orm import Session
-from datetime import datetime
 import logging
 import asyncio
 

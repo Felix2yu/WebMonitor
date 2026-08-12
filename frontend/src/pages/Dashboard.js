@@ -75,8 +75,6 @@ const Dashboard = () => {
     notificationService: '通知服务',
     notificationChannels: '通知渠道',
     active: '活跃',
-    responseTime: '响应时间',
-    average: '平均',
     excellent: '优秀',
   } : {
     overview: 'Monitoring overview',
@@ -113,8 +111,6 @@ const Dashboard = () => {
     notificationService: 'Notification service',
     notificationChannels: 'Notification channels',
     active: 'Active',
-    responseTime: 'Response time',
-    average: 'Average',
     excellent: 'Excellent',
   };
 
@@ -146,7 +142,6 @@ const Dashboard = () => {
     ? Math.round((logs.filter((log) => !log.error_message).length / logs.length) * 100)
     : 100;
   const recentChanges = logs.filter((log) => log.is_changed).length;
-  const averageResponseTime = 1.2;
   const taskMap = tasks.reduce((acc, task) => {
     acc[task.id] = task.name;
     return acc;

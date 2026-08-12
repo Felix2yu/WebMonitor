@@ -3,7 +3,6 @@ import { Box, Container, Typography, Paper, Button, Tooltip } from '@mui/materia
 import { useTranslation } from 'react-i18next';
 import { useThemeMode } from '../contexts/ThemeContext';
 import LanguageSwitcher from '../components/LanguageSwitcher';
-import { isChineseLanguage } from '../utils/i18n';
 
 const THEME_OPTIONS = [
   { value: 'light', labelKey: 'settings.themeLight', emoji: '\u2600\uFE0F' },
@@ -12,9 +11,8 @@ const THEME_OPTIONS = [
 ];
 
 const Settings = () => {
-  const { t, i18n } = useTranslation();
+  const { t } = useTranslation();
   const { mode, setMode, resolvedMode } = useThemeMode();
-  const isChinese = isChineseLanguage(i18n.language);
 
   return (
     <Box sx={{ minHeight: '100vh' }}>
