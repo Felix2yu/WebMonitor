@@ -6,22 +6,26 @@ import asyncio
 from ..db.database import SessionLocal
 from ..db.models import MonitorTask
 from .monitor_service import MonitorService
+from ..core.config import settings
 
 # 配置日志
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
+# 调度器时区：cron 表达式的"时"按此时区解释，由环境变量 TZ 控制（默认 UTC）
+SCHEDULER_TIMEZONE = settings.TZ
+
 class MonitorScheduler:
     """监控任务调度器"""
 
     def __init__(self):
-        self.scheduler = BackgroundScheduler()
+        self.scheduler = BackgroundScheduler(timezone=SCHEDULER_TIMEZONE)
         self.monitor_service = MonitorService()
 
     def _build_trigger(self, task):
         """根据任务的调度配置构建调度触发器（仅支持 cron）"""
         if task.schedule_type == "cron" and task.cron_expression:
-            return CronTrigger.from_crontab(task.cron_expression)
+            return CronTrigger.from_crontab(task.cron_expression, timezone=SCHEDULER_TIMEZONE)
         raise ValueError(f"任务 {task.name} 未配置有效的 cron 表达式")
 
     def _schedule_desc(self, task):

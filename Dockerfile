@@ -8,7 +8,7 @@ COPY frontend/ .
 RUN npm run build
 
 # Stage 2: Final image
-FROM python:3.13-slim
+FROM python:3.14-slim
 
 WORKDIR /app
 
@@ -22,7 +22,8 @@ RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
     unzip \
     curl \
     libxml2-dev \
-    libxslt-dev
+    libxslt-dev \
+    tzdata
 
 # Install Chromium and driver
 RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \

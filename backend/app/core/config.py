@@ -32,6 +32,9 @@ class Settings(BaseSettings):
 
     # 监控设置（调度统一使用 cron 表达式）
 
+    # 调度器/显示所用时区，cron 表达式的"时"按此时区解释，默认 UTC
+    TZ: str = "UTC"
+
     # Selenium设置
     SELENIUM_HEADLESS: bool = True
     SELENIUM_TIMEOUT: int = 30

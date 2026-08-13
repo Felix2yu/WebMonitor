@@ -22,6 +22,7 @@ services:
       ADMIN_PASSWORD: ${ADMIN_PASSWORD:-admin123}
       ADMIN_EMAIL: ${ADMIN_EMAIL:-admin@webmonitor.com}
       APPRISE_URLS: ${APPRISE_URLS:-}
+      TZ: ${TZ:-UTC}
     ports:
       - "8000:8000"
     volumes:
