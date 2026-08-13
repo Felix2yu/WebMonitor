@@ -1,5 +1,5 @@
 import React from 'react';
-import { Box, Container, Typography, Paper, Button, Tooltip } from '@mui/material';
+import { Box, Container, Typography, Paper, Tooltip, ToggleButton, ToggleButtonGroup } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 import { useThemeMode } from '../contexts/ThemeContext';
 import LanguageSwitcher from '../components/LanguageSwitcher';
@@ -38,55 +38,66 @@ const Settings = () => {
             {t('settings.appearanceDesc')}
           </Typography>
           <Tooltip title={t('settings.themeLabel')}>
-            <Box
+            <ToggleButtonGroup
+              value={mode}
+              exclusive
+              onChange={(event, newValue) => newValue && setMode(newValue)}
               sx={{
-                display: 'inline-flex',
-                alignItems: 'center',
-                p: 0.5,
-                borderRadius: 999,
-                backgroundColor: (theme) =>
-                  theme.palette.mode === 'dark' ? 'rgba(255,255,255,0.08)' : 'rgba(15,23,42,0.06)',
+                bgcolor: (theme) =>
+                  theme.palette.mode === 'dark' ? 'rgba(255,255,255,0.06)' : '#eef1f6',
                 border: '1px solid',
                 borderColor: (theme) =>
-                  theme.palette.mode === 'dark' ? 'rgba(255,255,255,0.16)' : 'rgba(15,23,42,0.18)',
+                  theme.palette.mode === 'dark' ? 'rgba(255,255,255,0.18)' : '#d4dae4',
+                borderRadius: 999,
+                p: 0.4,
+                gap: 0.4,
+                '& .MuiToggleButtonGroup-grouped': {
+                  margin: 0,
+                  border: 0,
+                  borderRadius: 999,
+                },
               }}
             >
-              {THEME_OPTIONS.map((opt) => {
-                const isActive = mode === opt.value;
-                return (
-                  <Button
-                    key={opt.value}
-                    onClick={() => setMode(opt.value)}
-                    disableElevation
-                    sx={{
-                      minWidth: 56,
-                      px: 1.75,
-                      py: 0.75,
-                      borderRadius: 999,
-                      textTransform: 'none',
-                      fontSize: '0.8125rem',
-                      fontWeight: 700,
-                      lineHeight: 1,
-                      color: isActive ? '#ffffff' : (theme) => theme.palette.text.primary,
-                      background: isActive ? 'primary.main' : 'transparent',
-                      boxShadow: isActive ? (theme) => `0 6px 18px ${theme.palette.primary.main}66` : 'none',
+              {THEME_OPTIONS.map((opt) => (
+                <ToggleButton
+                  key={opt.value}
+                  value={opt.value}
+                  disableRipple
+                  sx={{
+                    minWidth: 56,
+                    px: 1.75,
+                    py: 0.75,
+                    borderRadius: 999,
+                    textTransform: 'none',
+                    fontSize: '0.8125rem',
+                    fontWeight: 700,
+                    lineHeight: 1,
+                    color: (theme) => theme.palette.text.primary,
+                    border: '1px solid transparent',
+                    '&.Mui-selected': {
+                      color: '#ffffff',
+                      bgcolor: 'primary.main',
+                      borderColor: 'primary.main',
+                      boxShadow: (theme) => `0 4px 12px ${theme.palette.primary.main}55`,
+                      '&:hover': { bgcolor: 'primary.main' },
+                    },
+                    '&:not(.Mui-selected)': {
                       '&:hover': {
-                        background: isActive ? 'primary.main' : (theme) =>
-                          theme.palette.mode === 'dark' ? 'rgba(255,255,255,0.12)' : 'rgba(15,23,42,0.08)',
-                        color: isActive ? '#ffffff' : (theme) => theme.palette.text.primary,
+                        bgcolor: (theme) =>
+                          theme.palette.mode === 'dark' ? 'rgba(255,255,255,0.12)' : '#e2e7ef',
                       },
-                    }}
-                  >
-                    {opt.emoji} {t(opt.labelKey)}
-                    {isActive && opt.value === 'system' && (
-                      <Box component="span" sx={{ ml: 0.5, fontSize: '0.7rem', opacity: 0.8 }}>
-                        ({resolvedMode === 'dark' ? t('settings.themeDark') : t('settings.themeLight')})
-                      </Box>
-                    )}
-                  </Button>
-                );
-              })}
-            </Box>
+                    },
+                  }}
+                >
+                  {opt.emoji} {t(opt.labelKey)}
+                  {mode === 'system' && opt.value === 'system' && (
+                    <Box component="span" sx={{ ml: 0.5, fontSize: '0.7rem', opacity: 0.85 }}>
+                      ({resolvedMode === 'dark' ? t('settings.themeDark') : t('settings.themeLight')})
+                    </Box>
+                  )}
+                </ToggleButton>
+              ))}
+            </ToggleButtonGroup>
           </Tooltip>
         </Paper>
       </Container>
