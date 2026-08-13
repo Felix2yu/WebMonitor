@@ -97,7 +97,14 @@ function Layout({ children }) {
     ];
   }, [baseMenuItems, isAdmin, isChinese]);
 
-  const currentMenuItem = dynamicMenuItems.find((item) => item.path === location.pathname);
+  const currentMenuItem =
+    dynamicMenuItems.find((item) => item.path === location.pathname) ||
+    (location.pathname === '/settings'
+      ? {
+          text: t('settings.title') || (isChinese ? '设置' : 'Settings'),
+          description: isChinese ? '偏好与账户' : 'Preferences & account',
+        }
+      : null);
 
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
@@ -323,19 +330,7 @@ function Layout({ children }) {
             <MenuIcon />
           </IconButton>
           <Box sx={{ flexGrow: 1, display: 'flex', alignItems: 'center' }}>
-            <Box sx={{ display: 'flex', alignItems: 'center', mr: 3 }}>
-              <Box
-                component="img"
-                src={faviconSrc}
-                alt="WebMonitor"
-                sx={{
-                  width: 32,
-                  height: 32,
-                  mr: 1.5,
-                  display: 'block',
-                  objectFit: 'contain',
-                }}
-              />
+            <Box sx={{ display: 'flex', alignItems: 'center' }}>
               <Box>
                 <Typography variant="h6" sx={{ fontWeight: 700, color: 'text.primary', lineHeight: 1.2, fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif' }}>
                   {currentMenuItem?.text || 'WebMonitor'}

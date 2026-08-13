@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   Box,
   Typography,
@@ -37,6 +37,7 @@ import { isChineseLanguage } from '../utils/i18n';
 const MonitorLogs = () => {
   const [selectedTaskId, setSelectedTaskId] = useState('');
   const [page, setPage] = useState(1);
+  const [tasksLoaded, setTasksLoaded] = useState(false);
   const [rowsPerPage, setRowsPerPage] = useState(20);
   const { t, i18n } = useTranslation();
   const isChinese = isChineseLanguage(i18n.language);
@@ -86,6 +87,14 @@ const MonitorLogs = () => {
       return response.data;
     },
   });
+
+  // 默认选中第一个任务，使日志界面默认显示全部任务
+  useEffect(() => {
+    if (!tasksLoaded && tasks.length > 0) {
+      setSelectedTaskId(tasks[0].id);
+      setTasksLoaded(true);
+    }
+  }, [tasks, tasksLoaded]);
 
   const { data: logsData = [], error } = useQuery({
     queryKey: ['monitor-logs', selectedTaskId, page, rowsPerPage],
