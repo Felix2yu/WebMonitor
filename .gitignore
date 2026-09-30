@@ -1,3 +1,9 @@
+# 统一 pnpm：其他包管理器的锁文件不入库（双锁并存会误导本地操作）
+package-lock.json
+yarn.lock
+bun.lock
+bun.lockb
+
 # 环境变量文件
 .env
 .env.local
