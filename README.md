@@ -103,11 +103,11 @@ python main.py
 
 ```bash
 cd frontend
-npm install
-npm run dev        # 本地开发服务器（默认 http://localhost:3000）
+pnpm install       # 依赖用 pnpm：版本来自 package.json 的 packageManager
+pnpm run dev       # 本地开发服务器（默认 http://localhost:3000）
 # 生产构建
-npm run build      # 产出 build/ 目录
-npm run preview    # 本地预览构建产物
+pnpm run build     # 产出 build/ 目录
+pnpm run preview   # 本地预览构建产物
 ```
 
 > 前端环境变量使用 `VITE_` 前缀（对应原 CRA 的 `REACT_APP_`）。

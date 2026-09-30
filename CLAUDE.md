@@ -14,7 +14,7 @@ WebMonitor is a web content monitoring and notification system with a React fron
 cd backend && python main.py
 
 # Frontend (Terminal 2)
-cd frontend && npm start
+cd frontend && pnpm install && pnpm run dev
 
 # Access: Frontend http://localhost:8000, Backend API http://localhost:8000, API Docs http://localhost:8000/docs
 ```
@@ -26,14 +26,15 @@ docker compose logs -f            # View logs
 docker compose up -d --build      # Rebuild after changes
 ```
 
-### Frontend Testing
+### Frontend Build & Preview
 ```bash
 cd frontend
-npm test                          # Run all tests
-npm test -- --watch               # Watch mode
-npm test -- --coverage            # Coverage report
-npm test -- MyComponent.test.js   # Run single test file
+pnpm install                      # 依赖用 pnpm，版本来自 package.json 的 packageManager
+pnpm run build                    # Vite 生产构建，产出 build/
+pnpm run preview                  # 本地预览构建产物
 ```
+
+> 前端目前没有测试脚本与用例（package.json 里没有 test），别照着旧文档写 `npm test`。
 
 ### Backend Development
 ```bash
