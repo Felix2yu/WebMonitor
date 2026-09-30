@@ -1,0 +1,30 @@
+name: CI
+
+# 只有前端走统一 workflow：后端是 Python（backend/requirements.txt），
+# 所以 go-dir 传空——reusable-test 会跳过 setup-go / vet / go test 全部 Go 步骤。
+on:
+  push:
+    branches: [main]
+    paths:
+      - "frontend/**"
+      - ".github/workflows/ci.yml"
+  pull_request:
+    branches: [main]
+    paths:
+      - "frontend/**"
+      - ".github/workflows/ci.yml"
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
+jobs:
+  test:
+    uses: Felix2yu/.github/.github/workflows/reusable-test.yml@v1
+    with:
+      go-dir: ''
+      web-dir: frontend
+      runs-on: ubuntu-24.04
