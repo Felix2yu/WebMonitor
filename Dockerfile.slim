@@ -1,11 +1,15 @@
 # Stage 1: Build frontend
-FROM node:24-alpine AS frontend-build
+# node 大版本与仓库根 .nvmrc 一致；pnpm 版本从 frontend/package.json 的 packageManager 解析，
+# 不在这里重复写死。原先的 --legacy-peer-deps 已去掉：pnpm 下 MUI 9 / Emotion / React 19 无 peer 冲突。
+FROM node:26-alpine AS frontend-build
 WORKDIR /app
-COPY frontend/package*.json ./
-RUN --mount=type=cache,target=/root/.npm \
-    npm install --legacy-peer-deps --prefer-offline
+COPY frontend/package.json frontend/pnpm-lock.yaml ./
+RUN --mount=type=cache,target=/root/.local/share/pnpm/store \
+    PNPM=$(node -p "require('./package.json').packageManager.slice(5)") \
+ && npm i -g pnpm@$PNPM \
+ && pnpm install --frozen-lockfile
 COPY frontend/ .
-RUN npm run build
+RUN pnpm run build
 
 # Stage 2: Final image (no Chromium — uses external browserless)
 FROM python:3.14-slim
